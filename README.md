@@ -2,7 +2,7 @@
 
 Lamp reader is an epub ebook reader equipped for vocabulary skills construction.
 
-## Philosopy
+## Philosophy
 
 > ✊ Read books in their original language.
 
