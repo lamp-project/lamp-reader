@@ -30,7 +30,7 @@ export default Vue.extend({
   },
   computed: {
     leftPagesOfTheChapter() {
-      const displayed = this.book.currentLocation?.end.displayed;
+      const displayed = this.book.pagination.currentLocation?.end.displayed;
       return displayed ? displayed.total - displayed.page : -1;
     },
   },

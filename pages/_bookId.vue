@@ -46,9 +46,6 @@ export default Vue.extend({
   },
   created() {
     viewer.on('click-tap', () => (this.showControlls = !this.showControlls));
-    viewer.on('page-changed', () => {
-      this.$forceUpdate();
-    });
   },
   async mounted() {
     await viewer.initialize();
