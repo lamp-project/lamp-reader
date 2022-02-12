@@ -1,13 +1,13 @@
 <template>
   <section class="reader">
-    <ReaderLoading v-if="loading" :book="book" />
+    <ReaderLoading v-if="loading" :book="info" />
     <div v-else>
-      <ReaderChapterBar :chapter="book.pagination.currentChapter" />
-      <ReaderTopBar v-show="showControlls" :title="book.title" />
+      <ReaderChapterBar :chapter="info.pagination.currentChapter" />
+      <ReaderTopBar v-show="showControlls" :title="info.title" />
       <div ref="viewer" class="epub-viewer"></div>
       <ReaderBottomBar
         ref="btnBar"
-        :book="book"
+        :book="info"
         @change="viewer.goTo($event)"
       />
     </div>
@@ -16,19 +16,21 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { library } from '~/utils/library/Library';
-import { LibraryItemViewer } from '~/utils/viewer/LibraryItemViewer';
+import {
+  library,
+  StatefulPaginatedEpubViewer,
+} from '@lamp-project/epub-viewer';
 
-let viewer: LibraryItemViewer;
+let viewer: StatefulPaginatedEpubViewer;
 
 export default Vue.extend({
   layout: 'reader',
   async asyncData({ params, error }) {
     const id = params.bookId;
-    const { item: book, content } = await library.get(id);
+    const book = await library.get(id);
     if (book) {
-      viewer = new LibraryItemViewer(book, content);
-      return { book };
+      viewer = new StatefulPaginatedEpubViewer(book);
+      return { info: book.info };
     } else {
       error({ statusCode: 404, message: `${id} not found!` });
     }
@@ -44,9 +46,8 @@ export default Vue.extend({
   },
   created() {
     viewer.on('click-tap', () => (this.showControlls = !this.showControlls));
-    viewer.on('item-updated', () => {
+    viewer.on('page-changed', () => {
       this.$forceUpdate();
-      library.update(this.book);
     });
   },
   async mounted() {

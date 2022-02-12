@@ -29,34 +29,21 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { library } from '~/utils/library/Library';
-
-async function fetchLibraryData() {
-  const items = await library.all();
-  const currentReadingId = await library.getCurrentReadingId();
-  return {
-    items,
-    currentReading: items.filter(({ id }) => id === currentReadingId)[0] || '',
-  };
-}
+import { library } from '@lamp-project/epub-viewer';
 
 export default Vue.extend({
   layout: 'library',
-  asyncData() {
-    return fetchLibraryData();
+  async asyncData() {
+    const items = await library.index();
+    const currentReadingId = await library.getLastBookId();
+    return {
+      items,
+      currentReading:
+        items.filter(({ id }) => id === currentReadingId)[0] || '',
+    };
   },
   mounted() {
-    library.on('update', this.reloadData.bind(this));
-  },
-  // beforeDestroy() {
-  //   library.removeListener('update',this.reloadData.bind(this));
-  // },
-  methods: {
-    async reloadData() {
-      const { items, currentReading } = await fetchLibraryData();
-      this.items = items;
-      this.currentReading = currentReading;
-    },
+    library.on('item-added', (item) => this.items.push(item));
   },
 });
 </script>

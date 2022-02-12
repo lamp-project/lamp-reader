@@ -3,7 +3,7 @@
     tag="button"
     :href="book.id"
     :img-src="createObjectURL(book.cover)"
-    :img-alt="book.metadata.title"
+    :img-alt="book.title"
     :img-width="headline ? '50%' : '40%'"
     :img-right="headline"
     :img-left="!headline"
@@ -11,7 +11,7 @@
     @click="$router.push(book.id)"
   >
     <b-card-text>
-      <h4 :class="{ headline }">{{ book.metadata.title }}</h4>
+      <h4 :class="{ headline }">{{ book.title }}</h4>
       <small>
         <kbd v-if="book.pagination.pages.length > 0">
           Page {{ book.pagination.currentPage }} /
@@ -26,7 +26,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import { library } from '~/utils/library/Library';
+import { library } from '@lamp-project/epub-viewer';
 
 export default Vue.extend({
   props: {
@@ -44,7 +44,7 @@ export default Vue.extend({
     remove(event: Event) {
       event.preventDefault();
       event.stopPropagation();
-      if (confirm(`Are you sure to remove "${this.book.metadata.title}"?`)) {
+      if (confirm(`Are you sure to remove "${this.book.title}"?`)) {
         library.remove(this.book.id);
       }
     },

@@ -13,13 +13,13 @@
 </template>
 
 <script lang="ts">
+import { library } from '@lamp-project/epub-viewer';
 import Vue from 'vue';
-import { library } from '~/utils/library/Library';
 
 export default Vue.extend({
   methods: {
     addFromFile() {
-      library.importEpubFromFileDialog();
+      library.addFromFileDialog();
     },
   },
 });
