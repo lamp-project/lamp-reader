@@ -21,6 +21,7 @@ export class Highlighter {
   }
 
   protected highlightTextNode(target: Text) {
+    if (!target.textContent) return;
     const parent = target.parentElement;
     if (!parent) return;
     switch (parent.nodeName.toLowerCase()) {
@@ -28,7 +29,15 @@ export class Highlighter {
       case 'a':
         break;
       default:
-        parent.innerHTML = parent.innerHTML.replace(/and/g, '<span>and</span>');
+        {
+          const span = document.createElement('span');
+          span.innerHTML = target.textContent.replace(
+            /and/g,
+            `<span style="background-color: ${randomRgb()};padding: 3px;border-radius: 5px;">and</span>`
+            // `<span>and</span>`
+          );
+          target.replaceWith(span);
+        }
         break;
     }
   }
