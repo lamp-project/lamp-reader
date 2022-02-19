@@ -44,6 +44,9 @@ export default Vue.extend({
   },
   mounted() {
     library.on('item-added', (item) => this.items.push(item));
+    library.on('item-removed', async () => {
+      this.items = await library.index();
+    });
   },
 });
 </script>
