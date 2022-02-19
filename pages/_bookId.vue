@@ -16,13 +16,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {
-  library,
-  StatefulPaginatedEpubViewer,
-} from '@lamp-project/epub-viewer';
-import { Highlighter } from '~/utils/highlighter';
+import { library } from '@lamp-project/epub-viewer';
+import { HighlighterViewer } from '~/utils/HighlighterViewer';
 
-let viewer: StatefulPaginatedEpubViewer;
+let viewer: HighlighterViewer;
 
 export default Vue.extend({
   layout: 'reader',
@@ -30,15 +27,7 @@ export default Vue.extend({
     const id = params.bookId;
     const book = await library.get(id);
     if (book) {
-      viewer = new StatefulPaginatedEpubViewer(book);
-      // @ts-ignore
-      viewer.book.spine.hooks.content.register((document, section) => {
-        console.log(document, section);
-        // section.output = output.replace(/ /g, '@@@');
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const highlighter = new Highlighter(document.body);
-        // section.contents = document;
-      });
+      viewer = new HighlighterViewer(book);
       // @ts-ignore
       window.viewer = viewer;
       return { info: book.info };
