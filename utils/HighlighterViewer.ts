@@ -1,5 +1,5 @@
 import { StatefulPaginatedEpubViewer } from '@lamp-project/epub-viewer';
-
+import { VocabularyTagger } from './VocabulareyTagger';
 export class HighlighterViewer extends StatefulPaginatedEpubViewer {
   public static getTextNodes(root: Element) {
     const textNodes: Text[] = [];
@@ -17,7 +17,17 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
 
   protected hightlight({ body }: Document) {
     const textNodes = HighlighterViewer.getTextNodes(body);
-    textNodes.forEach(this.highlightTextNode.bind(this));
+    textNodes.forEach((node) => {
+      if (!node.textContent) return;
+      switch (node.parentElement.nodeName.toLowerCase()) {
+        case 'body':
+        case 'a':
+          break;
+        default:
+          this.highlightTextNode(node);
+          break;
+      }
+    });
   }
 
   protected registerEventListenersOfHighlights({ body }: Document) {
@@ -28,24 +38,27 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
     });
   }
 
-  private highlightTextNode(node: Text) {
-    if (!node.textContent) return;
-    const parent = node.parentElement;
-    switch (parent.nodeName.toLowerCase()) {
-      case 'body':
-      case 'a':
-        break;
-      default:
-        {
-          const span = document.createElement('span');
-          span.innerHTML = node.textContent.replace(
-            /and/g,
-            `<span style="background-color: orange;padding: 3px;border-radius: 5px;" class="word">and</span>`
-            // `<span>and</span>`
-          );
-          node.replaceWith(span);
-        }
-        break;
-    }
+  protected highlightTextNode(node: Text) {
+    node.replaceWith(new VocabularyTagger().tag(node.textContent));
+  }
+
+  protected tokenise(text: string) {
+    return text.split(' ');
+  }
+
+  protected registerThemes() {
+    this.rendition.themes.register('lamp-reader', {
+      body: {
+        color: 'black',
+        'font-size': 'x-large',
+        'padding-top': '0 !important',
+        'padding-bottom': '0 !important',
+      },
+      '.word': {
+        'background-color': 'orangered',
+        color: 'white',
+      },
+    });
+    this.rendition.themes.select('lamp-reader');
   }
 }
