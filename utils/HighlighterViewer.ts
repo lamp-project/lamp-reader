@@ -1,5 +1,9 @@
 import { StatefulPaginatedEpubViewer } from '@lamp-project/epub-viewer';
-import { VocabularyTagger } from './VocabulareyTagger';
+import { StatefulVocabularyService } from '@lamp-project/vocabulary-service';
+import { UserWordState } from '~/../vocabulary-service/src';
+
+export const vocabularyService = new StatefulVocabularyService();
+
 export class HighlighterViewer extends StatefulPaginatedEpubViewer {
   public static getTextNodes(root: Element) {
     const textNodes: Text[] = [];
@@ -33,13 +37,13 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
   protected registerEventListenersOfHighlights({ body }: Document) {
     body.querySelectorAll('.word').forEach((item: HTMLSpanElement) => {
       item.onclick = function () {
-        console.log(this);
+        vocabularyService.setWordState(item, UserWordState.learning);
       };
     });
   }
 
   protected highlightTextNode(node: Text) {
-    node.replaceWith(new VocabularyTagger().tag(node.textContent));
+    node.replaceWith(vocabularyService.tag(node.textContent));
   }
 
   protected tokenise(text: string) {
@@ -55,7 +59,18 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
         'padding-bottom': '0 !important',
       },
       '.word': {
-        'background-color': 'orangered',
+        'border-radius': '5px',
+        // padding: '0px 5px',
+      },
+      '.word.known': {
+        'background-color': 'lightgrey',
+      },
+      '.word.learning': {
+        'background-color': 'green',
+        color: 'white',
+      },
+      '.word.unknown': {
+        'background-color': '#f44336',
         color: 'white',
       },
     });
