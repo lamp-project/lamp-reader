@@ -1,6 +1,5 @@
 import { StatefulPaginatedEpubViewer } from '@lamp-project/epub-viewer';
 import { StatefulVocabularyService } from '@lamp-project/vocabulary-service';
-import { UserWordState } from '~/../vocabulary-service/src';
 
 export const vocabularyService = new StatefulVocabularyService();
 
@@ -35,10 +34,14 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
   }
 
   protected registerEventListenersOfHighlights({ body }: Document) {
-    body.querySelectorAll('.word').forEach((item: HTMLSpanElement) => {
-      item.onclick = function () {
-        vocabularyService.setWordState(item, UserWordState.learning);
+    body.querySelectorAll('.word').forEach((element: HTMLSpanElement) => {
+      element.onclick = (event: MouseEvent) => {
+        this.emit('word-click', element);
+        event.stopPropagation();
       };
+      // item.onclick = function () {
+      //   vocabularyService.setWordState(item, UserWordState.learning);
+      // };
     });
   }
 
@@ -59,6 +62,7 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
         'padding-bottom': '0 !important',
       },
       '.word': {
+        cursor: 'pointer',
         'border-radius': '5px',
         // padding: '0px 5px',
       },
@@ -70,7 +74,7 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
         color: 'white',
       },
       '.word.unknown': {
-        'background-color': '#f44336',
+        'background-color': 'black',
         color: 'white',
       },
     });

@@ -11,6 +11,7 @@
         @change="viewer.goTo($event)"
       />
     </div>
+    <ReaderWordModal ref="wordModal" />
   </section>
 </template>
 
@@ -46,6 +47,9 @@ export default Vue.extend({
   },
   created() {
     viewer.on('click-tap', () => (this.showControlls = !this.showControlls));
+    viewer.on('word-click', (element: HTMLSpanElement) => {
+      this.$refs.wordModal.open(element);
+    });
   },
   async mounted() {
     await viewer.initialize();
