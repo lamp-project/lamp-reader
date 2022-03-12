@@ -30,7 +30,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { library } from '@lamp-project/epub-viewer';
-import { strapi } from '../utils/Strapi';
+import { client } from '../utils/api-client';
 
 export default Vue.extend({
   layout: 'library',
@@ -48,7 +48,7 @@ export default Vue.extend({
     library.on('item-removed', async () => {
       this.items = await library.index();
     });
-    strapi.login('test_user_01', '123456789').then(console.log);
+    client.login('test-user@derock.ir', 'password').then(console.log);
   },
 });
 </script>

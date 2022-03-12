@@ -2,8 +2,9 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
   env: {
-    STRAPI_URL: process.env.STRAPI_URL || 'http://localhost:1337',
+    API_URL: process.env.API_URL || 'http://localhost:3000',
   },
+  server: { port: 8000 },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
