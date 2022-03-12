@@ -1,9 +1,14 @@
 import { StatefulPaginatedEpubViewer } from '@lamp-project/epub-viewer';
-import { StatefulVocabularyService } from '@lamp-project/vocabulary-service';
+import {
+  VocabularyService,
+  UserWordStatus,
+} from '@lamp-project/vocabulary-service';
+import { UserWord } from '~/store/user-word';
 
-export const vocabularyService = new StatefulVocabularyService();
+export const vocabularyService = new VocabularyService();
 
 export class HighlighterViewer extends StatefulPaginatedEpubViewer {
+  protected userWords: { [key: string]: UserWordStatus } = {};
   public static getTextNodes(root: Element) {
     const textNodes: Text[] = [];
     const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
@@ -12,8 +17,11 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
     return textNodes;
   }
 
-  public async initialize() {
+  public async initialize(userWords?: UserWord[]) {
     await super.initialize();
+    userWords?.forEach((item) => {
+      this.userWords[item.word.word] = item.status;
+    });
     this.book.spine.hooks.content.register(this.hightlight.bind(this));
     this.on('content', this.registerEventListenersOfHighlights.bind(this));
   }
@@ -39,14 +47,11 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
         this.emit('word-click', element);
         event.stopPropagation();
       };
-      // item.onclick = function () {
-      //   vocabularyService.setWordState(item, UserWordState.learning);
-      // };
     });
   }
 
   protected highlightTextNode(node: Text) {
-    node.replaceWith(vocabularyService.tag(node.textContent));
+    node.replaceWith(vocabularyService.tag(node.textContent, this.userWords));
   }
 
   protected tokenise(text: string) {
@@ -66,14 +71,14 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
         'border-radius': '5px',
         // padding: '0px 5px',
       },
-      '.word.known': {
+      '.word.KNOWN': {
         'background-color': 'lightgrey',
       },
-      '.word.learning': {
+      '.word.LEARNING': {
         'background-color': 'green',
         color: 'white',
       },
-      '.word.unknown': {
+      '.word.UNKNOWN': {
         'background-color': 'black',
         color: 'white',
       },

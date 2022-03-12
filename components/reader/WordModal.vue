@@ -30,15 +30,17 @@
       <br />
     </center>
     <hr>
-    <b-button block variant="success" @click="setWordState('learning')">OK, But needs more review</b-button>
-    <b-button block variant="dark" @click="setWordState('known')">OK, Move to the known ones</b-button>
+    <b-button block variant="success" @click="setWordStatus('LEARNING')">OK, But needs more review</b-button>
+    <b-button block variant="dark" @click="setWordStatus('KNOWN')">OK, Move to the known ones</b-button>
   </b-modal>
 </template>
 
 <script lang="ts">
-import { UserWordState } from '@lamp-project/vocabulary-service';
 import Vue from 'vue';
+import { UserWordStatus } from '@lamp-project/vocabulary-service';
+import { mapActions } from 'vuex';
 import { vocabularyService } from '~/utils/HighlighterViewer';
+
 export default Vue.extend({
   data: () => ({
     element: undefined,
@@ -55,6 +57,7 @@ export default Vue.extend({
     }
   },
   methods: {
+    ...mapActions({ review: 'user-word/review' }),
     open(element: HTMLSpanElement) {
       this.element = element;
       this.word = element.getAttribute('vocab');
@@ -72,10 +75,10 @@ export default Vue.extend({
         new Audio(this.phonetic.audio).play();
       }
     },
-    setWordState(state:UserWordState) {
-      vocabularyService.setWordState(this.element, state);
+    async setWordStatus(status: UserWordStatus) {
+      await this.review({ status, word: this.word });
+      vocabularyService.setWordStatus(this.element, status);
       this.$bvModal.hide('word-modal');
-
     }
   },
 });

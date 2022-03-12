@@ -1,0 +1,11 @@
+query MyUserWords {
+  myUserWords {
+    id
+    status
+    word {
+      id
+      word
+      rank
+    }
+  }
+}

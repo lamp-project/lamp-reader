@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 import { library } from '@lamp-project/epub-viewer';
 import { HighlighterViewer } from '~/utils/HighlighterViewer';
 
@@ -52,13 +53,17 @@ export default Vue.extend({
     });
   },
   async mounted() {
-    await viewer.initialize();
+    const userWords = await this.getUserWords();
+    await viewer.initialize(userWords);
     this.loading = false;
     await this.$nextTick();
     await viewer.display(this.$refs.viewer);
   },
   beforeDestroy() {
     viewer.destroy();
+  },
+  methods: {    
+    ...mapActions({ getUserWords: 'user-word/getUserWords' }),
   },
 });
 </script>
