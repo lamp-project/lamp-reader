@@ -9,9 +9,7 @@
 </template>
 
 <style lang="scss">
-center {
-  .btn {
-    margin: 3px;
-  }
+body {
+  margin-top: 72px;
 }
 </style>

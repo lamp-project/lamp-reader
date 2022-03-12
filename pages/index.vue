@@ -30,10 +30,10 @@
 <script lang="ts">
 import Vue from 'vue';
 import { library } from '@lamp-project/epub-viewer';
-import { client } from '../utils/api-client';
 
 export default Vue.extend({
   layout: 'library',
+  middleware: ['auth'],
   async asyncData() {
     const items = await library.index();
     const currentReadingId = await library.getLastBookId();
@@ -48,7 +48,6 @@ export default Vue.extend({
     library.on('item-removed', async () => {
       this.items = await library.index();
     });
-    client.login('test-user@derock.ir', 'password').then(console.log);
   },
 });
 </script>
