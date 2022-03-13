@@ -1,7 +1,7 @@
 <template>
   <section class="reader">
     <ReaderLoading v-if="loading" :book="info" />
-    <div v-else>
+    <div v-if="initialised">
       <ReaderChapterBar :chapter="info.pagination.currentChapter" />
       <ReaderTopBar v-show="showControlls" :title="info.title" />
       <div ref="viewer" class="epub-viewer"></div>
@@ -17,7 +17,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapActions } from 'vuex';
 import { library } from '@lamp-project/epub-viewer';
 import { HighlighterViewer } from '~/utils/HighlighterViewer';
 
@@ -25,11 +24,12 @@ let viewer: HighlighterViewer;
 
 export default Vue.extend({
   layout: 'reader',
-  async asyncData({ params, error }) {
+  async asyncData({ params, error, store }) {
     const id = params.bookId;
     const book = await library.get(id);
     if (book) {
-      viewer = new HighlighterViewer(book);
+      const userWords = await store.dispatch('user-word/getUserWords');
+      viewer = new HighlighterViewer(book, userWords);
       // @ts-ignore
       window.viewer = viewer;
       return { info: book.info };
@@ -40,6 +40,7 @@ export default Vue.extend({
   data: () => ({
     showControlls: false,
     loading: true,
+    initialised: false,
   }),
   computed: {
     viewer() {
@@ -53,17 +54,14 @@ export default Vue.extend({
     });
   },
   async mounted() {
-    const userWords = await this.getUserWords();
-    await viewer.initialize(userWords);
-    this.loading = false;
+    await viewer.initialize();
+    this.initialised = true;
     await this.$nextTick();
     await viewer.display(this.$refs.viewer);
+    this.loading = false;
   },
   beforeDestroy() {
     viewer.destroy();
-  },
-  methods: {    
-    ...mapActions({ getUserWords: 'user-word/getUserWords' }),
   },
 });
 </script>

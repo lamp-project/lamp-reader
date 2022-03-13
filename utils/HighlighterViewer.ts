@@ -1,14 +1,12 @@
-import { StatefulPaginatedEpubViewer } from '@lamp-project/epub-viewer';
+import { Epub, StatefulPaginatedEpubViewer } from '@lamp-project/epub-viewer';
 import {
   VocabularyService,
   UserWordStatus,
 } from '@lamp-project/vocabulary-service';
-import { UserWord } from '~/store/user-word';
 
 export const vocabularyService = new VocabularyService();
 
 export class HighlighterViewer extends StatefulPaginatedEpubViewer {
-  protected userWords: { [key: string]: UserWordStatus } = {};
   public static getTextNodes(root: Element) {
     const textNodes: Text[] = [];
     const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
@@ -17,16 +15,21 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
     return textNodes;
   }
 
-  public async initialize(userWords?: UserWord[]) {
+  constructor(
+    book: Epub,
+    protected readonly userWords: { [key: string]: UserWordStatus }
+  ) {
+    super(book);
+  }
+
+  public async initialize() {
     await super.initialize();
-    userWords?.forEach((item) => {
-      this.userWords[item.word.word] = item.status;
-    });
-    this.book.spine.hooks.content.register(this.hightlight.bind(this));
     this.on('content', this.registerEventListenersOfHighlights.bind(this));
+    this.book.spine.hooks.content.register(this.hightlight.bind(this));
   }
 
   protected hightlight({ body }: Document) {
+    this.emit('processing:start');
     const textNodes = HighlighterViewer.getTextNodes(body);
     textNodes.forEach((node) => {
       if (!node.textContent) return;
@@ -39,6 +42,7 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
           break;
       }
     });
+    this.emit('processing:end');
   }
 
   protected registerEventListenersOfHighlights({ body }: Document) {

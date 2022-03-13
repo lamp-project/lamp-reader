@@ -32,11 +32,16 @@ export const actions = {
       .then(({ data }) => data && data.review);
     commit('updateUserWord', userWord);
   },
+
   async getUserWords() {
     const client = this.app.apolloProvider.defaultClient;
     const myUserWords = await client
       .query({ query: MyUserWordsQuery })
       .then(({ data }) => data && data.myUserWords);
-    return myUserWords;
+    const userWords = {};
+    myUserWords.forEach((item) => {
+      userWords[item.word.word] = item.status;
+    });
+    return userWords;
   },
 };
