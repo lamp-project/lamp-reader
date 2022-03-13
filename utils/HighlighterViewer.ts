@@ -72,11 +72,11 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
         // padding: '0px 5px',
       },
       '.word.KNOWN': {
-        'background-color': 'lightgrey',
+        // 'background-color': 'lightgrey',
       },
       '.word.LEARNING': {
-        'background-color': 'green',
-        color: 'white',
+        'background-color': 'lightgrey',
+        // color: 'white',
       },
       '.word.UNKNOWN': {
         'background-color': 'black',
