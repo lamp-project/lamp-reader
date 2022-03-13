@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card class="panel">
-      <h1>Login</h1>
+      <h1>Signup</h1>
       <hr />
       <b-alert :show="!!error" variant="danger" dismissible>
         ⚠️ {{ error }}
@@ -16,6 +16,14 @@
             :required="true"
           ></b-form-input>
         </b-form-group>
+        <b-form-group label="Name" description="* Optional">
+          <b-form-input
+            v-model="input.name"
+            name="fname"
+            size="lg"
+            :required="false"
+          ></b-form-input>
+        </b-form-group>
         <b-form-group label="Password">
           <b-form-input
             v-model="input.password"
@@ -27,13 +35,13 @@
         </b-form-group>
         <hr />
         <b-button block variant="dark" size="lg" type="submit">
-          Login
+          Signup
         </b-button>
       </b-form>
     </b-card>
     <br />
     <center>
-      <b-link to="signup">Or create a new account</b-link>
+      <b-link to="login">Or login if you have an account</b-link>
     </center>
   </div>
 </template>
@@ -48,15 +56,15 @@ export default Vue.extend({
     error: '',
   }),
   methods: {
-    ...mapActions({ login: 'user/login' }),
+    ...mapActions({ signup: 'user/signup' }),
     async submit(event) {
       try {
         event.preventDefault();
         this.error = '';
-        await this.login(this.input);
+        await this.signup(this.input);
         this.$router.push('/');
       } catch (error) {
-        this.error = 'Login failed! change your inputs and try again.';
+        this.error = 'Signup failed! change your inputs and try again.';
       }
     },
   },

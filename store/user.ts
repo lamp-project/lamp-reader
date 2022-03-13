@@ -1,3 +1,4 @@
+import SignupMutation from '@/graphql/mutations/signup.gql';
 import LoginMutation from '@/graphql/mutations/login.gql';
 
 export const state = () => ({
@@ -17,6 +18,14 @@ export const actions = {
     const { jwt, user } = await client
       .mutate({ mutation: LoginMutation, variables: { input } })
       .then(({ data }) => data && data.login);
+    await this.$apolloHelpers.onLogin(jwt);
+    commit('setUser', user);
+  },
+  async signup({ commit }: any, input: any) {
+    const client = this.app.apolloProvider.defaultClient;
+    const { jwt, user } = await client
+      .mutate({ mutation: SignupMutation, variables: { input } })
+      .then(({ data }) => data && data.signup);
     await this.$apolloHelpers.onLogin(jwt);
     commit('setUser', user);
   },
