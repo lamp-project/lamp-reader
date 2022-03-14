@@ -12,6 +12,7 @@
     "deploy": "npm run build && surge --domain lamp-reader.surge.sh ./dist"
   },
   "dependencies": {
+    "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@lamp-project/epub-viewer": "github:lamp-project/epub-viewer",
     "@lamp-project/vocabulary-service": "github:lamp-project/vocabulary-service",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
