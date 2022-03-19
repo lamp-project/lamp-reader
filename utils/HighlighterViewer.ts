@@ -1,12 +1,7 @@
-import { Epub, StatefulPaginatedEpubViewer } from '@lamp-project/epub-viewer';
-import {
-  VocabularyService,
-  UserWordStatus,
-} from '@lamp-project/vocabulary-service';
+import { Epub, StatefulEpubViewer } from '../../epub-viewer/src';
+import { UserWordStatus } from '~/store/user-word';
 
-export const vocabularyService = new VocabularyService();
-
-export class HighlighterViewer extends StatefulPaginatedEpubViewer {
+export class HighlighterViewer extends StatefulEpubViewer {
   public static getTextNodes(root: Element) {
     const textNodes: Text[] = [];
     const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
@@ -24,8 +19,16 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
 
   public async initialize() {
     await super.initialize();
-    this.on('content', this.registerEventListenersOfHighlights.bind(this));
-    this.book.spine.hooks.content.register(this.hightlight.bind(this));
+    const key = `${this.book.key()}-locations`;
+    const locations = localStorage.getItem(key);
+    if (locations) {
+      this.book.locations.load(JSON.parse(locations));
+    } else {
+      const locations = await this.book.locations.generate(10);
+      localStorage.setItem(key, JSON.stringify(locations));
+    }
+    // this.on('content', this.registerEventListenersOfHighlights.bind(this));
+    // this.book.spine.hooks.content.register(this.hightlight.bind(this));
   }
 
   protected hightlight({ body }: Document) {
@@ -54,12 +57,9 @@ export class HighlighterViewer extends StatefulPaginatedEpubViewer {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected highlightTextNode(node: Text) {
-    node.replaceWith(vocabularyService.tag(node.textContent, this.userWords));
-  }
-
-  protected tokenise(text: string) {
-    return text.split(' ');
+    // node.replaceWith(vocabularyService.tag(node.textContent, this.userWords));
   }
 
   protected registerThemes() {

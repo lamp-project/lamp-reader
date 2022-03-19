@@ -3,18 +3,16 @@
     <b-navbar-nav>
       <b-nav-item @click="changePage">
         <small>
-          page <b>{{ book.pagination.currentPage }}</b> /{{
-            book.pagination.pages.length
-          }}
+          <b>{{ percentage }}</b>%
         </small>
       </b-nav-item>
     </b-navbar-nav>
     <b-navbar-nav class="ml-auto">
-      <b-nav-item
-        v-if="leftPagesOfTheChapter >= 0 && book.pagination.currentPage != 1"
-        right
-      >
+      <b-nav-item v-if="leftPagesOfTheChapter > 0" right>
         <small>{{ leftPagesOfTheChapter }} pages left in this chapter</small>
+      </b-nav-item>
+      <b-nav-item v-else right>
+        <small>last page of this chapter</small>
       </b-nav-item>
     </b-navbar-nav>
   </b-navbar>
@@ -32,6 +30,11 @@ export default Vue.extend({
     leftPagesOfTheChapter() {
       const displayed = this.book.pagination.currentLocation?.end.displayed;
       return displayed ? displayed.total - displayed.page : -1;
+    },
+    percentage() {
+      return (
+        (this.book.pagination.currentLocation?.end.percentage || 0) * 100
+      ).toFixed();
     },
   },
   methods: {

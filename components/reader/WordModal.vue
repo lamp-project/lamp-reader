@@ -37,9 +37,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { UserWordStatus } from '@lamp-project/vocabulary-service';
 import { mapActions } from 'vuex';
-import { vocabularyService } from '~/utils/HighlighterViewer';
+import { UserWordStatus } from '~/store/user-word';
 
 export default Vue.extend({
   data: () => ({
@@ -77,7 +76,7 @@ export default Vue.extend({
     },
     async setWordStatus(status: UserWordStatus) {
       await this.review({ status, word: this.word });
-      vocabularyService.setWordStatus(this.element, status);
+      // vocabularyService.setWordStatus(this.element, status);
       this.$bvModal.hide('word-modal');
     }
   },

@@ -1,7 +1,12 @@
-import { UserWordStatus } from '@lamp-project/vocabulary-service';
 import ReviewMutation from '@/graphql/mutations/review.gql';
 import MyUserWordsQuery from '@/graphql/queries/my-user-words.gql';
 
+
+export enum UserWordStatus {
+	UNKNOWN = 'UNKNOWN',
+	LEARNING = 'LEARNING',
+	KNOWN = 'KNOWN',
+}
 export interface ReviewInput {
   word: string;
   status: UserWordStatus;

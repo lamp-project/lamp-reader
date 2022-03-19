@@ -13,10 +13,7 @@
     <b-card-text>
       <h4 :class="{ headline }">{{ book.title }}</h4>
       <small>
-        <kbd v-if="book.pagination.pages.length > 0">
-          Page {{ book.pagination.currentPage }} /
-          {{ book.pagination.pages.length }}
-        </kbd>
+        <kbd v-if="percentage">{{ percentage }}% read</kbd>
       </small>
       <button v-if="!headline" class="btn-remove" @click="remove($event)">
         ×
@@ -37,6 +34,13 @@ export default Vue.extend({
     headline: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    percentage() {
+      return (
+        (this.book.pagination.currentLocation?.end.percentage || 0) * 100
+      ).toFixed();
     },
   },
   methods: {
