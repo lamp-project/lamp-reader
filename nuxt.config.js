@@ -65,9 +65,7 @@ export default {
 
   apollo: {
     clientConfigs: {
-      default: {
-        httpEndpoint: 'http://localhost:3000/graphql',
-      },
+      default: '~/apollo/config.ts',
     },
   },
 
