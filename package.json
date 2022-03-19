@@ -9,7 +9,8 @@
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "npm run lint:js",
-    "deploy": "npm run build && surge --domain lamp-reader.surge.sh ./dist"
+    "deploy": "npm run build && surge --domain lamp-reader.surge.sh ./dist",
+    "release": "release-it"
   },
   "dependencies": {
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
@@ -43,6 +44,7 @@
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.12.1",
     "prettier": "^2.3.2",
+    "release-it": "^14.12.5",
     "sass": "^1.45.1",
     "sass-loader": "^10.2.0"
   }
