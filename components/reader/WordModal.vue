@@ -38,9 +38,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapActions } from 'vuex';
+import { BModal, BButton,BSpinner } from 'bootstrap-vue';
 import { UserWordStatus } from '~/store/user-word';
-
 export default Vue.extend({
+  components: {
+    BModal,
+    BButton,BSpinner,
+  },
   data: () => ({
     element: undefined,
     word: '',

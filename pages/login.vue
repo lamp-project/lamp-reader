@@ -41,8 +41,25 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapActions } from 'vuex';
-
+import {
+  BCard,
+  BLink,
+  BForm,
+  BButton,
+  BFormGroup,
+  BFormInput,
+  BAlert,
+} from 'bootstrap-vue';
 export default Vue.extend({
+  components: {
+    BCard,
+    BLink,
+    BForm,
+    BButton,
+    BFormGroup,
+    BFormInput,
+    BAlert,
+  },
   data: () => ({
     input: {},
     error: '',

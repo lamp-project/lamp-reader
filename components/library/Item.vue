@@ -24,8 +24,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import { library } from '@lamp-project/epub-viewer';
-
+import { BCard, BCardText } from 'bootstrap-vue';
 export default Vue.extend({
+  components: {
+    BCard,
+    BCardText,
+  },
   props: {
     book: {
       type: Object,

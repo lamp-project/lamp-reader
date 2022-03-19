@@ -2,7 +2,7 @@
   <div class="library">
     <Navbar>
       <b-button size="lg" variant="light" @click="addFromFile">
-        <img src="~assets/icons/import.svg" class="icon x2" alt="">
+        <img src="~assets/icons/import.svg" class="icon x2" alt="" />
       </b-button>
     </Navbar>
     <br />
@@ -13,10 +13,15 @@
 </template>
 
 <script lang="ts">
+import { BButton, BContainer } from 'bootstrap-vue';
 import { library } from '@lamp-project/epub-viewer';
 import Vue from 'vue';
 
 export default Vue.extend({
+  components: {
+    BButton,
+    BContainer,
+  },
   methods: {
     addFromFile() {
       library.addFromFileDialog();

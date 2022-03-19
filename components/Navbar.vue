@@ -22,7 +22,14 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { BNavbar, BContainer, BNavbarBrand, BNavbarNav } from 'bootstrap-vue';
 export default Vue.extend({
+  components: {
+    BNavbar,
+    BContainer,
+    BNavbarBrand,
+    BNavbarNav,
+  },
   data: () => ({
     version: process.env.VERSION,
   }),

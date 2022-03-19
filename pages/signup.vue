@@ -56,9 +56,26 @@
 import Vue from 'vue';
 import { mapActions } from 'vuex';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
-
+import {
+  BCard,
+  BLink,
+  BForm,
+  BButton,
+  BFormGroup,
+  BFormInput,
+  BAlert,
+} from 'bootstrap-vue';
 export default Vue.extend({
-  components: { VueHcaptcha },
+  components: {
+    BCard,
+    BLink,
+    BForm,
+    BButton,
+    BFormGroup,
+    BFormInput,
+    BAlert,
+    VueHcaptcha,
+  },
   data: () => ({
     hCaptchaSiteKey: process.env.HCAPTCHA_SITEKEY,
     input: {},

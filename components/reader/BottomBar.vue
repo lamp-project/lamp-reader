@@ -19,7 +19,13 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
+import { BNavbar, BNavbarNav, BNavItem } from 'bootstrap-vue';
 export default Vue.extend({
+  components: {
+    BNavbar,
+    BNavbarNav,
+    BNavItem,
+  },
   props: {
     book: {
       type: Object,

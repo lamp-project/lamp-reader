@@ -15,8 +15,12 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-
+import { BImg, BSpinner } from 'bootstrap-vue';
 export default Vue.extend({
+  components: {
+    BImg,
+    BSpinner,
+  },
   props: {
     book: {
       type: Object,
