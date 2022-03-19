@@ -15,6 +15,6 @@ export default ({ redirect }) => {
   });
   return {
     link: errorLink,
-    httpEndpoint: 'http://localhost:3000/graphql',
+    httpEndpoint: `${process.env.API_URL}/graphql`,
   };
 };
