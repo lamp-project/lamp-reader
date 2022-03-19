@@ -10,6 +10,7 @@
         /> -->
         <b>Lamp</b>
         <small>Reader</small>
+        <kbd>{{ version }}</kbd>
       </b-navbar-brand>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
@@ -19,6 +20,15 @@
   </b-navbar>
 </template>
 
+<script lang="ts">
+import Vue from 'vue';
+export default Vue.extend({
+  data: () => ({
+    version: process.env.VERSION,
+  }),
+});
+</script>
+
 <style lang="scss" scoped>
 .navbar-brand {
   font-family: 'Merriweather', serif;
@@ -26,6 +36,10 @@
   font-size: 1.9em;
   small {
     font-weight: 100;
+  }
+  kbd {
+    font-size: 0.3em;
+    background-color: black;
   }
 }
 </style>
