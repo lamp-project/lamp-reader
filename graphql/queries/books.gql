@@ -1,8 +1,24 @@
-query Books {
-  books {
-    id
-    title
-    source
-    path
+{
+  books(orderBy: { createdAt: ASC }) {
+    totalCount
+    edges {
+      node {
+        title
+        source
+        cover {
+          medium
+          small
+        }
+        # subjects {
+        #   title
+        # }
+        # persons {
+        #   role
+        #   person {
+        #     name
+        #   }
+        # }
+      }
+    }
   }
 }

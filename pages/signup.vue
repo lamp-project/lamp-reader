@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col offset-lg="3" lg="6">
+    <b-col offset-lg="4" lg="4">
       <b-form @submit="submit">
         <b-card class="panel">
           <h1>Signup</h1>
@@ -64,6 +64,8 @@ import {
   BFormGroup,
   BFormInput,
   BAlert,
+  BRow,
+  BCol,
 } from 'bootstrap-vue';
 export default Vue.extend({
   components: {
@@ -75,6 +77,8 @@ export default Vue.extend({
     BFormInput,
     BAlert,
     VueHcaptcha,
+    BRow,
+    BCol,
   },
   data: () => ({
     hCaptchaSiteKey: process.env.HCAPTCHA_SITEKEY,

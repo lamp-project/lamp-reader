@@ -1,41 +1,43 @@
 <template>
-  <div>
-    <b-card class="panel">
-      <h1>Login</h1>
-      <hr />
-      <b-alert :show="!!error" variant="danger" dismissible>
-        ⚠️ {{ error }}
-      </b-alert>
-      <b-form @submit="submit">
-        <b-form-group label="Email">
-          <b-form-input
-            v-model="input.email"
-            name="email"
-            type="email"
-            size="lg"
-            :required="true"
-          ></b-form-input>
-        </b-form-group>
-        <b-form-group label="Password">
-          <b-form-input
-            v-model="input.password"
-            name="password"
-            type="password"
-            :required="true"
-            size="lg"
-          ></b-form-input>
-        </b-form-group>
+  <b-row>
+    <b-col offset-lg="4" lg="4">
+      <b-card class="panel">
+        <h1>Login</h1>
         <hr />
-        <b-button block variant="dark" size="lg" type="submit">
-          Login
-        </b-button>
-      </b-form>
-    </b-card>
-    <br />
-    <center>
-      <b-link to="signup">Or create a new account</b-link>
-    </center>
-  </div>
+        <b-alert :show="!!error" variant="danger" dismissible>
+          ⚠️ {{ error }}
+        </b-alert>
+        <b-form @submit="submit">
+          <b-form-group label="Email">
+            <b-form-input
+              v-model="input.email"
+              name="email"
+              type="email"
+              size="lg"
+              :required="true"
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Password">
+            <b-form-input
+              v-model="input.password"
+              name="password"
+              type="password"
+              :required="true"
+              size="lg"
+            ></b-form-input>
+          </b-form-group>
+          <hr />
+          <b-button block variant="dark" size="lg" type="submit">
+            Login
+          </b-button>
+        </b-form>
+      </b-card>
+      <br />
+      <center>
+        <b-link to="signup">Or create a new account</b-link>
+      </center>
+    </b-col>
+  </b-row>
 </template>
 
 <script lang="ts">
@@ -49,6 +51,8 @@ import {
   BFormGroup,
   BFormInput,
   BAlert,
+  BRow,
+  BCol,
 } from 'bootstrap-vue';
 export default Vue.extend({
   components: {
@@ -59,6 +63,8 @@ export default Vue.extend({
     BFormGroup,
     BFormInput,
     BAlert,
+    BRow,
+    BCol,
   },
   data: () => ({
     input: {},

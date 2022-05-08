@@ -3,7 +3,8 @@ export default {
   ssr: false,
   env: {
     VERSION: require(`./package.json`).version,
-    API_URL: process.env.API_URL || 'https://lamp-backend.herokuapp.com',
+    // API_URL: process.env.API_URL || 'https://lamp-backend.herokuapp.com',
+    API_URL: process.env.API_URL || 'http://localhost:3000',
     HCAPTCHA_SITEKEY:
       process.env.HCAPTCHA_SITEKEY || '0aa34418-513d-4314-a1c0-ab5fbec5a56b',
   },

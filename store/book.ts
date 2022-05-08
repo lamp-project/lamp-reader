@@ -5,18 +5,22 @@ import Books from '@/graphql/queries/books.gql';
 export enum BookSource {
   GUTHENBURGE = 'GUTHENBURGE',
 }
+export class BookCover {
+  small: string;
+  medium: string;
+}
 
 export class Book {
   id: number;
   createdAt: Date;
   updatedAt: Date;
-
   source: BookSource;
   sourceId: string;
   title: string;
-  path: string;
-  subjects?: Subject[];
-  persons?: BookPerson[];
+  book: string;
+  cover: BookCover;
+  subjects: Subject[];
+  persons: BookPerson[];
 }
 
 export const state = () => ({});

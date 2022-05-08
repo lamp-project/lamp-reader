@@ -11,16 +11,19 @@
       <br />
       <strong>***</strong>
     </center>
-    <div v-else>
-      <h3><b>Book Store</b></h3>
-      <hr />
-      <br />
-      <b-row class="library">
-        <b-col v-for="{ node } in books.edges" :key="node.id"  cols="12" md="6" lg="4">
-          <LibraryBook :book="node" />
-        </b-col>
-      </b-row>
-    </div>
+    <b-row v-else class="library" cols="1" cols-md="2">
+      <b-col v-if="currentReading">
+        <h3><b>Current Reading</b></h3>
+        <hr />
+        <LibraryItem :book="currentReading" headline />
+        <br />
+      </b-col>
+      <b-col>
+        <h3><b>My Books</b></h3>
+        <hr />
+        <LibraryItem v-for="item in items" :key="item.id" :book="item" />
+      </b-col>
+    </b-row>
   </section>
 </template>
 
