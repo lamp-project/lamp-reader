@@ -17,7 +17,7 @@
       <br />
       <b-row class="library">
         <b-col v-for="{ node } in books.edges" :key="node.id"  cols="12" md="6" lg="4">
-          <LibraryBook :book="node" />
+          <StoreBook :book="node" />
         </b-col>
       </b-row>
     </div>
