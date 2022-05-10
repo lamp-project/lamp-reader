@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { library } from '@lamp-project/epub-viewer';
+import { library } from '@derock.ir/epubjs-plus';
 import { HighlighterViewer } from '~/utils/HighlighterViewer';
 
 let viewer: HighlighterViewer;

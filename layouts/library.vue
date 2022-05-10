@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { BButton, BContainer } from 'bootstrap-vue';
-import { library } from '@lamp-project/epub-viewer';
+import { library } from '@derock.ir/epubjs-plus';
 import Vue from 'vue';
 
 export default Vue.extend({

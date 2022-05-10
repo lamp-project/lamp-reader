@@ -1,4 +1,4 @@
-import { Epub, StatefulEpubViewer } from '../../epub-viewer/src';
+import { Epub, StatefulEpubViewer } from '@derock.ir/epubjs-plus';
 import { UserWordStatus } from '~/store/user-word';
 
 export class HighlighterViewer extends StatefulEpubViewer {

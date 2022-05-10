@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { library } from '@lamp-project/epub-viewer';
+import { library } from '@derock.ir/epubjs-plus';
 import { BRow, BCol } from 'bootstrap-vue';
 export default Vue.extend({
   components: {
