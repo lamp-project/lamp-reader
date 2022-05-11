@@ -21,11 +21,11 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        href: 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css',
-      },
+      // {
+      //   rel: 'stylesheet',
+      //   type: 'text/css',
+      //   href: 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css',
+      // },
       {
         rel: 'stylesheet',
         type: 'text/css',
@@ -60,6 +60,7 @@ export default {
     '@nuxtjs/pwa',
     // https://github.com/nuxt-community/apollo-module
     '@nuxtjs/apollo',
+    'bootstrap-vue/nuxt'
   ],
 
   apollo: {

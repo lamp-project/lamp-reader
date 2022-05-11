@@ -1,16 +1,15 @@
 <template>
   <b-navbar toggleable="lg" type="light" variant="light" fixed="top">
     <b-container>
-      <b-navbar-brand href="/">
-        <!-- <img
+      <b-navbar-brand v-b-toggle.sidebar>
+        <img
           src="~/assets/img/bulb.png"
           alt="Brand"
           class="d-inline-block align-center"
           height="36"
-        /> -->
+        />
         <b>Lamp</b>
         <small>Reader</small>
-        <kbd>{{ version }}</kbd>
       </b-navbar-brand>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
@@ -22,7 +21,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { BNavbar, BContainer, BNavbarBrand, BNavbarNav } from 'bootstrap-vue';
+import {
+  BNavbar,
+  BContainer,
+  BNavbarBrand,
+  BNavbarNav,
+  VBToggle,
+} from 'bootstrap-vue';
 export default Vue.extend({
   components: {
     BNavbar,
@@ -30,13 +35,16 @@ export default Vue.extend({
     BNavbarBrand,
     BNavbarNav,
   },
+  directives: {
+    'b-toggle': VBToggle,
+  },
   data: () => ({
     version: process.env.VERSION,
   }),
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .navbar-brand {
   font-family: 'Merriweather', serif;
   font-weight: 700;

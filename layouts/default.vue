@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Sidebar />
     <Navbar />
     <br />
     <b-container>
