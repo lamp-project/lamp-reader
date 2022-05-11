@@ -1,17 +1,17 @@
 <template>
-  <section>
+  <div>
     <h2><b>Book Store</b></h2>
     <hr />
     <br />
-    <session v-for="level in levels" :key="level">
+    <div v-for="level in levels" :key="level">
       <h3>Level {{ level }}</h3>
       <hr />
       <vue-horizontal snap="start">
-        <StoreItem v-for="book in books" :key="book.id" :book="book" />
+        <StoreItem v-for="book in topTenOfLevels[level]" :key="book.id" :book="book" />
       </vue-horizontal>
       <br />
-    </session>
-  </section>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -25,9 +25,9 @@ export default Vue.extend({
   layout: 'library',
   middleware: ['auth'],
   async asyncData({ store }) {
-    const books = await store.dispatch('book/getBooks');
+    const topTenOfLevels = await store.dispatch('book/getTopTenOfLevels');
     return {
-      books: books.edges.map(({ node }) => node),
+      topTenOfLevels,
     };
   },
   data: () => ({

@@ -1,6 +1,7 @@
 import { Subject } from './subject';
 import { BookPerson } from './book-person';
-import Books from '@/graphql/queries/books.gql';
+import BooksQuery from '@/graphql/queries/books.gql';
+import TopTenOfLevelsQuery from '@/graphql/queries/top-ten-of-levels.gql';
 
 export enum BookSource {
   GUTHENBURGE = 'GUTHENBURGE',
@@ -31,7 +32,13 @@ export const actions = {
   getBooks() {
     const client = this.app.apolloProvider.defaultClient;
     return client
-      .query({ query: Books })
+      .query({ query: BooksQuery })
       .then(({ data }) => data && data.books);
+  },
+  getTopTenOfLevels() {
+    const client = this.app.apolloProvider.defaultClient;
+    return client
+      .query({ query: TopTenOfLevelsQuery })
+      .then(({ data }) => data && data.topTenOfLevels);
   },
 };

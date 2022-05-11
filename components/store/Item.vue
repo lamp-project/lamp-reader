@@ -1,27 +1,35 @@
 <template>
-  <b-img-lazy
-    rounded
-    thumbnail
-    class="store-item"
-    :src="book.cover.medium"
-    :alt="book.title"
-    @click="$router.push(book.id)"
-  ></b-img-lazy>
+  <div>
+    <b-img
+      rounded
+      thumbnail
+      class="store-item"
+      :src="book.cover.medium"
+      :alt="book.title"
+      @click="$router.push(book.id)"
+    ></b-img>
+    <br />
+    <!--<center>
+      <kbd>{{ Math.round(book.level[level].readability) }}%</kbd>
+       <br />
+      Words: {{ Math.round(book.level[level].count) }}
+    </center> -->
+  </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import { BImgLazy } from 'bootstrap-vue';
+import { BImg } from 'bootstrap-vue';
 
 export default Vue.extend({
-  components: { BImgLazy },
+  components: { BImg },
   props: {
     book: {
       type: Object,
       default: () => ({}),
     },
-    headline: {
-      type: Boolean,
-      default: false,
+    level: {
+      type: String,
+      default: 'A1',
     },
   },
   computed: {},
@@ -32,6 +40,6 @@ export default Vue.extend({
 <style lang="scss">
 .store-item {
   margin: 6px;
-  height: 150px;;
+  height: 150px;
 }
 </style>
