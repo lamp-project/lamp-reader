@@ -41,5 +41,6 @@ export default Vue.extend({
 .store-item {
   margin: 6px;
   height: 150px;
+  min-width: 60px;
 }
 </style>

@@ -22,7 +22,7 @@ export default Vue.extend({
   components: {
     VueHorizontal,
   },
-  layout: 'library',
+  // layout: 'library',
   middleware: ['auth'],
   async asyncData({ store }) {
     const topTenOfLevels = await store.dispatch('book/getTopTenOfLevels');
