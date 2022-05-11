@@ -1,57 +1,38 @@
 <template>
   <section>
-    <center v-if="items.length === 0">
-      <br />
-      <br />
-      <br />
-      No Item in the Libarry.
-      <br />
-      <small>Try to import the first one... </small>
-      <br />
-      <br />
-      <strong>***</strong>
-    </center>
-    <div v-else>
-      <h3><b>Book Store</b></h3>
+    <h2><b>Book Store</b></h2>
+    <hr />
+    <br />
+    <session v-for="level in levels" :key="level">
+      <h3>Level {{ level }}</h3>
       <hr />
+      <vue-horizontal snap="start">
+        <StoreItem v-for="book in books" :key="book.id" :book="book" />
+      </vue-horizontal>
       <br />
-      <b-row class="library">
-        <b-col v-for="{ node } in books.edges" :key="node.id"  cols="12" md="6" lg="4">
-          <StoreBook :book="node" />
-        </b-col>
-      </b-row>
-    </div>
+    </session>
   </section>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { library } from '@derock.ir/epubjs-plus';
-import { BRow, BCol } from 'bootstrap-vue';
+import VueHorizontal from 'vue-horizontal';
+
 export default Vue.extend({
   components: {
-    BRow,
-    BCol,
+    VueHorizontal,
   },
   layout: 'library',
   middleware: ['auth'],
   async asyncData({ store }) {
-    const items = await library.index();
-    const currentReadingId = await library.getLastBookId();
     const books = await store.dispatch('book/getBooks');
     return {
-      books,
-      items,
-      currentReading:
-        items.filter(({ id }) => id === currentReadingId)[0] || '',
+      books: books.edges.map(({ node }) => node),
     };
   },
-  mounted() {
-    library.on('item-added', (item) => this.items.push(item));
-    library.on('item-removed', async () => {
-      this.items = await library.index();
-    });
-  },
+  data: () => ({
+    levels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+  }),
 });
 </script>
 

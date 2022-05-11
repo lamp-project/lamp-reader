@@ -22,3 +22,8 @@ body {
     height: 2rem;
   }
 }
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
+  padding-right: 26px;
+  padding-left: 26px;
+}
