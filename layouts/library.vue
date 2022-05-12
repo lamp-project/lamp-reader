@@ -1,5 +1,6 @@
 <template>
   <div class="library">
+    <Sidebar />
     <Navbar>
       <b-button size="lg" variant="light" @click="addFromFile">
         <img src="~assets/icons/import.svg" class="icon x2" alt="" />

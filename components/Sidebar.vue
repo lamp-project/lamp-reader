@@ -1,6 +1,7 @@
 <template>
   <b-sidebar id="sidebar" no-header shadow>
     <template #default="{ hide }">
+      <!-- Header -->
       <b-navbar toggleable="lg">
         <b-navbar-brand href="#">
           <b>Lamp</b>
@@ -11,28 +12,27 @@
           <button class="btn-remove" @click="hide">×</button>
         </b-navbar-nav>
       </b-navbar>
+      <!-- /Header -->
+      <!-- Menue -->
       <b-list-group>
-        <b-list-group-item href="#some-link">Awesome link</b-list-group-item>
-        <b-list-group-item href="#" active>
-          Link with active state
+        <b-list-group-item to="/" @click="hide">
+          <img src="~assets/icons/store.svg" height="24" alt="book store">
+          Book Store
         </b-list-group-item>
-        <b-list-group-item href="#">Action links are easy</b-list-group-item>
-        <b-list-group-item href="#foobar" disabled>
-          Disabled link
-        </b-list-group-item>
-        <b-list-group-item href="#some-link">Awesome link</b-list-group-item>
-        <b-list-group-item href="#"> Link with active state </b-list-group-item>
-        <b-list-group-item href="#">Action links are easy</b-list-group-item>
-        <b-list-group-item href="#foobar" disabled>
-          Disabled link
+        <b-list-group-item to="/library" @click="hide">
+          <img src="~assets/icons/library.svg" height="24" alt="library">
+          Library
         </b-list-group-item>
       </b-list-group>
+      <!-- /Menue -->
+      <!-- Footer -->
       <b-navbar toggleable="lg" fixed="bottom">
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <small><kbd>v{{ version }}</kbd></small>
         </b-navbar-nav>
       </b-navbar>
+      <!-- /Footer -->
     </template>
   </b-sidebar>
 </template>
