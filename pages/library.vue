@@ -36,7 +36,6 @@ export default Vue.extend({
     BRow,
     BCol,
   },
-  layout: 'library',
   middleware: ['auth'],
   async asyncData({ store }) {
     const items = await library.index();

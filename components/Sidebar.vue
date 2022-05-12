@@ -16,12 +16,20 @@
       <!-- Menue -->
       <b-list-group>
         <b-list-group-item to="/" @click="hide">
-          <img src="~assets/icons/store.svg" height="24" alt="book store">
+          <img src="~assets/icons/store.svg" height="24" alt="book store" />
           Book Store
         </b-list-group-item>
         <b-list-group-item to="/library" @click="hide">
-          <img src="~assets/icons/library.svg" height="24" alt="library">
+          <img src="~assets/icons/book.svg" height="24" alt="library" />
           Library
+        </b-list-group-item>
+        <b-list-group-item @click="importFromFile">
+          <img src="~assets/icons/import.svg" height="24" alt="import" />
+          Import Epub
+        </b-list-group-item>
+        <b-list-group-item disabled>
+          <img src="~assets/icons/info.svg" height="24" alt="about" />
+          About
         </b-list-group-item>
       </b-list-group>
       <!-- /Menue -->
@@ -29,7 +37,9 @@
       <b-navbar toggleable="lg" fixed="bottom">
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <small><kbd>v{{ version }}</kbd></small>
+          <small>
+            <kbd>v{{ version }}</kbd>
+          </small>
         </b-navbar-nav>
       </b-navbar>
       <!-- /Footer -->
@@ -39,6 +49,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { library } from '@derock.ir/epubjs-plus';
 import { BSidebar, BListGroup, BListGroupItem } from 'bootstrap-vue';
 
 export default Vue.extend({
@@ -50,6 +61,11 @@ export default Vue.extend({
   data: () => ({
     version: process.env.VERSION,
   }),
+  methods: {
+    importFromFile() {
+      library.addFromFileDialog();
+    },
+  },
 });
 </script>
 <style lang="scss">
