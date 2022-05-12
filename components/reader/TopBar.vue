@@ -1,7 +1,7 @@
 <template>
   <b-navbar class="top-bar" variant="light" fixed="top">
     <b-navbar-nav>
-      <b-nav-item to="/">
+      <b-nav-item to="/library">
         <img src="~assets/icons/left.svg" class="icon faded" alt="">
       </b-nav-item>
       <!-- <b-nav-item> {{ title }} </b-nav-item> -->

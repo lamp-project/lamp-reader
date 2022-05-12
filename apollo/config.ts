@@ -9,7 +9,7 @@ export default ({ redirect }) => {
           return result || error.message === 'Unauthorized';
         }, false)
       ) {
-        redirect('login');
+        redirect('/login');
       }
     }
   });

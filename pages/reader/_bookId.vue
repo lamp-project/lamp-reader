@@ -28,11 +28,15 @@ export default Vue.extend({
     const id = params.bookId;
     const book = await library.get(id);
     if (book) {
-      const userWords = await store.dispatch('user-word/getUserWords');
-      viewer = new HighlighterViewer(book, userWords);
-      // @ts-ignore
-      window.viewer = viewer;
-      return { info: book.info };
+      try {
+        const userWords = await store.dispatch('user-word/getUserWords');
+        viewer = new HighlighterViewer(book, userWords);
+        // @ts-ignore
+        window.viewer = viewer;
+        return { info: book.info };
+      } catch (error) {
+        debugger;
+      }
     } else {
       error({ statusCode: 404, message: `${id} not found!` });
     }
