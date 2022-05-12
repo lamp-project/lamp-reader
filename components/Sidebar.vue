@@ -5,7 +5,6 @@
         <b-navbar-brand href="#">
           <b>Lamp</b>
           <small>Reader</small>
-          <kbd>{{ version }}</kbd>
         </b-navbar-brand>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
@@ -28,6 +27,12 @@
           Disabled link
         </b-list-group-item>
       </b-list-group>
+      <b-navbar toggleable="lg" fixed="bottom">
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <small><kbd>v{{ version }}</kbd></small>
+        </b-navbar-nav>
+      </b-navbar>
     </template>
   </b-sidebar>
 </template>
