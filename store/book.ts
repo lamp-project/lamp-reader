@@ -1,5 +1,6 @@
 import { Subject } from './subject';
 import { BookPerson } from './book-person';
+import BookQuery from '@/graphql/queries/book.gql';
 import BooksQuery from '@/graphql/queries/books.gql';
 import TopTenOfLevelsQuery from '@/graphql/queries/top-ten-of-levels.gql';
 
@@ -29,6 +30,12 @@ export const state = () => ({});
 export const mutations = {};
 
 export const actions = {
+  getBook(_context, id: number) {
+    const client = this.app.apolloProvider.defaultClient;
+    return client
+      .query({ query: BookQuery, variables: { id } })
+      .then(({ data }) => data && data.book);
+  },
   getBooks() {
     const client = this.app.apolloProvider.defaultClient;
     return client

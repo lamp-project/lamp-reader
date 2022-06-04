@@ -23,7 +23,7 @@
           <img src="~assets/icons/book.svg" height="24" alt="library" />
           Library
         </b-list-group-item>
-        <b-list-group-item @click="importFromFile">
+        <b-list-group-item  to="#" @click="importFromFile">
           <img src="~assets/icons/import.svg" height="24" alt="import" />
           Import Epub
         </b-list-group-item>

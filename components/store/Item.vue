@@ -1,12 +1,11 @@
 <template>
-  <div>
+  <a :href="`books/${book.id}`">
     <b-img
       rounded
       thumbnail
       class="store-item"
       :src="book.cover.medium"
       :alt="book.title"
-      @click="$router.push(book.id)"
     ></b-img>
     <br />
     <!--<center>
@@ -14,7 +13,7 @@
        <br />
       Words: {{ Math.round(book.level[level].count) }}
     </center> -->
-  </div>
+  </a>
 </template>
 <script lang="ts">
 import Vue from 'vue';
@@ -41,6 +40,6 @@ export default Vue.extend({
 .store-item {
   margin: 6px;
   height: 150px;
-  min-width: 60px;
+  min-width: 82px;
 }
 </style>
