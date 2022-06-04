@@ -13,6 +13,20 @@
           ></b-img>
         </b-col>
         <b-col>
+          <b-button
+            size="md"
+            variant="success"
+            :disabled="state != 'initial'"
+            @click="addToLibrary"
+          >
+            <img src="~assets/icons/book-white.svg" height="24" alt="library" />
+            <span v-if="state == 'initial'"> Add To Libraray </span>
+            <span v-else-if="state == 'downloading'">{{ progress }} % </span>
+            <span v-else-if="state == 'downloaded'"> Adding To LIbraray </span>
+            <span v-else-if="state == 'added'"> Added To LIbraray </span>
+          </b-button>
+          <br />
+          <br />
           <p>
             <strong>Highest Word Rank:</strong> <kbd>{{ book.HWR }}</kbd>
           </p>
@@ -72,12 +86,38 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
+import fetchProgress from 'fetch-progress';
+import { library } from '@derock.ir/epubjs-plus';
+
 export default Vue.extend({
   async asyncData({ store, params }) {
     const book = await store.dispatch('book/getBook', +params.id);
     return {
       book,
     };
+  },
+  data: () => ({
+    progress: 0,
+    state: 'initial',
+  }),
+  methods: {
+    async addToLibrary() {
+      this.state = 'downloading';
+      const file = await fetch(this.book.file)
+        .then(
+          fetchProgress({
+            onProgress: (progress: any) => {
+              this.progress = progress.percentage;
+            },
+          })
+        )
+        .then(function (res) {
+          return res.arrayBuffer();
+        });
+      this.state = 'downloaded';
+      await library.addFromArrayBuffer(file);
+      this.state = 'added';
+    },
   },
 });
 </script>
