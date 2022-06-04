@@ -2,8 +2,26 @@
   <article>
     <h1>{{ book.title }}</h1>
     <hr />
-    <b-img rounded thumbnail :src="book.cover.medium" :alt="book.title"></b-img>
-    <br />
+    <section>
+      <b-row>
+        <b-col lg="3" sm="12">
+          <b-img
+            rounded
+            thumbnail
+            :src="book.cover.medium"
+            :alt="book.title"
+          ></b-img>
+        </b-col>
+        <b-col>
+          <p>
+            <strong>Highest Word Rank:</strong> <kbd>{{ book.HWR }}</kbd>
+          </p>
+          <p>
+            <strong>Unique Words Count:</strong> <kbd>{{ book.UWC }}</kbd>
+          </p>
+        </b-col>
+      </b-row>
+    </section>
     <br />
     <section>
       <h2>Authors</h2>
