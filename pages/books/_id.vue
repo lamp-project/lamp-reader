@@ -16,15 +16,14 @@
           <b-button
             size="md"
             variant="success"
-            :disabled="state != 'initial'"
-            @click="addToLibrary"
+            :disabled="!['initial', 'exists'].includes(state)"
+            @click="doAction"
           >
             <img src="~assets/icons/book-white.svg" height="24" alt="library" />
-            <span v-if="state == 'initial'"> Add To Libraray </span>
-            <span v-else-if="state == 'downloading'">{{ progress }} % </span>
-            <span v-else-if="state == 'downloaded'"> Adding To Libraray </span>
-            <span v-else-if="state == 'added'"> Added To Libraray </span>
-            <span v-else-if="state == 'exists'"> Exists In Libraray </span>
+            <span v-if="state == 'initial'">Add To Libraray</span>
+            <span v-else-if="state == 'downloading'">{{ progress }} %</span>
+            <span v-else-if="state == 'downloaded'">Adding To Libraray</span>
+            <span v-else-if="state == 'exists'">Read It</span>
           </b-button>
           <br />
           <br />
@@ -102,7 +101,7 @@ export default Vue.extend({
     progress: 0,
   }),
   methods: {
-    async addToLibrary() {
+    async download() {
       this.state = 'downloading';
       const file = await fetch(this.book.file)
         .then(
@@ -117,7 +116,19 @@ export default Vue.extend({
         });
       this.state = 'downloaded';
       await library.addFromArrayBuffer(file, this.book.id);
-      this.state = 'added';
+      this.state = 'exists';
+    },
+    async doAction() {
+      switch (this.state) {
+        case 'initial':
+          await this.download();
+          break;
+        case 'exists':
+          this.$router.push(`/reader/${this.book.id}`);
+          break;
+        default:
+          break;
+      }
     },
   },
 });
