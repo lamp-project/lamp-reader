@@ -1,3 +1,4 @@
+import localforage from 'localforage';
 import { Epub, StatefulEpubViewer } from '@derock.ir/epubjs-plus';
 import { UserWord, UserWordStatus } from '~/store/user-word';
 
@@ -9,6 +10,10 @@ export class HighlighterViewer extends StatefulEpubViewer {
     instances.forEach((item) => (item.className = userWord.status));
   }
 
+  private readonly locationsForge = localforage.createInstance({
+    name: 'locations',
+  });
+
   constructor(
     book: Epub,
     protected readonly userWords: { [key: string]: UserWordStatus }
@@ -18,13 +23,13 @@ export class HighlighterViewer extends StatefulEpubViewer {
 
   public async initialize() {
     await super.initialize();
-    const key = `${this.book.key()}-locations`;
-    const locations = localStorage.getItem(key);
+    const key = this.book.key();
+    const locations = await this.locationsForge.getItem<any>(key);
     if (locations) {
-      this.book.locations.load(JSON.parse(locations));
+      this.book.locations.load(locations);
     } else {
       const locations = await this.book.locations.generate(10);
-      localStorage.setItem(key, JSON.stringify(locations));
+      await this.locationsForge.setItem(key, locations);
     }
     this.on('content', this.registerEventListenersOfHighlights.bind(this));
     this.book.spine.hooks.content.register(this.hightlight.bind(this));
