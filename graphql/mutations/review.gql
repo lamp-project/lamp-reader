@@ -1,9 +1,7 @@
 mutation review($input: ReviewInput!){
   review(input: $input) {
-    id
     status
     word {
-      id
       word
       rank
     }

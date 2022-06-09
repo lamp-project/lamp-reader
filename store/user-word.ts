@@ -1,11 +1,10 @@
 import ReviewMutation from '@/graphql/mutations/review.gql';
 import MyUserWordsQuery from '@/graphql/queries/my-user-words.gql';
 
-
 export enum UserWordStatus {
-	UNKNOWN = 'UNKNOWN',
-	LEARNING = 'LEARNING',
-	KNOWN = 'KNOWN',
+  UNKNOWN = 'UNKNOWN',
+  LEARNING = 'LEARNING',
+  KNOWN = 'KNOWN',
 }
 export interface ReviewInput {
   word: string;
@@ -13,20 +12,22 @@ export interface ReviewInput {
 }
 
 export interface UserWord {
-  id: number;
   word: { id: number; word: string };
   status: UserWordStatus;
 }
+const LOCAL_STORAGE_KEY = 'user-words';
 
-export const state = () => ({
-  user: JSON.parse(localStorage.getItem('user')),
-});
+export const userWords = JSON.parse(
+  localStorage.getItem(LOCAL_STORAGE_KEY) || '{}'
+);
+
+export const state = () => ({ userWords });
 
 export const mutations = {
-  // updateUserWord(state: any, user: any) {
-  //   state.user = user;
-  //   localStorage.setItem('user', JSON.stringify(user));
-  // },
+  upsertUserWord(state: any, userWord: UserWord) {
+    state.userWords[userWord.word.word] = userWord.status;
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state.userWords));
+  },
 };
 
 export const actions = {
@@ -35,18 +36,15 @@ export const actions = {
     const userWord = await client
       .mutate({ mutation: ReviewMutation, variables: { input } })
       .then(({ data }) => data && data.review);
-    commit('updateUserWord', userWord);
+    commit('upsertUserWord', userWord);
+    return userWord;
   },
 
-  async getUserWords() {
+  async getUserWords({ commit }: any) {
     const client = this.app.apolloProvider.defaultClient;
-    const myUserWords = await client
+    const userWords = await client
       .query({ query: MyUserWordsQuery })
       .then(({ data }) => data && data.myUserWords);
-    const userWords = {};
-    myUserWords.forEach((item) => {
-      userWords[item.word.word] = item.status;
-    });
-    return userWords;
+    userWords.forEach((item) => commit('upsertUserWord', item));
   },
 };

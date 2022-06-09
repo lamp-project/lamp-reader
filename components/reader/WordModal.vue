@@ -40,6 +40,8 @@ import Vue from 'vue';
 import { mapActions } from 'vuex';
 import { BModal, BButton,BSpinner } from 'bootstrap-vue';
 import { UserWordStatus } from '~/store/user-word';
+import { HighlighterViewer } from '~/utils/HighlighterViewer';
+
 export default Vue.extend({
   components: {
     BModal,
@@ -63,7 +65,7 @@ export default Vue.extend({
     ...mapActions({ review: 'user-word/review' }),
     open(element: HTMLSpanElement) {
       this.element = element;
-      this.word = element.getAttribute('vocab');
+      this.word = element.textContent.toLowerCase();
       this.$bvModal.show('word-modal');
       this.fetchTranslation();
     },
@@ -79,8 +81,8 @@ export default Vue.extend({
       }
     },
     async setWordStatus(status: UserWordStatus) {
-      await this.review({ status, word: this.word });
-      // vocabularyService.setWordStatus(this.element, status);
+      const userWord = await this.review({ status, word: this.word });
+      HighlighterViewer.updateWordStatus(this.element, userWord);
       this.$bvModal.hide('word-modal');
     }
   },

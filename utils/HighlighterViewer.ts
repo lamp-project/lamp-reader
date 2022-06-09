@@ -1,13 +1,12 @@
 import { Epub, StatefulEpubViewer } from '@derock.ir/epubjs-plus';
-import { UserWordStatus } from '~/store/user-word';
+import { UserWord, UserWordStatus } from '~/store/user-word';
 
 export class HighlighterViewer extends StatefulEpubViewer {
-  public static getTextNodes(root: Element) {
-    const textNodes: Text[] = [];
-    const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-    let textNode;
-    while ((textNode = walk.nextNode())) textNodes.push(textNode);
-    return textNodes;
+  static updateWordStatus(vocab: HTMLElement, userWord: UserWord) {
+    const instances = (vocab.getRootNode() as HTMLBodyElement).querySelectorAll(
+      `vocab[word="${userWord.word.word}"]`
+    );
+    instances.forEach((item) => (item.className = userWord.status));
   }
 
   constructor(
@@ -27,21 +26,22 @@ export class HighlighterViewer extends StatefulEpubViewer {
       const locations = await this.book.locations.generate(10);
       localStorage.setItem(key, JSON.stringify(locations));
     }
-    // this.on('content', this.registerEventListenersOfHighlights.bind(this));
-    // this.book.spine.hooks.content.register(this.hightlight.bind(this));
+    this.on('content', this.registerEventListenersOfHighlights.bind(this));
+    this.book.spine.hooks.content.register(this.hightlight.bind(this));
   }
 
   protected hightlight({ body }: Document) {
     this.emit('processing:start');
-    const textNodes = HighlighterViewer.getTextNodes(body);
-    textNodes.forEach((node) => {
-      if (!node.textContent) return;
-      switch (node.parentElement.nodeName.toLowerCase()) {
-        case 'body':
-        case 'a':
+    const vocabs = body.querySelectorAll('vocab');
+    vocabs.forEach((item) => {
+      const word = item.textContent.toLowerCase();
+      switch (this.userWords[word]) {
+        case UserWordStatus.KNOWN:
+        case UserWordStatus.LEARNING:
+          item.className = this.userWords[word];
           break;
         default:
-          this.highlightTextNode(node);
+          item.className = UserWordStatus.UNKNOWN;
           break;
       }
     });
@@ -49,7 +49,7 @@ export class HighlighterViewer extends StatefulEpubViewer {
   }
 
   protected registerEventListenersOfHighlights({ body }: Document) {
-    body.querySelectorAll('.word').forEach((element: HTMLSpanElement) => {
+    body.querySelectorAll('vocab').forEach((element: HTMLSpanElement) => {
       element.onclick = (event: MouseEvent) => {
         this.emit('word-click', element);
         event.stopPropagation();
@@ -70,19 +70,20 @@ export class HighlighterViewer extends StatefulEpubViewer {
         'padding-top': '0 !important',
         'padding-bottom': '0 !important',
       },
-      '.word': {
+      vocab: {
         cursor: 'pointer',
         'border-radius': '5px',
+        // 'background-color': 'lightgrey',
         // padding: '0px 5px',
       },
-      '.word.KNOWN': {
-        // 'background-color': 'lightgrey',
-      },
-      '.word.LEARNING': {
+      'vocab.KNOWN': {
         'background-color': 'lightgrey',
+      },
+      'vocab.LEARNING': {
+        'background-color': 'orange',
         // color: 'white',
       },
-      '.word.UNKNOWN': {
+      'vocab.UNKNOWN': {
         'background-color': 'black',
         color: 'white',
       },

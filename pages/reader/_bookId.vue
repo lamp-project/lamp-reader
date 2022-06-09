@@ -29,8 +29,8 @@ export default Vue.extend({
     const book = await library.get(id);
     if (book) {
       try {
-        const userWords = await store.dispatch('user-word/getUserWords');
-        viewer = new HighlighterViewer(book, userWords);
+        await store.dispatch('user-word/getUserWords');
+        viewer = new HighlighterViewer(book, store.state['user-word'].userWords);
         // @ts-ignore
         window.viewer = viewer;
         return { info: book.info };
