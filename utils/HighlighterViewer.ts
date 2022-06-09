@@ -92,6 +92,9 @@ export class HighlighterViewer extends StatefulEpubViewer {
         'background-color': 'black',
         color: 'white',
       },
+      'a:hover': {
+        color: 'unset',
+      },
     });
     this.rendition.themes.select('lamp-reader');
   }
