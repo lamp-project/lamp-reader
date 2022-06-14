@@ -2,7 +2,7 @@ query BookQuery($id: Int!) {
   book(id: $id) {
     id
     title
-    source
+    version
     HWR
     UWC
     source

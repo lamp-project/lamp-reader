@@ -2,6 +2,7 @@ fragment BookItem on Book {
   id
   title
   source
+  version
   cover {
     medium
     small
