@@ -39,6 +39,7 @@
 import Vue from 'vue';
 import { mapActions } from 'vuex';
 import { BModal, BButton,BSpinner } from 'bootstrap-vue';
+import dictionary from '@derock.ir/dictionary-client';
 import { UserWordStatus } from '~/store/user-word';
 import { HighlighterViewer } from '~/utils/HighlighterViewer';
 
@@ -71,9 +72,8 @@ export default Vue.extend({
     },
     async fetchTranslation() {
       this.translation = undefined;
-      [this.translation] = await fetch(
-        `https://api.dictionaryapi.dev/api/v2/entries/en/${this.word}`
-      ).then((res) => res.json());
+      const { records } = await dictionary.lookup(this.word);
+      this.translation = records[0];
     },
     playAudio() {
       if (this.phonetic?.audio) {
