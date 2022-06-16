@@ -30,8 +30,8 @@
       <br />
     </center>
     <hr>
-    <b-button block variant="success" @click="setWordStatus('LEARNING')">OK, But needs more review</b-button>
-    <b-button block variant="dark" @click="setWordStatus('KNOWN')">OK, Move to the known ones</b-button>
+    <b-button block variant="success" @click="setWordStatus('LEARNING')">Needs more review</b-button>
+    <b-button block variant="dark" @click="setWordStatus('KNOWN')">Move to the known ones</b-button>
   </b-modal>
 </template>
 
