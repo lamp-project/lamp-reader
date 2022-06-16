@@ -90,11 +90,11 @@ import fetchProgress from 'fetch-progress';
 import { library } from '@derock.ir/epubjs-plus';
 
 export default Vue.extend({
-  async asyncData({ store, params }) {
-    const librarayItem = await library.getInfo(params.id);
+  async asyncData({ store, query }) {
+    const librarayItem = await library.getInfo(query.id as string);
     return {
       state: librarayItem ? 'exists' : 'initial',
-      book: await store.dispatch('book/getBook', +params.id),
+      book: await store.dispatch('book/getBook', +query.id),
     };
   },
   data: () => ({

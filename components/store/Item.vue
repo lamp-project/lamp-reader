@@ -1,5 +1,5 @@
 <template>
-  <a :href="`books/${book.id}`">
+  <a :href="`books?id=${book.id}`">
     <b-img
       rounded
       thumbnail
