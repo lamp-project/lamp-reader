@@ -24,8 +24,8 @@ let viewer: HighlighterViewer;
 
 export default Vue.extend({
   layout: 'reader',
-  async asyncData({ params, error, store }) {
-    const id = params.bookId;
+  async asyncData({ query, error, store }) {
+    const id = query.id as string;
     const book = await library.get(id);
     if (book) {
       try {

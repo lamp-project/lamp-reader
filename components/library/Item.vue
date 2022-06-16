@@ -8,7 +8,7 @@
     :img-right="headline"
     :img-left="!headline"
     class="library-item"
-    @click="$router.push(`reader/${book.id}`)"
+    @click="$router.push(`reader?id=${book.id}`)"
   >
     <b-card-text>
       <h4 :class="{ headline }">{{ book.title }}</h4>
