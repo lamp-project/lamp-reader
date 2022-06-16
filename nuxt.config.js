@@ -1,6 +1,7 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  target: 'static',
   env: {
     VERSION: require(`./package.json`).version,
     // API_URL: process.env.API_URL || 'https://lamp-backend.herokuapp.com',
@@ -60,7 +61,7 @@ export default {
     '@nuxtjs/pwa',
     // https://github.com/nuxt-community/apollo-module
     '@nuxtjs/apollo',
-    'bootstrap-vue/nuxt'
+    'bootstrap-vue/nuxt',
   ],
 
   apollo: {
