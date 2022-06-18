@@ -1,23 +1,25 @@
-{
-  books(orderBy: { createdAt: ASC }) {
+query books(
+  $filter: BooksFilter
+  $orderBy: BooksOrderBy
+  $first: Int
+  $after: Int
+  $before: Int
+) {
+  books(filter: $filter, orderBy: $orderBy, first: $first, after: $after, before: $before) {
     totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
     edges {
+      cursor
       node {
+        id
         title
-        source
         cover {
           medium
           small
         }
-        # subjects {
-        #   title
-        # }
-        # persons {
-        #   role
-        #   person {
-        #     name
-        #   }
-        # }
       }
     }
   }

@@ -62,8 +62,9 @@ export default Vue.extend({
     version: process.env.VERSION,
   }),
   methods: {
-    importFromFile() {
-      library.addFromFileDialog();
+    async importFromFile() {
+      await library.addFromFileDialog();
+      this.$router.push('library');
     },
   },
 });

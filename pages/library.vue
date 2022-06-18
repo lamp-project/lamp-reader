@@ -37,12 +37,10 @@ export default Vue.extend({
     BCol,
   },
   middleware: ['auth'],
-  async asyncData({ store }) {
+  async asyncData() {
     const items = await library.index();
     const currentReadingId = await library.getLastBookId();
-    const books = await store.dispatch('book/getBooks');
     return {
-      books,
       items,
       currentReading:
         items.filter(({ id }) => id === currentReadingId)[0] || '',

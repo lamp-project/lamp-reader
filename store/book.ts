@@ -36,10 +36,10 @@ export const actions = {
       .query({ query: BookQuery, variables: { id } })
       .then(({ data }) => data && data.book);
   },
-  getBooks() {
+  getBooks(_context, variables) {
     const client = this.app.apolloProvider.defaultClient;
     return client
-      .query({ query: BooksQuery })
+      .query({ query: BooksQuery, variables })
       .then(({ data }) => data && data.books);
   },
   getTopTenOfLevels() {

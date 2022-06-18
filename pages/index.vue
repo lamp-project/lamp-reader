@@ -4,7 +4,10 @@
     <hr />
     <br />
     <div v-for="level in levels" :key="level">
-      <h3>Level {{ level }}</h3>
+      <div class="level-header">
+        <h3>Level {{ level }}</h3>
+        <a :href="`/books?level=${level}`">More</a>
+      </div>
       <hr />
       <div class="horizontal-list">
         <StoreItem
@@ -40,5 +43,10 @@ export default Vue.extend({
 .horizontal-list {
   overflow-x: scroll;
   white-space: nowrap;
+}
+.level-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
