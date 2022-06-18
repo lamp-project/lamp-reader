@@ -1,12 +1,6 @@
 <template>
-  <a :href="`books?id=${book.id}`">
-    <b-img
-      rounded
-      thumbnail
-      class="store-item"
-      :src="book.cover.medium"
-      :alt="book.title"
-    ></b-img>
+  <a :href="`books?id=${book.id}`" class="store-item">
+    <b-img rounded thumbnail :src="book.cover.medium" :alt="book.title"></b-img>
     <br />
     <!--<center>
       <kbd>{{ Math.round(book.level[level].readability) }}%</kbd>
@@ -38,8 +32,12 @@ export default Vue.extend({
 
 <style lang="scss">
 .store-item {
-  margin: 6px;
-  height: 150px;
-  min-width: 82px;
+  margin-right: 12px;
+  display: inline-block;
+  img {
+    margin: 6px;
+    // min-height: 160px;
+    height: 300px;
+  }
 }
 </style>

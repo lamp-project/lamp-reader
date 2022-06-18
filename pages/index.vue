@@ -6,9 +6,13 @@
     <div v-for="level in levels" :key="level">
       <h3>Level {{ level }}</h3>
       <hr />
-      <vue-horizontal snap="start">
-        <StoreItem v-for="book in topTenOfLevels[level]" :key="book.id" :book="book" />
-      </vue-horizontal>
+      <div class="horizontal-list">
+        <StoreItem
+          v-for="book in topTenOfLevels[level]"
+          :key="book.id"
+          :book="book"
+        />
+      </div>
       <br />
     </div>
   </div>
@@ -16,12 +20,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import VueHorizontal from 'vue-horizontal';
 
 export default Vue.extend({
-  components: {
-    VueHorizontal,
-  },
   // layout: 'library',
   middleware: ['auth'],
   async asyncData({ store }) {
@@ -37,13 +37,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-$book_item_scale: 10;
-
-.library {
-  margin: 0;
-  padding: 0;
-  h4 {
-    font-weight: 700;
-  }
+.horizontal-list {
+  overflow-x: scroll;
+  white-space: nowrap;
 }
 </style>
