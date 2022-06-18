@@ -1,14 +1,13 @@
 <template>
   <b-card
-    tag="button"
-    :href="book.id"
+    tag="a"
+    :href="`/reader?id=${book.id}`"
     :img-src="createObjectURL(book.cover)"
     :img-alt="book.title"
     :img-width="headline ? '50%' : '40%'"
     :img-right="headline"
     :img-left="!headline"
     class="library-item"
-    @click="$router.push(`reader?id=${book.id}`)"
   >
     <b-card-text>
       <h4 :class="{ headline }">{{ book.title }}</h4>
@@ -66,6 +65,9 @@ export default Vue.extend({
   margin-bottom: 0.5rem;
   text-align: left;
   align-items: flex-end;
+  &:hover {
+    text-decoration: unset;
+  }
   .card-body {
     position: relative;
     h4 {
