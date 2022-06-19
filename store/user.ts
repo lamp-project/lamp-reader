@@ -29,4 +29,7 @@ export const actions = {
     await this.$apolloHelpers.onLogin(jwt);
     commit('setUser', user);
   },
+  logout({ commit }: any) {
+    commit('setUser', null);
+  },
 };

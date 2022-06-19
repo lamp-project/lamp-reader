@@ -31,6 +31,10 @@
           <img src="~assets/icons/info.svg" height="24" alt="about" />
           About
         </b-list-group-item>
+        <b-list-group-item to="#" @click="logoutAndReditect">
+          <img src="~assets/icons/logout.svg" height="24" alt="about" />
+          Logout
+        </b-list-group-item>
       </b-list-group>
       <!-- /Menue -->
       <!-- Footer -->
@@ -50,6 +54,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 import { library } from '@derock.ir/epubjs-plus';
 import { BSidebar, BListGroup, BListGroupItem } from 'bootstrap-vue';
 
@@ -63,9 +68,14 @@ export default Vue.extend({
     version: process.env.VERSION,
   }),
   methods: {
+    ...mapActions({ logout: 'user/logout' }),
     async importFromFile() {
       await library.addFromFileDialog();
       this.$router.push('library');
+    },
+    logoutAndReditect() {
+      this.logout();
+      this.$router.push('login');
     },
   },
 });
