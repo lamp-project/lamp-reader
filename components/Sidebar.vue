@@ -23,11 +23,11 @@
           <img src="~assets/icons/book.svg" height="24" alt="library" />
           Library
         </b-list-group-item>
-        <b-list-group-item  to="#" @click="importFromFile">
+        <b-list-group-item to="#" @click="importFromFile">
           <img src="~assets/icons/import.svg" height="24" alt="import" />
           Import Epub
         </b-list-group-item>
-        <b-list-group-item disabled>
+        <b-list-group-item v-b-modal.about-modal to="#">
           <img src="~assets/icons/info.svg" height="24" alt="about" />
           About
         </b-list-group-item>
@@ -43,6 +43,7 @@
         </b-navbar-nav>
       </b-navbar>
       <!-- /Footer -->
+      <AboutModal />
     </template>
   </b-sidebar>
 </template>
