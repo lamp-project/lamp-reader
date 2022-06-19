@@ -79,6 +79,7 @@ export default {
       lang: 'en',
       name: 'Lamp Reader',
       short_name: 'Lamp Reader',
+      display: 'fullscreen',
     },
     meta: {
       name: 'Lamp Reader',
