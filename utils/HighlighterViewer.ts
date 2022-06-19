@@ -74,6 +74,12 @@ export class HighlighterViewer extends StatefulEpubViewer {
         'font-size': 'x-large',
         'padding-top': '0 !important',
         'padding-bottom': '0 !important',
+        '-webkit-touch-callout': 'none',
+        '-webkit-user-select': 'none',
+        '-khtml-user-select': 'none',
+        '-moz-user-select': 'none',
+        '-ms-user-select': 'none',
+        'user-select': 'none',
       },
       vocab: {
         cursor: 'pointer',
