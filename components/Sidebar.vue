@@ -15,11 +15,11 @@
       <!-- /Header -->
       <!-- Menue -->
       <b-list-group>
-        <b-list-group-item to="/" @click="hide">
+        <b-list-group-item to="/store" @click="hide">
           <img src="~assets/icons/store.svg" height="24" alt="book store" />
           Book Store
         </b-list-group-item>
-        <b-list-group-item to="/library" @click="hide">
+        <b-list-group-item to="/" @click="hide">
           <img src="~assets/icons/book.svg" height="24" alt="library" />
           Library
         </b-list-group-item>

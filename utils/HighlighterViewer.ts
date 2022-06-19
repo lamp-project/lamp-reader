@@ -28,7 +28,7 @@ export class HighlighterViewer extends StatefulEpubViewer {
     if (locations) {
       this.book.locations.load(locations);
     } else {
-      const locations = await this.book.locations.generate(10);
+      const locations = await this.book.locations.generate(100);
       await this.locationsForge.setItem(key, locations);
     }
     this.on('content', this.registerEventListenersOfHighlights.bind(this));

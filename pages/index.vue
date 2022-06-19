@@ -1,52 +1,68 @@
 <template>
-  <div>
-    <h2><b>Book Store</b></h2>
-    <hr />
-    <br />
-    <div v-for="level in levels" :key="level">
-      <div class="level-header">
-        <h3>Level {{ level }}</h3>
-        <a :href="`/books?level=${level}`">More</a>
-      </div>
-      <hr />
-      <div class="horizontal-list">
-        <StoreItem
-          v-for="book in topTenOfLevels[level]"
-          :key="book.id"
-          :book="book"
-        />
-      </div>
+  <section>
+    <center v-if="items.length === 0">
       <br />
-    </div>
-  </div>
+      <br />
+      <br />
+      No Item in the Libarry.
+      <br />
+      <small>Try to import the first one... </small>
+      <br />
+      <br />
+      <strong>***</strong>
+    </center>
+    <b-row v-else class="library" cols="1" cols-md="2">
+      <b-col v-if="currentReading">
+        <h3><b>Current Reading</b></h3>
+        <hr />
+        <LibraryItem :book="currentReading" headline />
+        <br />
+      </b-col>
+      <b-col>
+        <h3><b>My Books</b></h3>
+        <hr />
+        <LibraryItem v-for="item in items" :key="item.id" :book="item" />
+      </b-col>
+    </b-row>
+  </section>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-
+import { library } from '@derock.ir/epubjs-plus';
+import { BRow, BCol } from 'bootstrap-vue';
 export default Vue.extend({
-  // layout: 'library',
+  components: {
+    BRow,
+    BCol,
+  },
   middleware: ['auth'],
-  async asyncData({ store }) {
-    const topTenOfLevels = await store.dispatch('book/getTopTenOfLevels');
+  async asyncData() {
+    const items = await library.index();
+    const currentReadingId = await library.getLastBookId();
     return {
-      topTenOfLevels,
+      items,
+      currentReading:
+        items.filter(({ id }) => id === currentReadingId)[0] || '',
     };
   },
-  data: () => ({
-    levels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
-  }),
+  mounted() {
+    library.on('item-added', (item) => this.items.push(item));
+    library.on('item-removed', async () => {
+      this.items = await library.index();
+    });
+  },
 });
 </script>
 
 <style lang="scss" scoped>
-.horizontal-list {
-  overflow-x: scroll;
-  white-space: nowrap;
-}
-.level-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+$book_item_scale: 10;
+
+.library {
+  margin: 0;
+  padding: 0;
+  h4 {
+    font-weight: 700;
+  }
 }
 </style>
