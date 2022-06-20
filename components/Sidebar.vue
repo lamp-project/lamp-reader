@@ -71,7 +71,7 @@ export default Vue.extend({
     ...mapActions({ logout: 'user/logout' }),
     async importFromFile() {
       await library.addFromFileDialog();
-      this.$router.push('library');
+      this.$router.push('/');
     },
     logoutAndReditect() {
       this.logout();
