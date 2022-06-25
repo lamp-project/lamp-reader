@@ -73,8 +73,8 @@ export default Vue.extend({
       await library.addFromFileDialog();
       this.$router.push('/');
     },
-    logoutAndReditect() {
-      this.logout();
+    async logoutAndReditect() {
+      await this.logout();
       this.$router.push('login');
     },
   },

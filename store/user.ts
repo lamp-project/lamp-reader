@@ -29,7 +29,13 @@ export const actions = {
     await this.$apolloHelpers.onLogin(jwt);
     commit('setUser', user);
   },
-  logout({ commit }: any) {
+  async logout({ commit }: any) {
     commit('setUser', null);
+    localStorage.clear();
+    // @ts-ignore
+    const databases = await indexedDB.databases();
+    return Promise.all(
+      databases.map((database) => indexedDB.deleteDatabase(database.name))
+    );
   },
 };
