@@ -3,7 +3,11 @@
     <ReaderLoading v-if="loading" :book="info" />
     <div v-if="initialised">
       <ReaderChapterBar :chapter="info.pagination.currentChapter" />
-      <ReaderTopBar v-show="showControlls" :title="info.title" />
+      <ReaderTopBar
+        v-show="showControlls"
+        :title="info.title"
+        @font-size-changed="changeFontSize"
+      />
       <div ref="viewer" class="epub-viewer"></div>
       <ReaderBottomBar
         ref="btnBar"
@@ -30,7 +34,10 @@ export default Vue.extend({
     if (book) {
       try {
         await store.dispatch('user-word/getUserWords');
-        viewer = new HighlighterViewer(book, store.state['user-word'].userWords);
+        viewer = new HighlighterViewer(
+          book,
+          store.state['user-word'].userWords
+        );
         // @ts-ignore
         window.viewer = viewer;
         return { info: book.info };
@@ -66,6 +73,13 @@ export default Vue.extend({
   },
   beforeDestroy() {
     viewer.destroy();
+  },
+  methods: {
+    changeFontSize(value) {
+      // console.log(value);
+      // console.log(this.viewer.rendition.themes.default({}));// .fontSize('12px'));
+      viewer.fontSize = value;
+    },
   },
 });
 </script>

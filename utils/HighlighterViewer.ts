@@ -109,4 +109,14 @@ export class HighlighterViewer extends StatefulEpubViewer {
     });
     this.rendition.themes.select('lamp-reader');
   }
+
+  // eslint-disable-next-line accessor-pairs
+  public set fontSize(value: string) {
+    this.rendition.themes.default({
+      '*': {
+        'font-size': `${value}px !important`,
+      },
+    });
+    localStorage.setItem('font-size', value);
+  }
 }
