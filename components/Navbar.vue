@@ -1,7 +1,7 @@
 <template>
   <b-navbar toggleable="lg" type="light" variant="light" fixed="top">
     <b-container>
-      <b-navbar-brand to="/">
+      <b-navbar-brand to="/store">
         <b>Lamp</b>
         <small>Reader</small>
       </b-navbar-brand>

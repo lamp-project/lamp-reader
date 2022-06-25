@@ -19,6 +19,9 @@ export class HighlighterViewer extends StatefulEpubViewer {
     protected readonly userWords: { [key: string]: UserWordStatus }
   ) {
     super(book);
+    if (!localStorage.getItem('font-size')) {
+      localStorage.setItem('font-size', '24');
+    }
   }
 
   public async initialize() {
@@ -28,7 +31,7 @@ export class HighlighterViewer extends StatefulEpubViewer {
     if (locations) {
       this.book.locations.load(locations);
     } else {
-      const locations = await this.book.locations.generate(100);
+      const locations = await this.book.locations.generate(10);
       await this.locationsForge.setItem(key, locations);
     }
     this.on('content', this.registerEventListenersOfHighlights.bind(this));
@@ -69,9 +72,11 @@ export class HighlighterViewer extends StatefulEpubViewer {
 
   protected registerThemes() {
     this.rendition.themes.register('lamp-reader', {
+      '*': {
+        'font-size': `${localStorage.getItem('font-size')}px !important`,
+      },
       body: {
         color: 'black',
-        'font-size': 'x-large',
         'padding-top': '0 !important',
         'padding-bottom': '0 !important',
         '-webkit-touch-callout': 'none',
