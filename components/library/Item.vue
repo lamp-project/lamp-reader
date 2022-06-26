@@ -1,7 +1,7 @@
 <template>
   <b-card
     tag="a"
-    :href="`/reader?id=${book.id}`"
+    :href="`./reader?id=${book.id}`"
     :img-src="createObjectURL(book.cover)"
     :img-alt="book.title"
     :img-width="headline ? '50%' : '40%'"

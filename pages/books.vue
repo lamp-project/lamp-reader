@@ -8,14 +8,14 @@
     <hr />
     <div class="page-navigation">
       <b-button
-        :href="`/books?level=${level}&before=${edges[edges.length - 1].cursor}`"
+        :href="`./books?level=${level}&before=${edges[edges.length - 1].cursor}`"
         variant="outline-primary"
         :disabled="!pageInfo.hasPreviousPage"
       >
         Prev
       </b-button>
       <b-button
-        :href="`/books?level=${level}&after=${edges[edges.length - 1].cursor}`"
+        :href="`./books?level=${level}&after=${edges[edges.length - 1].cursor}`"
         variant="outline-primary"
         :disabled="!pageInfo.hasNextPage"
       >

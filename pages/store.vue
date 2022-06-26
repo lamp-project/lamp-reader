@@ -6,7 +6,7 @@
     <div v-for="level in levels" :key="level">
       <div class="level-header">
         <h3>Level {{ level }}</h3>
-        <a :href="`/books?level=${level}`">More</a>
+        <a :href="`./books?level=${level}`">More</a>
       </div>
       <hr />
       <div class="horizontal-list">
