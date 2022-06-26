@@ -1,7 +1,11 @@
 <template>
   <div>
+    <Navbar>
+      <b-button v-b-toggle.sidebar variant="light">
+        <img src="~/assets/img/bulb.png" height="36" />
+      </b-button>
+    </Navbar>
     <Sidebar />
-    <Navbar />
     <br />
     <b-container>
       <Nuxt />

@@ -8,9 +8,6 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <slot />
-        <b-button v-b-toggle.sidebar variant="light">
-          <img src="~/assets/img/bulb.png" height="36" />
-        </b-button>
       </b-navbar-nav>
     </b-container>
   </b-navbar>

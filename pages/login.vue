@@ -66,6 +66,7 @@ export default Vue.extend({
     BRow,
     BCol,
   },
+  layout: 'auth',
   data: () => ({
     input: {},
     error: '',

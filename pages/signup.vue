@@ -80,6 +80,7 @@ export default Vue.extend({
     BRow,
     BCol,
   },
+  layout: 'auth',
   data: () => ({
     hCaptchaSiteKey: process.env.HCAPTCHA_SITEKEY,
     input: {},
