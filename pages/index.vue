@@ -9,7 +9,10 @@
       <small>Try to import the first one... </small>
       <br />
       <br />
-      <strong>***</strong>
+      <b-button size="md" variant="light" to="/store">
+        <img src="~assets/icons/store.svg" height="24" alt="book store" />
+        Book Store
+      </b-button>
     </center>
     <b-row v-else class="library" cols="1" cols-md="2">
       <b-col v-if="currentReading">
