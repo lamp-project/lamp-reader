@@ -10,7 +10,9 @@ export default {
       process.env.HCAPTCHA_SITEKEY || '0aa34418-513d-4314-a1c0-ab5fbec5a56b',
   },
   server: { port: 8000 },
-
+  router: {
+    base: '/app/'
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Lamp Reader',
