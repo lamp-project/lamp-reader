@@ -34,7 +34,7 @@
       </b-card>
       <br />
       <center>
-        <b-link to="signup">Or create a new account</b-link>
+        <b-link to="/signup">Or create a new account</b-link>
       </center>
     </b-col>
   </b-row>

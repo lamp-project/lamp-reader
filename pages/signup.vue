@@ -45,7 +45,7 @@
         </b-card>
         <br />
         <center>
-          <b-link to="login">Or login if you have an account</b-link>
+          <b-link to="/login">Or login if you have an account</b-link>
         </center>
       </b-form>
     </b-col>
