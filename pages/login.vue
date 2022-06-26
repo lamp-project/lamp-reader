@@ -72,12 +72,16 @@ export default Vue.extend({
     error: '',
   }),
   methods: {
-    ...mapActions({ login: 'user/login' }),
+    ...mapActions({
+      login: 'user/login',
+      getUserWords: 'user-word/getUserWords',
+    }),
     async submit(event) {
       try {
         event.preventDefault();
         this.error = '';
         await this.login(this.input);
+        await this.getUserWords();
         this.$router.push('/');
       } catch (error) {
         this.error = 'Login failed! change your inputs and try again.';

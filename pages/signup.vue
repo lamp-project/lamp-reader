@@ -87,12 +87,16 @@ export default Vue.extend({
     error: '',
   }),
   methods: {
-    ...mapActions({ signup: 'user/signup' }),
+    ...mapActions({
+      signup: 'user/signup',
+      getUserWords: 'user-word/getUserWords',
+    }),
     async submit(event) {
       event.preventDefault();
       this.error = '';
       try {
         await this.signup(this.input);
+        await this.getUserWords();
         this.$router.push('/');
       } catch (error) {
         this.error = 'Signup failed! change your inputs and try again.';

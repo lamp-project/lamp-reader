@@ -1,6 +1,6 @@
 export default ({ app, redirect }) => {
   const hasToken = !!app.$apolloHelpers.getToken();
   if (!hasToken) {
-    return redirect('/signup')
+    return redirect('/login')
   }
 };

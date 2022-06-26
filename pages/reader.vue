@@ -33,7 +33,6 @@ export default Vue.extend({
     const book = await library.get(id);
     if (book) {
       try {
-        await store.dispatch('user-word/getUserWords');
         viewer = new HighlighterViewer(
           book,
           store.state['user-word'].userWords
