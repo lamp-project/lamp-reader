@@ -31,6 +31,7 @@ export const actions = {
   },
   async logout({ commit }: any) {
     commit('setUser', null);
+    this.$apolloHelpers.onLogout();
     localStorage.clear();
     // @ts-ignore
     const databases = await indexedDB.databases();
