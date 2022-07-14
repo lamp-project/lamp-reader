@@ -31,7 +31,19 @@ export class HighlighterViewer extends StatefulEpubViewer {
     if (locations) {
       this.book.locations.load(locations);
     } else {
-      const locations = await this.book.locations.generate(10);
+      // eslint-disable-next-line dot-notation
+      const embededLocations = await this.book.archive['zip'].files[
+        'locations.json'
+      ]
+        ?.async('string')
+        .then(JSON.parse);
+      if (embededLocations) {
+        console.log(
+          `Embeded locations (${embededLocations.length} records) found!`
+        );
+      }
+      const locations =
+        embededLocations ?? (await this.book.locations.generate(150));
       await this.locationsForge.setItem(key, locations);
     }
     this.on('content', this.registerEventListenersOfHighlights.bind(this));
