@@ -39,7 +39,7 @@ export class ApolloClientRepository {
         if (errors?.length) {
           throw errors[0];
         } else {
-          return data;
+          return data as TData;
         }
       })
       .catch((error) => {
