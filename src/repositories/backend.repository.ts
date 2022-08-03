@@ -1,4 +1,4 @@
-import { ApolloClientRepository } from './apollo';
+import { ApolloClientRepository } from './apollo.repository';
 
 export class BackendRepository extends ApolloClientRepository {
   constructor() {
