@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <AsyncChild>
-        <LibraryItemsList />
+        <LibraryList />
       </AsyncChild>
     </ion-content>
   </ion-page>
@@ -25,7 +25,7 @@ import {
 } from '@ionic/vue';
 import { libraryOutline } from 'ionicons/icons';
 import AsyncChild from '@/components/utils/AsyncChild.vue';
-import LibraryItemsList from '@/components/library/ItemsList.vue';
+import LibraryList from '@/components/tabs/library/List.vue';
 
 export default defineComponent({
   components: {
@@ -36,7 +36,7 @@ export default defineComponent({
     IonPage,
     IonIcon,
     AsyncChild,
-    LibraryItemsList,
+    LibraryList,
   },
   setup() {
     return {

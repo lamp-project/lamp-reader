@@ -2,16 +2,13 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 3</ion-title>
+        <ion-title> <ion-icon :icon="libraryOutline" /> Shop </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Tab 3</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ExploreContainer name="Tab 3 page" />
+      <AsyncChild>
+        <LibraryList />
+      </AsyncChild>
     </ion-content>
   </ion-page>
 </template>
@@ -24,20 +21,27 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonIcon,
 } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+import { libraryOutline } from 'ionicons/icons';
+import AsyncChild from '@/components/utils/AsyncChild.vue';
+import LibraryList from '@/components/tabs/library/List.vue';
 
 export default defineComponent({
-  setup() {
-    console.log(this);
-  },
   components: {
-    ExploreContainer,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
     IonPage,
+    IonIcon,
+    AsyncChild,
+    LibraryList,
+  },
+  setup() {
+    return {
+      libraryOutline,
+    };
   },
 });
 </script>

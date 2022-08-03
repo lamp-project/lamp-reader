@@ -23,7 +23,7 @@ import {
   IonContent,
 } from '@ionic/vue';
 import { homeOutline } from 'ionicons/icons';
-import UserStatusCard from '@/components/home/UserStatusCard.vue';
+import UserStatusCard from '@/components/tabs/home/UserStatusCard.vue';
 
 export default defineComponent({
   components: {
