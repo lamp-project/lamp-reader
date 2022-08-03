@@ -13,9 +13,9 @@
           <ion-label>Library</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="shop" href="/tabs/shop">
+        <ion-tab-button tab="store" href="/tabs/store">
           <ion-icon :icon="storefrontOutline" />
-          <ion-label>Shop</ion-label>
+          <ion-label>Store</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>

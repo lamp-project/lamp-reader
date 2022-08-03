@@ -4,7 +4,6 @@ import BooksQuery from '@/graphql/queries/books.gql';
 
 export class BookRepository extends BackendRepository {
   async findMany(args: QueryBooksArgs) {
-    console.log(BooksQuery);
     return this.query<QueryBooksArgs, { books: PaginatedBook }>(
       BooksQuery,
       args

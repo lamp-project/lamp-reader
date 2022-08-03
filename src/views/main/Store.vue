@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <AsyncChild>
-        <LibraryList />
+        <List />
       </AsyncChild>
     </ion-content>
   </ion-page>
@@ -25,8 +25,7 @@ import {
 } from '@ionic/vue';
 import { storefrontOutline } from 'ionicons/icons';
 import AsyncChild from '@/components/utils/AsyncChild.vue';
-import LibraryList from '@/components/tabs/shop/List.vue';
-import { bookRepository } from '@/repositories/book.repository';
+import List from '@/components/tabs/store/List.vue';
 
 export default defineComponent({
   components: {
@@ -37,10 +36,9 @@ export default defineComponent({
     IonPage,
     IonIcon,
     AsyncChild,
-    LibraryList,
+    List,
   },
   setup() {
-    bookRepository.findMany({}).then(console.log);
     return {
       storefrontOutline,
     };
