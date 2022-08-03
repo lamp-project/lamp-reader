@@ -1,6 +1,6 @@
 <template>
   <ion-list>
-    <ion-list-header>Latest Books</ion-list-header>
+    <ion-list-header>Books ordered by reading ease</ion-list-header>
     <Item v-for="item in items" :key="item.id" :value="item" />
   </ion-list>
   <ion-infinite-scroll @ionInfinite="loadData" :disabled="isAtTheEnd">
@@ -21,11 +21,15 @@ import { Book } from 'types/backend';
 import Item from './Item.vue';
 
 const ITEMS_PER_PAGE = 8;
+const QUERY_BASE = {
+  first: ITEMS_PER_PAGE,
+  orderBy: { RA1: 'DESC' as any },
+};
 
 export default defineComponent({
   async setup() {
     const { bookRepository } = await import('@/repositories/book.repository');
-    const page = await bookRepository.findMany({ first: ITEMS_PER_PAGE });
+    const page = await bookRepository.findMany(QUERY_BASE);
     const items = ref(page.edges?.map(({ node }) => node) as Book[]);
     return {
       bookRepository,
@@ -49,7 +53,7 @@ export default defineComponent({
     async loadData({ target }: InfiniteScrollCustomEvent) {
       const lastItem = this.items[this.items.length - 1];
       const page = await this.bookRepository.findMany({
-        first: ITEMS_PER_PAGE,
+        ...QUERY_BASE,
         after: +lastItem.id,
       });
       const items = page.edges?.map(({ node }) => node) as Book[];
