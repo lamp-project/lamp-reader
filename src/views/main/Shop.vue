@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title> <ion-icon :icon="libraryOutline" /> Shop </ion-title>
+        <ion-title> <ion-icon :icon="storefrontOutline" /> Shop </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -23,9 +23,9 @@ import {
   IonContent,
   IonIcon,
 } from '@ionic/vue';
-import { libraryOutline } from 'ionicons/icons';
+import { storefrontOutline } from 'ionicons/icons';
 import AsyncChild from '@/components/utils/AsyncChild.vue';
-import LibraryList from '@/components/tabs/library/List.vue';
+import LibraryList from '@/components/tabs/shop/List.vue';
 
 export default defineComponent({
   components: {
@@ -40,7 +40,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      libraryOutline,
+      storefrontOutline,
     };
   },
 });
