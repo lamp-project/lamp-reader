@@ -5,7 +5,7 @@ import {
   InMemoryCache,
   OperationVariables,
   TypedDocumentNode,
-} from '@apollo/client';
+} from '@apollo/client/core';
 
 export class ApolloClientRepository {
   private readonly client: ApolloClient<any>;

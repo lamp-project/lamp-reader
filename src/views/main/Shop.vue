@@ -26,6 +26,7 @@ import {
 import { storefrontOutline } from 'ionicons/icons';
 import AsyncChild from '@/components/utils/AsyncChild.vue';
 import LibraryList from '@/components/tabs/shop/List.vue';
+import { bookRepository } from '@/repositories/book.repository';
 
 export default defineComponent({
   components: {
@@ -39,6 +40,7 @@ export default defineComponent({
     LibraryList,
   },
   setup() {
+    bookRepository.findMany({}).then(console.log);
     return {
       storefrontOutline,
     };

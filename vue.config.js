@@ -1,3 +1,7 @@
 module.exports = {
-  // config
+  configureWebpack: {
+    module: {
+      rules: [{ test: /\.gql$/, use: 'graphql-tag/loader' }],
+    },
+  },
 };
