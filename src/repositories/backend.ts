@@ -1,6 +1,7 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client/core';
+import { ApolloClientRepository } from './apollo';
 
-const apollo = new ApolloClient({
-  cache: new InMemoryCache(),
-  uri: `${process.env.VUE_API_URL}/graphql`,
-});
+export class BackendRepository extends ApolloClientRepository {
+  constructor() {
+    super(`${process.env.VUE_API_URL}/graphql`);
+  }
+}
