@@ -19,6 +19,7 @@ export type Book = {
   UWC: Scalars['Int'];
   cover: BookCover;
   createdAt: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
   file: Scalars['String'];
   id: Scalars['ID'];
   level: BookLevel;

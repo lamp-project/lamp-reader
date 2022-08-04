@@ -1,5 +1,5 @@
 <template>
-  <ion-item-sliding>
+  <ion-item-sliding class="item">
     <ion-item button :detail="size != 'big'" :router-link="to">
       <ion-thumbnail slot="start" :class="size">
         <img :src="cover" />
@@ -40,30 +40,32 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-ion-thumbnail {
-  width: 110px;
-  height: 166px;
-  &.big {
-    width: 144px;
-    height: 216px;
+<style lang="scss">
+.item {
+  ion-thumbnail {
+    width: 110px;
+    height: 166px;
+    &.big {
+      width: 144px;
+      height: 216px;
+    }
+    img {
+      border-radius: 6px;
+    }
   }
-  img {
-    border-radius: 6px;
+  h2 {
+    font-family: 'Merriweather', serif;
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 6px;
   }
-}
-h2 {
-  font-family: 'Merriweather', serif;
-  font-size: larger;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-h3 {
-  margin-bottom: 12px;
-  // font-weight: bold;
-}
-ion-icon {
-  width: 24px;
-  height: 24px;
+  h3 {
+    margin-bottom: 12px;
+    // font-weight: bold;
+  }
+  ion-icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 </style>

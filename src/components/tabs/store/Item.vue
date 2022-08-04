@@ -2,6 +2,8 @@
   <Item :to="`/book/${value.id}`" :cover="value.cover.medium" :size="size">
     <template #content>
       <h2>{{ value.title }}</h2>
+      <h3>{{ creator }}</h3>
+      <p>{{ value.description }}</p>
     </template>
   </Item>
 </template>
@@ -20,6 +22,14 @@ export default defineComponent({
   },
   components: {
     Item,
+  },
+  computed: {
+    creator() {
+      const [author] = this.value.persons.filter(
+        (person) => person.role == 'AUTHOR'
+      );
+      return author?.person?.name;
+    },
   },
 });
 </script>

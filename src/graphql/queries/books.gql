@@ -5,7 +5,13 @@ query books(
   $after: Int
   $before: Int
 ) {
-  books(filter: $filter, orderBy: $orderBy, first: $first, after: $after, before: $before) {
+  books(
+    filter: $filter
+    orderBy: $orderBy
+    first: $first
+    after: $after
+    before: $before
+  ) {
     totalCount
     pageInfo {
       hasNextPage
@@ -16,9 +22,16 @@ query books(
       node {
         id
         title
+        description
         cover {
           medium
           small
+        }
+        persons {
+          role
+          person {
+            name
+          }
         }
       }
     }
