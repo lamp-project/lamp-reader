@@ -33,6 +33,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/reader/:id',
     component: () => import('@/views/Reader.vue')
   },
+  {
+    path: '/book/:id',
+    component: () => import('@/views/Book.vue')
+  },
 ]
 
 const router = createRouter({
