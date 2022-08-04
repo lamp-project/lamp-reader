@@ -1,6 +1,9 @@
 <template>
   <ion-list>
-    <ion-list-header>Books ordered by reading ease</ion-list-header>
+    <ion-list-header>
+      Books ordered by reading ease &nbsp;
+      <!-- <ion-badge color="dark">{{ totalCount }} Items</ion-badge> -->
+    </ion-list-header>
     <Item v-for="item in items" :key="item.id" :value="item" />
   </ion-list>
   <ion-infinite-scroll @ionInfinite="loadData" :disabled="isAtTheEnd">
