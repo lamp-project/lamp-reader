@@ -1,5 +1,9 @@
 <template>
-  <Item :to="`/book/${value.id}`" :cover="value.cover.medium" :size="size">
+  <Item
+    :to="{ name: 'book', params: { id: value.id, title: value.title } }"
+    :cover="value.cover.medium"
+    :size="size"
+  >
     <template #content>
       <h2>{{ value.title }}</h2>
       <h3>{{ creator }}</h3>

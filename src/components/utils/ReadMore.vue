@@ -9,7 +9,7 @@
       "
       href="#"
     >
-      Show less
+      Show less.
     </a>
     <a
       v-else
@@ -19,7 +19,7 @@
       "
       href="#"
     >
-      Read more ...
+      read more ...
     </a>
   </span>
 </template>

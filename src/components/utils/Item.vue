@@ -27,7 +27,9 @@ import {
 export default defineComponent({
   props: {
     size: String,
-    to: String,
+    to: {
+      default: {} as any,
+    },
     cover: String,
   },
   components: {

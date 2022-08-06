@@ -10,20 +10,14 @@
         <p>{{ creator }}</p>
       </div>
       <hr />
-      <ReadMore :value="book.description || ''" />
+      <ReadMore :value="book.description || ''" :size="35" />
     </ion-card-content>
   </ion-card>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import {
-  IonCard,
-  IonCardHeader,
-  IonCardContent,
-  IonCardTitle,
-  IonCardSubtitle,
-} from '@ionic/vue';
+import { IonCard, IonCardHeader, IonCardContent } from '@ionic/vue';
 import { bookRepository } from '@/repositories/book.repository';
 import { useRoute } from 'vue-router';
 import { BookPerson } from 'types/backend';

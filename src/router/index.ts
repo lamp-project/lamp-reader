@@ -34,6 +34,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Reader.vue')
   },
   {
+    name: 'book',
     path: '/book/:id',
     component: () => import('@/views/Book.vue')
   },

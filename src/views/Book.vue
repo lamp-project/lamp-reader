@@ -6,7 +6,7 @@
           <ion-back-button default-href="/tabs/store"></ion-back-button>
         </template>
         <template #middle>
-          <ion-title>Book</ion-title>
+          <ion-title>{{ $route.params.title }}</ion-title>
         </template>
       </Toolbar>
     </ion-header>
