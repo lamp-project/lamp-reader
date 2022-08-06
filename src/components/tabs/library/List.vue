@@ -32,17 +32,15 @@ import {
 import { add } from 'ionicons/icons';
 import LibraryItem from './Item.vue';
 import { BookInfo } from '@derock.ir/epubjs-plus';
+import { RouteLocationNormalizedLoaded } from 'vue-router';
 
 export default defineComponent({
   async setup() {
     const { library } = await import('@derock.ir/epubjs-plus');
-    const items = ref<BookInfo[]>([]);
-    items.value = await library.index();
-    const currentReadingId = await library.getLastBookId();
     return {
       library,
-      items,
-      currentReadingId,
+      items: ref<BookInfo[]>([]),
+      currentReadingId: ref<string | null>(),
       // icons
       add,
     };
@@ -64,7 +62,24 @@ export default defineComponent({
       );
     },
   },
+  async mounted() {
+    await this.loadLibrary();
+  },
+  watch: {
+    $route: {
+      deep: true,
+      async handler(to: RouteLocationNormalizedLoaded) {
+        if (to.path == '/tabs/library') {
+          await this.loadLibrary();
+        }
+      },
+    },
+  },
   methods: {
+    async loadLibrary() {
+      this.items = await this.library.index();
+      this.currentReadingId = await this.library.getLastBookId();
+    },
     async reloadList() {
       this.items = await this.library.index();
     },
