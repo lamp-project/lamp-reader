@@ -1,5 +1,6 @@
 <template>
   <ion-card>
+    <!-- <div class="band">Advanced</div> -->
     <ion-card-header class="ion-inherit-color md hydrated">
       <img class="header-img" :src="book.cover.medium" />
     </ion-card-header>
@@ -11,17 +12,23 @@
       </div>
       <hr />
       <ReadMore :value="book.description || ''" :size="35" />
+      <hr />
+      <router-link v-if="exists" :to="`/reader/${book.id}`">
+        <ion-button expand="block" color="primary"> Read </ion-button>
+      </router-link>
+      <DownloadButton v-else :url="book.file" @downloaded="onFileDownloaded" />
     </ion-card-content>
   </ion-card>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { IonCard, IonCardHeader, IonCardContent } from '@ionic/vue';
+import { defineComponent, ref } from 'vue';
+import { IonCard, IonCardHeader, IonButton, IonCardContent } from '@ionic/vue';
 import { bookRepository } from '@/repositories/book.repository';
 import { useRoute } from 'vue-router';
 import { BookPerson } from 'types/backend';
 import ReadMore from '@/components/utils/ReadMore.vue';
+import DownloadButton from './DownloadButton.vue';
 
 export default defineComponent({
   async setup() {
@@ -30,15 +37,22 @@ export default defineComponent({
     if (!params.id) {
       throw new Error(`ID param didn't provide.`);
     }
+    const id = +params.id;
     // 2- loading book
-    const book = await bookRepository.findUnique(+params.id);
-    return { book };
+    const book = await bookRepository.findUnique(id);
+    // 3- loading library
+    const { library } = await import('@derock.ir/epubjs-plus');
+    const bookEntryInLibrary = await library.getInfo(id.toString());
+    const exists = ref(!!bookEntryInLibrary);
+    return { book, library, exists };
   },
   components: {
     IonCard,
     IonCardHeader,
+    IonButton,
     IonCardContent,
     ReadMore,
+    DownloadButton,
   },
   computed: {
     creator() {
@@ -50,9 +64,23 @@ export default defineComponent({
       return author?.person?.name;
     },
   },
+  methods: {
+    async onFileDownloaded(file: ArrayBuffer) {
+      await this.library.addFromArrayBuffer(file, this.book.id);
+      this.exists = true;
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>
+.band {
+  background-color: var(--ion-color-primary, #3880ff);
+  // height: 6px;
+  width: 100%;
+  color: white;
+  padding: 6px;
+  font-family: 'Merriweather', serif;
+}
 ion-card-header {
   text-align: center;
   img {

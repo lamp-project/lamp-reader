@@ -6,7 +6,8 @@
           <ion-back-button default-href="/tabs/store"></ion-back-button>
         </template>
         <template #middle>
-          <ion-title>{{ $route.params.title }}</ion-title>
+          <!-- <ion-title>{{ $route.params.title }}</ion-title> -->
+          <ion-title>Details</ion-title>
         </template>
       </Toolbar>
     </ion-header>
@@ -44,3 +45,8 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="scss" scoped>
+ion-title {
+  font-family: var(--ion-font-family, inherit);
+}
+</style>
