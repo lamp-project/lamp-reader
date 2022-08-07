@@ -43,7 +43,7 @@ import {
   IonLabel,
 } from '@ionic/vue';
 import { Loading } from '@/utils/Loading';
-import { userRepository } from '@/repositories/user.repository';
+import { backend } from '@/utils/Backend';
 
 export default defineComponent({
   components: { IonPage, IonContent, IonButton, IonItem, IonInput, IonLabel },
@@ -54,11 +54,11 @@ export default defineComponent({
   methods: {
     async login() {
       await Loading.wait('Logging in ...', async () => {
-        const { user, jwt } = await userRepository.login({
+        const user = await backend.login({
           email: this.email,
           password: this.password,
         });
-        console.log(user, jwt);
+        console.log(user);
       });
     },
   },

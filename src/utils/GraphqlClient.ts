@@ -5,32 +5,37 @@ import {
   InMemoryCache,
   OperationVariables,
   TypedDocumentNode,
+  HttpLink,
 } from '@apollo/client/core';
 
-export class ApolloClientRepository {
+export class GraphqlClient {
   private readonly client: ApolloClient<any>;
+  protected readonly headers: any = {};
 
   constructor(uri: string) {
     this.client = new ApolloClient({
       cache: new InMemoryCache(),
-      uri,
+      link: new HttpLink({
+        uri,
+        headers: this.headers,
+      }),
     });
   }
 
-  protected query<TVar = any, TData = any>(
+  public query<TVar = any, TData = any>(
     query: DocumentNode | TypedDocumentNode<any, OperationVariables>,
     variables: TVar
   ) {
-    return this.handleRequest<TData>(
-      this.client.query({ query, variables })
-    );
+    return this.handleRequest<TData>(this.client.query({ query, variables }));
   }
 
-  protected mutate<TVar = any, TData = any>(
+  public mutate<TVar = any, TData = any>(
     mutation: DocumentNode | TypedDocumentNode<any, OperationVariables>,
     variables: TVar
   ) {
-    return this.handleRequest<TData>(this.client.mutate({ mutation, variables }));
+    return this.handleRequest<TData>(
+      this.client.mutate({ mutation, variables })
+    );
   }
 
   private handleRequest<TData>(req: Promise<FetchResult<TData>>) {
