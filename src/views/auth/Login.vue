@@ -43,6 +43,7 @@ import {
   IonLabel,
   loadingController,
 } from '@ionic/vue';
+import { Loading } from '@/utils/Loading';
 
 export default defineComponent({
   components: { IonPage, IonContent, IonButton, IonItem, IonInput, IonLabel },
@@ -52,10 +53,9 @@ export default defineComponent({
   }),
   methods: {
     async login() {
-      const loading = await loadingController.create({
-        message: 'Logging in ...',
+      await Loading.wait('Logging in ...', async () => {
+        //
       });
-      await loading.present();
     },
   },
 });

@@ -13,7 +13,7 @@
 import { defineComponent, ref } from 'vue';
 import { IonPage, IonContent } from '@ionic/vue';
 import { useRoute } from 'vue-router';
-import { HighlighterViewer } from '@/lib/HighlighterViewer';
+import { HighlighterViewer } from '@/utils/HighlighterViewer';
 import LoadingScreen from './LoadingScreen.vue';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
