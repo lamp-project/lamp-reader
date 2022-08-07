@@ -1,7 +1,7 @@
 <template>
   <div v-if="errorMessage" class="error-message">
     <ion-icon :icon="warningOutline" />
-    <br>
+    <br />
     {{ errorMessage }}
   </div>
   <Suspense v-else>
@@ -45,10 +45,10 @@ export default defineComponent({
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  
-ion-icon {
- width: 48px;
- height: 48px; 
-}
+
+  ion-icon {
+    width: 48px;
+    height: 48px;
+  }
 }
 </style>
