@@ -5,18 +5,18 @@ import {
   QueryBookArgs,
   QueryBooksArgs,
 } from 'types/backend';
-import BookQuery from '@/graphql/queries/book.gql';
-import BooksQuery from '@/graphql/queries/books.gql';
+import bookQuery from '@/graphql/queries/book.gql';
+import booksQuery from '@/graphql/queries/books.gql';
 
 export class BookRepository extends BackendRepository {
   async findMany(args: QueryBooksArgs) {
     return this.query<QueryBooksArgs, { books: PaginatedBook }>(
-      BooksQuery,
+      booksQuery,
       args
     ).then((data) => data?.books);
   }
   async findUnique(id: number) {
-    return this.query<QueryBookArgs, { book: Book }>(BookQuery, { id }).then(
+    return this.query<QueryBookArgs, { book: Book }>(bookQuery, { id }).then(
       (data) => data?.book
     );
   }
