@@ -44,6 +44,7 @@ import {
 } from '@ionic/vue';
 import { Loading } from '@/utils/Loading';
 import { backend } from '@/utils/Backend';
+import { Toast } from '@/utils/Toast';
 
 export default defineComponent({
   components: { IonPage, IonContent, IonButton, IonItem, IonInput, IonLabel },
@@ -53,13 +54,18 @@ export default defineComponent({
   }),
   methods: {
     async login() {
-      await Loading.wait('Logging in ...', async () => {
-        const user = await backend.login({
+      const user = await Loading.wait('Logging in ...', async () => {
+        return backend.login({
           email: this.email,
           password: this.password,
         });
-        console.log(user);
       });
+      await Toast.show({
+        message: `Hi ${user?.name} 👋`,
+        color: 'success',
+        duration: 1000,
+      });
+      this.$router.push('/tabs/home');
     },
   },
 });
