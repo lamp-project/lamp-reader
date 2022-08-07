@@ -22,6 +22,7 @@ export class Backend extends GraphqlClient {
       this.headers.Authorization = `Bearer ${value}`;
     } else {
       localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+      localStorage.removeItem(AUTHENTICATED_USER_STORAGE_KEY);
       delete this.headers.Authorization;
     }
   }
