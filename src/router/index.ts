@@ -61,7 +61,7 @@ router.beforeEach(async (to) => {
     // make sure the user is authenticated
     !backend.authenticatedUser &&
     // ❗️ Avoid an infinite redirect
-    to.name !== 'Login'
+    !['Login', 'Registration'].includes(to.name as string)
   ) {
     // redirect the user to the login page
     return { name: 'Login' };

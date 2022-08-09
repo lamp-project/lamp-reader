@@ -36,9 +36,11 @@
         </ion-item>
         <hr />
         <vue-hcaptcha :sitekey="hCaptchaSiteKey" @verify="token = $event" />
-        <ion-button @click="login" expand="block" color="dark">
+        <ion-button @click="signup" expand="block" color="dark">
           Signup
         </ion-button>
+        <hr />
+        <router-link to="/login">Or login if you have an account</router-link>
       </form>
     </ion-content>
   </ion-page>
@@ -83,19 +85,23 @@ export default defineComponent({
     token: '',
   }),
   methods: {
-    async login() {
-      const user = await Loading.wait('Logging in ...', async () => {
-        return backend.login({
+    async signup() {
+      const user = await Loading.wait('Signing up ...', async () => {
+        return backend.signup({
+          name: this.name,
           email: this.email,
           password: this.password,
+          token: this.token,
         });
       });
-      await Toast.show({
-        message: `Hi ${user?.name} 👋`,
-        color: 'success',
-        duration: 1000,
-      });
-      this.$router.push('/tabs/home');
+      if (user) {
+        await Toast.show({
+          message: `Hi ${user.name} 👋`,
+          color: 'success',
+          duration: 1000,
+        });
+        this.$router.push('/tabs/home');
+      }
     },
   },
 });
@@ -111,8 +117,13 @@ form {
   transform: translateY(-50%);
   padding: 6px;
   h2,
-  ion-button {
+  ion-button,
+  a {
     font-family: 'Merriweather', serif;
+  }
+  a {
+    text-decoration: none;
+    color: black;
   }
 }
 </style>
