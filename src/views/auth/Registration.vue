@@ -4,13 +4,23 @@
       <form>
         <img src="/img/bulb.png" width="96" />
         <br />
-        <h2>Login</h2>
+        <h2>Registration</h2>
+        <ion-item>
+          <ion-label position="floating">Name</ion-label>
+          <ion-input
+            v-model="name"
+            name="name"
+            type="text"
+            clear-input
+          ></ion-input>
+        </ion-item>
         <ion-item>
           <ion-label position="floating">Email</ion-label>
           <ion-input
             v-model="email"
             name="email"
             type="email"
+            :required="true"
             clear-input
           ></ion-input>
         </ion-item>
@@ -20,15 +30,15 @@
             v-model="password"
             name="password"
             type="password"
+            :required="true"
             clear-input
           ></ion-input>
         </ion-item>
         <hr />
+        <vue-hcaptcha :sitekey="hCaptchaSiteKey" @verify="token = $event" />
         <ion-button @click="login" expand="block" color="dark">
-          Login
+          Signup
         </ion-button>
-        <hr />
-        <router-link to="/registration">Or create a new account</router-link>
       </form>
     </ion-content>
   </ion-page>
@@ -44,15 +54,33 @@ import {
   IonInput,
   IonLabel,
 } from '@ionic/vue';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import { Loading } from '@/utils/Loading';
 import { backend } from '@/utils/Backend';
 import { Toast } from '@/utils/Toast';
 
 export default defineComponent({
-  components: { IonPage, IonContent, IonButton, IonItem, IonInput, IonLabel },
+  setup() {
+    return {
+      hCaptchaSiteKey: process.env.VUE_APP_HCAPTCHA_SITEKEY,
+    };
+  },
+  components: {
+    IonPage,
+    IonContent,
+    IonButton,
+    IonItem,
+    IonInput,
+    IonLabel,
+    VueHcaptcha,
+  },
   data: () => ({
+    name: '',
     email: '',
     password: '',
+    token: '',
   }),
   methods: {
     async login() {
@@ -83,13 +111,8 @@ form {
   transform: translateY(-50%);
   padding: 6px;
   h2,
-  ion-button,
-  a {
+  ion-button {
     font-family: 'Merriweather', serif;
-  }
-  a {
-    text-decoration: none;
-    color: black;
   }
 }
 </style>
