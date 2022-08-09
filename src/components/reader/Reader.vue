@@ -18,6 +18,7 @@ import LoadingScreen from './LoadingScreen.vue';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
 import { DisplayedLocation } from 'epubjs/types/rendition';
+import { userWordRepository } from '@/repositories/user-word.repository';
 
 export default defineComponent({
   async setup() {
@@ -32,8 +33,10 @@ export default defineComponent({
     if (!book) {
       throw new Error(`Book [${params.id}] didn't found.`);
     }
+    // 3- loading the user-words
+    const userWords = await userWordRepository.getMyUserWords();
     // 3- creating the viewer
-    const viewer = new HighlighterViewer(book, {} as any);
+    const viewer = new HighlighterViewer(book, userWords);
     const showControlls = ref(false);
     const currentChapter = ref('');
     const location = ref<DisplayedLocation>();

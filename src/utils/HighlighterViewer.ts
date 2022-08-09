@@ -14,11 +14,11 @@ export class HighlighterViewer extends StatefulEpubViewer {
     name: 'locations',
   });
 
-  constructor(
-    book: Epub,
-    protected readonly userWords: { [key: string]: UserWordStatus }
-  ) {
+  private wordsMap = new Map<string, UserWordStatus>();
+
+  constructor(book: Epub, userWords: UserWord[]) {
     super(book);
+    userWords.forEach((item) => this.wordsMap.set(item.wordId, item.status));
     if (!localStorage.getItem('font-size')) {
       localStorage.setItem('font-size', '24');
     }
@@ -58,10 +58,11 @@ export class HighlighterViewer extends StatefulEpubViewer {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const word = item.textContent.toLowerCase();
-      switch (this.userWords[word]) {
+      const status = this.wordsMap.get(word);
+      switch (status) {
         case UserWordStatus.Known:
         case UserWordStatus.Learning:
-          item.className = this.userWords[word].toUpperCase();
+          item.className = status.toUpperCase();
           break;
         default:
           item.className = 'UNKNOWN';
