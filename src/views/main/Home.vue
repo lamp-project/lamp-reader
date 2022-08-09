@@ -5,9 +5,10 @@
         <ion-title> <ion-icon :icon="homeOutline" /> Home </ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-header> </ion-header>
     <ion-content :fullscreen="true">
-      <UserStatusCard />
+      <AsyncChild>
+        <UserStatusCard />
+      </AsyncChild>
     </ion-content>
   </ion-page>
 </template>
@@ -23,6 +24,7 @@ import {
   IonContent,
 } from '@ionic/vue';
 import { homeOutline } from 'ionicons/icons';
+import AsyncChild from '@/components/utils/AsyncChild.vue';
 import UserStatusCard from '@/components/tabs/home/UserStatusCard.vue';
 
 export default defineComponent({
@@ -34,6 +36,7 @@ export default defineComponent({
     IonIcon,
     IonContent,
     UserStatusCard,
+    AsyncChild
   },
   setup() {
     return {

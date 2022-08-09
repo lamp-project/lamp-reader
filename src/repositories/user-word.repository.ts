@@ -22,3 +22,5 @@ export class UserWordRepository {
     }
   }
 }
+
+export const userWordRepository = new UserWordRepository();

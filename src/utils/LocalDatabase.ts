@@ -8,7 +8,7 @@ export class LocalDatabase extends Dexie {
   constructor() {
     super('lamp-database');
     this.version(1).stores({
-      userWords: 'wordId, status' // Primary key and indexed props
+      userWords: 'wordId, status, word' // Primary key and indexed props
     });
   }
 }

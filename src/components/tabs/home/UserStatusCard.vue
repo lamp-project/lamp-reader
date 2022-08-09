@@ -9,8 +9,8 @@
         </ion-col>
         <ion-col size-xs="8" size-sm="9" size-md="10" size-lg="10" size-xl="11">
           <ion-card-subtitle>Hi Sajjad 👋</ion-card-subtitle>
-          <h1>Pre Advanced</h1>
-          1753 <small>words</small>
+          <h1>{{ level }}</h1>
+          {{ userWords.length }} <small>words</small>
         </ion-col>
       </ion-row>
     </ion-card-header>
@@ -29,10 +29,14 @@ import {
   IonCardSubtitle,
   IonAvatar,
 } from '@ionic/vue';
+import { userWordRepository } from '@/repositories/user-word.repository';
 
 export default defineComponent({
-  props: {
-    size: { type: String },
+  async setup() {
+    const userWords = await userWordRepository.getMyUserWords();
+    return {
+      userWords,
+    };
   },
   components: {
     IonCard,
@@ -42,6 +46,26 @@ export default defineComponent({
     IonCardContent,
     IonCardSubtitle,
     IonAvatar,
+  },
+  props: {
+    size: { type: String },
+  },
+  computed: {
+    level() {
+      if (this.userWords.length < 500) {
+        return 'Biginner';
+      } else if (this.userWords.length < 1000) {
+        return 'Elementry';
+      } else if (this.userWords.length < 2000) {
+        return 'Lower Intermediate';
+      } else if (this.userWords.length < 4000) {
+        return 'Upper Intermediate';
+      } else if (this.userWords.length < 8000) {
+        return 'Advanced';
+      } else {
+        return 'Fluency Level';
+      }
+    },
   },
 });
 </script>
