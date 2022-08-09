@@ -1,23 +1,24 @@
-export enum UserWordStatus {
-  UNKNOWN = 'UNKNOWN',
-  LEARNING = 'LEARNING',
-  KNOWN = 'KNOWN',
-}
-export interface ReviewInput {
-  word: string;
-  status: UserWordStatus;
-}
-
-export interface UserWord {
-  word: { id: number; word: string };
-  status: UserWordStatus;
-}
-const LOCAL_STORAGE_KEY = 'user-words';
-
-export const userWords = JSON.parse(
-  localStorage.getItem(LOCAL_STORAGE_KEY) || '{}'
-);
+import { backend } from '@/utils/Backend';
+import { UserWord } from 'types/backend';
+import { localDatabase } from '@/utils/LocalDatabase';
+import myUserWordsQuery from '@/graphql/queries/my-user-words.gql';
 
 export class UserWordRepository {
-  
+  async getMyUserWords() {
+    if (await localDatabase.userWords.count()) {
+      return localDatabase.userWords.toArray();
+    } else {
+      return backend
+        .query<void, { myUserWords: UserWord[] }>(myUserWordsQuery)
+        .then((res) => res.myUserWords)
+        .then((userWords) =>
+          Promise.all(
+            userWords.map(async (item) => {
+              await localDatabase.userWords.add(item);
+              return item;
+            })
+          )
+        );
+    }
+  }
 }

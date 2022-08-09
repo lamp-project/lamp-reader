@@ -1,11 +1,11 @@
 import localforage from 'localforage';
 import { Epub, StatefulEpubViewer } from '@derock.ir/epubjs-plus';
-import { UserWord, UserWordStatus } from '@/repositories/user-word';
+import { UserWord, UserWordStatus } from '../../types/backend';
 
 export class HighlighterViewer extends StatefulEpubViewer {
   static updateWordStatus(vocab: HTMLElement, userWord: UserWord) {
     const instances = (vocab.getRootNode() as HTMLBodyElement).querySelectorAll(
-      `vocab[word="${userWord.word.word}"]`
+      `vocab[word="${userWord.word?.word}"]`
     );
     instances.forEach((item) => (item.className = userWord.status));
   }
@@ -59,12 +59,12 @@ export class HighlighterViewer extends StatefulEpubViewer {
       // @ts-ignore
       const word = item.textContent.toLowerCase();
       switch (this.userWords[word]) {
-        case UserWordStatus.KNOWN:
-        case UserWordStatus.LEARNING:
-          item.className = this.userWords[word];
+        case UserWordStatus.Known:
+        case UserWordStatus.Learning:
+          item.className = this.userWords[word].toUpperCase();
           break;
         default:
-          item.className = UserWordStatus.UNKNOWN;
+          item.className = 'UNKNOWN';
           break;
       }
     });

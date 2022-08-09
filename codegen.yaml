@@ -2,6 +2,6 @@
 schema: 
   - http://localhost:3000/graphql
 generates:
-  ./types/backend.d.ts:
+  ./types/backend.ts:
     plugins:
       - typescript

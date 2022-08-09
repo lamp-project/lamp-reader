@@ -24,14 +24,14 @@ export class GraphqlClient {
 
   public query<TVar = any, TData = any>(
     query: DocumentNode | TypedDocumentNode<any, OperationVariables>,
-    variables: TVar
+    variables?: TVar
   ) {
     return this.handleRequest<TData>(this.client.query({ query, variables }));
   }
 
   public mutate<TVar = any, TData = any>(
     mutation: DocumentNode | TypedDocumentNode<any, OperationVariables>,
-    variables: TVar
+    variables?: TVar
   ) {
     return this.handleRequest<TData>(
       this.client.mutate({ mutation, variables })
