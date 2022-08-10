@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
+    "@derock.ir/dictionary-client": "^1.0.0",
     "@derock.ir/epubjs-plus": "^1.1.6",
     "@hcaptcha/vue3-hcaptcha": "^1.0.1",
     "@ionic/vue": "^6.0.0",

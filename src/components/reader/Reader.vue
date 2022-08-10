@@ -6,6 +6,7 @@
       <div ref="viewerElement" class="epub-viewer"></div>
     </ion-content>
     <Footer :location="location" />
+    <WordModal ref="wordModal" />
   </ion-page>
 </template>
 
@@ -15,10 +16,11 @@ import { IonPage, IonContent } from '@ionic/vue';
 import { useRoute } from 'vue-router';
 import { HighlighterViewer } from '@/utils/HighlighterViewer';
 import LoadingScreen from './LoadingScreen.vue';
-import Header from './Header.vue';
-import Footer from './Footer.vue';
 import { DisplayedLocation } from 'epubjs/types/rendition';
 import { userWordRepository } from '@/repositories/user-word.repository';
+import Header from './Header.vue';
+import Footer from './Footer.vue';
+import WordModal from './WordModal.vue';
 
 export default defineComponent({
   async setup() {
@@ -61,6 +63,7 @@ export default defineComponent({
     IonPage,
     IonContent,
     Footer,
+    WordModal,
   },
   data: () => ({
     loading: false,
@@ -71,6 +74,9 @@ export default defineComponent({
     this.loading = false;
     await this.$nextTick();
     await this.viewer.display(this.$refs.viewerElement as Element);
+    this.viewer.on('word-click', (element: HTMLSpanElement) => {
+      (this.$refs.wordModal as any).open(element);
+    });
   },
   beforeUnmount() {
     this.viewer.destroy();

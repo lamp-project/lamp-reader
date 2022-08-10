@@ -7,6 +7,8 @@ import {
   TypedDocumentNode,
   HttpLink,
 } from '@apollo/client/core';
+import router from '@/router';
+
 
 export class GraphqlClient {
   private readonly client: ApolloClient<any>;
@@ -48,6 +50,13 @@ export class GraphqlClient {
         }
       })
       .catch((error) => {
+        switch (error.message) {
+          case 'Unauthorized':
+            {
+              router.push('/login');
+            }
+            break;
+        }
         throw error;
       });
   }
