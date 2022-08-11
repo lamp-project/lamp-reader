@@ -6,10 +6,14 @@
       <p>{{ value.description }}</p>
     </template>
     <template #options>
-      <ion-item-option color="danger" @click="$emit('remove')">
+      <ion-item-option color="danger" @click="remove">
         <ion-icon :icon="trashOutline"></ion-icon>
       </ion-item-option>
-      <ion-item-option color="dark">
+      <ion-item-option
+        v-if="/^\d+$/.test(value.id)"
+        color="dark"
+        @click="showDetails"
+      >
         <ion-icon :icon="informationOutline"></ion-icon>
       </ion-item-option>
     </template>
@@ -27,7 +31,7 @@ export default defineComponent({
   setup() {
     return { trashOutline, informationOutline };
   },
-  emits: ['remove', 'info'],
+  emits: ['remove'],
   props: {
     size: String,
     value: {
@@ -42,6 +46,16 @@ export default defineComponent({
   computed: {
     cover() {
       return this.value.cover ? URL.createObjectURL(this.value.cover) : '';
+    },
+  },
+  methods: {
+    showDetails() {
+      this.$router.push(`/book/${this.value.id}`);
+      this.$el.close();
+    },
+    remove() {
+      this.$emit('remove');
+      this.$el.close();
     },
   },
 });
