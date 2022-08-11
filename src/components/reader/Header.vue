@@ -2,7 +2,10 @@
   <ion-header>
     <Toolbar>
       <template #start>
-        <ion-back-button defaultHref="/tabs/library"></ion-back-button>
+        <ion-back-button
+          :disabled="!showControlls"
+          defaultHref="/tabs/library"
+        ></ion-back-button>
       </template>
       <template #middle>
         <ion-title class="ion-text-center" v-show="chapter != `Titlepage`">
@@ -11,6 +14,7 @@
       </template>
       <template #end>
         <ion-button
+          :disabled="!showControlls"
           @click="
             // @ts-ignore
             $refs.settings.open()
