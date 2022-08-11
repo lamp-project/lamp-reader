@@ -8,7 +8,9 @@
           </ion-avatar>
         </ion-col>
         <ion-col size-xs="8" size-sm="9" size-md="10" size-lg="10" size-xl="11">
-          <ion-card-subtitle>Hi Sajjad 👋</ion-card-subtitle>
+          <ion-card-subtitle>
+            Hi <span class="user-name">{{user.name}}</span> 👋
+          </ion-card-subtitle>
           <h1>{{ level }}</h1>
           {{ userWords.length }} <small>words</small>
         </ion-col>
@@ -30,11 +32,15 @@ import {
   IonAvatar,
 } from '@ionic/vue';
 import { userWordRepository } from '@/repositories/user-word.repository';
+import { backend } from '@/utils/Backend';
+import { User } from 'types/backend';
 
 export default defineComponent({
   async setup() {
+    const user = backend.authenticatedUser as User;
     const userWords = await userWordRepository.getMyUserWords();
     return {
+      user,
       userWords,
     };
   },
@@ -89,5 +95,8 @@ ion-thumbnail {
 ion-avatar {
   width: 96px;
   height: 96px;
+}
+.user-name {
+  text-transform: capitalize;
 }
 </style>
