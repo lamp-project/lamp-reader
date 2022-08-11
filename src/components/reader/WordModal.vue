@@ -1,37 +1,33 @@
 <template>
-  <ion-modal
-    :initial-breakpoint="0.5"
-    handle-behavior="cycle"
-    @ion-breakpoint-did-change="updateBreakpoint"
-  >
-    <ion-content ref="ccc">
-      <section :style="{ height: currentHeight + 'px' }">
-      <h1>
-        {{ word }}
-        <small v-if="phonetic" class="phonetic">
-          {{ phonetic.text }}
-          <ion-icon
-            v-if="phonetic.audio"
-            :icon="volumeMediumOutline"
-            @click="playAudio"
-          />
-        </small>
-      </h1>
-      <p class="translation"> 
-        <ion-progress-bar
-          v-if="loading"
-          type="indeterminate"
-          color="dark"
-        ></ion-progress-bar>
-        <DictionaryEntryView :value="entry"/>
-      </p>
-      <hr />
-      <div class="word-buttons">
-        <ion-button color="warning" expand="block">Needs more review</ion-button>
-        <ion-button color="dark" expand="block">
+  <ion-modal initial-breakpoint="0.5">
+    <ion-content>
+      <section>
+        <h1>
+          * {{ word }}
+          <small v-if="phonetic" class="phonetic">
+            {{ phonetic.text }}
+            <ion-icon
+              v-if="phonetic.audio"
+              :icon="volumeMediumOutline"
+              @click="playAudio"
+            />
+          </small>
+        </h1>
+        <p class="translation">
+          <ion-progress-bar
+            v-if="loading"
+            type="indeterminate"
+            color="dark"
+          ></ion-progress-bar>
+          <DictionaryEntryView :value="entry" />
+        </p>
+        <hr />
+        <ion-button :disabled="loading" color="warning" expand="block">
+          Needs more review
+        </ion-button>
+        <ion-button :disabled="loading" color="dark" expand="block">
           Move to the known ones
         </ion-button>
-      </div>
       </section>
     </ion-content>
   </ion-modal>
@@ -54,8 +50,6 @@ import {
 import { defineComponent } from 'vue';
 import DictionaryEntryView from './DictionaryEntry.vue';
 
-const INITIAL_BREAKPOINT = 0.5;
-
 export default defineComponent({
   setup() {
     return {
@@ -68,14 +62,13 @@ export default defineComponent({
     IonIcon,
     IonButton,
     IonContent,
-    DictionaryEntryView
+    DictionaryEntryView,
   },
   data: () => ({
     loading: false,
     element: undefined as HTMLSpanElement | undefined,
     word: '' as string | undefined,
     entry: undefined as DictionaryEntry | undefined,
-    currentBreakPoint: INITIAL_BREAKPOINT,
   }),
   computed: {
     translations() {
@@ -90,9 +83,6 @@ export default defineComponent({
       }
       return undefined;
     },
-    currentHeight() {
-      return this.currentBreakPoint * window.outerHeight;
-    },
   },
   methods: {
     async open(element: HTMLSpanElement) {
@@ -100,7 +90,6 @@ export default defineComponent({
       this.element = element;
       this.word = element.textContent?.toLowerCase();
       this.entry = undefined;
-      this.currentBreakPoint = INITIAL_BREAKPOINT;
       await this.$el.present();
       try {
         this.entry = await dictionaryRepository.lookup(this.word as string);
@@ -113,9 +102,6 @@ export default defineComponent({
       if (this.phonetic?.audio) {
         new Audio(this.phonetic.audio).play();
       }
-    },
-    async updateBreakpoint({ detail: { breakpoint } }: CustomEvent) {
-      this.currentBreakPoint = breakpoint;
     },
   },
 });
@@ -135,14 +121,11 @@ h1 {
   }
 }
 .translation {
-  height: calc(50vh - 180px);
+  height: calc(50vh - 170px);
   overflow-y: scroll;
-  margin:0
+  margin: 0;
 }
-ul {
-  padding-left: 24px;
-}
-section{
+section {
   padding: 6px;
   height: 50vh;
 }

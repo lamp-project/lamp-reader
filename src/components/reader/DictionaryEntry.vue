@@ -22,3 +22,8 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="scss" scoped>
+ul {
+  padding-left: 24px;
+}
+</style>
