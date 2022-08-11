@@ -26,7 +26,7 @@ import './theme/variables.css';
 import './theme/base.css';
 
 // Added by the CLI
-import './registerServiceWorker';
+import('./registerServiceWorker' /* webpackChunkName:"registerServiceWorker" */);
 
 const app = createApp(App).use(IonicVue).use(router);
 
