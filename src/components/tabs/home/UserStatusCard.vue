@@ -4,7 +4,7 @@
       <ion-row>
         <ion-col>
           <ion-avatar>
-            <img src="/img/gamer.png" />
+            <img src="@/../public/img/gamer.png" />
           </ion-avatar>
         </ion-col>
         <ion-col size-xs="8" size-sm="9" size-md="10" size-lg="10" size-xl="11">
