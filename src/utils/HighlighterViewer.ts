@@ -5,7 +5,7 @@ import { UserWord, UserWordStatus } from '../../types/backend';
 export class HighlighterViewer extends StatefulEpubViewer {
   static updateWordStatus(vocab: HTMLElement, userWord: UserWord) {
     const instances = (vocab.getRootNode() as HTMLBodyElement).querySelectorAll(
-      `vocab[word="${userWord.word?.word}"]`
+      `vocab[word="${userWord.wordId}"]`
     );
     instances.forEach((item) => (item.className = userWord.status));
   }

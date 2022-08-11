@@ -1,7 +1,8 @@
 import { backend } from '@/utils/Backend';
-import { UserWord } from 'types/backend';
+import { ReviewInput, UserWord } from 'types/backend';
 import { localDatabase } from '@/utils/LocalDatabase';
 import myUserWordsQuery from '@/graphql/queries/my-user-words.gql';
+import reviewMutation from '@/graphql/mutations/review.gql';
 
 export class UserWordRepository {
   async getMyUserWords() {
@@ -20,6 +21,17 @@ export class UserWordRepository {
           )
         );
     }
+  }
+  async review(input: ReviewInput) {
+    return backend
+      .mutate<{ input: ReviewInput }, { review: UserWord }>(reviewMutation, {
+        input,
+      })
+      .then((data) => data.review)
+      .then(async (userWord) => {
+        await localDatabase.userWords.update(userWord.wordId, userWord)
+        return userWord;
+      });
   }
 }
 

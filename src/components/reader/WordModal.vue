@@ -1,3 +1,5 @@
+import { UserWordStatus } from 'types/backend'; import { UserWordStatus } from
+'types/backend';
 <template>
   <ion-modal initial-breakpoint="0.5">
     <ion-content>
@@ -22,10 +24,20 @@
           <DictionaryEntryView :value="entry" />
         </p>
         <hr />
-        <ion-button :disabled="loading" color="warning" expand="block">
+        <ion-button
+          @click="setWordStatus(UserWordStatus.Learning)"
+          :disabled="loading"
+          color="warning"
+          expand="block"
+        >
           Needs more review
         </ion-button>
-        <ion-button :disabled="loading" color="dark" expand="block">
+        <ion-button
+          @click="setWordStatus(UserWordStatus.Known)"
+          :disabled="loading"
+          color="dark"
+          expand="block"
+        >
           Move to the known ones
         </ion-button>
       </section>
@@ -49,11 +61,15 @@ import {
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import DictionaryEntryView from './DictionaryEntry.vue';
+import { UserWordStatus } from '@/../types/backend';
+import { HighlighterViewer } from '@/utils/HighlighterViewer';
+import { userWordRepository } from '@/repositories/user-word.repository';
 
 export default defineComponent({
   setup() {
     return {
       volumeMediumOutline,
+      UserWordStatus,
     };
   },
   components: {
@@ -102,6 +118,22 @@ export default defineComponent({
       if (this.phonetic?.audio) {
         new Audio(this.phonetic.audio).play();
       }
+    },
+    async setWordStatus(status: UserWordStatus) {
+      this.loading = true;
+      try {
+        const userWord = await userWordRepository.review({
+          status,
+          word: this.word as string,
+        });
+        HighlighterViewer.updateWordStatus(
+          this.element as HTMLSpanElement,
+          userWord
+        );
+      } catch (error) {
+        await Toast.show({ message: error as any, color: 'danger' });
+      }
+      this.loading = false;
     },
   },
 });
