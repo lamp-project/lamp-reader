@@ -1,5 +1,3 @@
-import { UserWordStatus } from 'types/backend'; import { UserWordStatus } from
-'types/backend';
 <template>
   <ion-modal initial-breakpoint="0.5">
     <ion-content>
@@ -130,6 +128,7 @@ export default defineComponent({
           this.element as HTMLSpanElement,
           userWord
         );
+        this.$el.dismiss();
       } catch (error) {
         await Toast.show({ message: error as any, color: 'danger' });
       }

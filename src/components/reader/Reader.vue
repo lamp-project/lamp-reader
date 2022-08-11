@@ -1,13 +1,13 @@
 <template>
   <LoadingScreen v-if="loading" :value="book" />
   <ion-page v-else>
-    <Header :chapter="currentChapter" :showControlls="showControlls" />
+    <Header :chapter="currentChapter" :showControlls="showControlls" :viewer="viewer" />
     <ion-content :fullscreen="true">
       <div ref="viewerElement" class="epub-viewer"></div>
     </ion-content>
     <Footer :location="location" />
-    <WordModal ref="wordModal" />
   </ion-page>
+  <WordModal ref="wordModal" />
 </template>
 
 <script lang="ts">

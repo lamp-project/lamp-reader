@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import localforage from 'localforage';
 import { Epub, StatefulEpubViewer } from '@derock.ir/epubjs-plus';
 import { UserWord, UserWordStatus } from '../../types/backend';
+
+const FONT_SIZE_KEY = 'font-size';
 
 export class HighlighterViewer extends StatefulEpubViewer {
   static updateWordStatus(vocab: HTMLElement, userWord: UserWord) {
@@ -19,9 +22,6 @@ export class HighlighterViewer extends StatefulEpubViewer {
   constructor(book: Epub, userWords: UserWord[]) {
     super(book);
     userWords.forEach((item) => this.wordsMap.set(item.wordId, item.status));
-    if (!localStorage.getItem('font-size')) {
-      localStorage.setItem('font-size', '24');
-    }
   }
 
   public async initialize() {
@@ -31,7 +31,7 @@ export class HighlighterViewer extends StatefulEpubViewer {
     if (locations) {
       this.book.locations.load(locations);
     } else {
-      // eslint-disable-next-line dot-notation, @typescript-eslint/ban-ts-comment
+      // eslint-disable-next-line dot-notation
       // @ts-ignore
       const embededLocations = await this.book.archive['zip'].files[
         'locations.json'
@@ -55,7 +55,6 @@ export class HighlighterViewer extends StatefulEpubViewer {
     this.emit('processing:start');
     const vocabs = body.querySelectorAll('vocab');
     vocabs.forEach((item) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const word = item.textContent.toLowerCase();
       const status = this.wordsMap.get(word);
@@ -73,7 +72,6 @@ export class HighlighterViewer extends StatefulEpubViewer {
   }
 
   protected registerEventListenersOfHighlights({ body }: Document) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     body.querySelectorAll('vocab').forEach((element: HTMLSpanElement) => {
       element.onclick = (event: MouseEvent) => {
@@ -81,17 +79,14 @@ export class HighlighterViewer extends StatefulEpubViewer {
         event.stopPropagation();
       };
     });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected highlightTextNode(node: Text) {
-    // node.replaceWith(vocabularyService.tag(node.textContent, this.userWords));
+    // eslint-disable-next-line no-self-assign
+    // this.fontSize = this.fontSize;
   }
 
   protected registerThemes() {
     this.rendition.themes.register('lamp-reader', {
       '*': {
-        'font-size': `${localStorage.getItem('font-size')}px !important`,
+        'font-size': `${this.fontSize}px !important`,
       },
       body: {
         color: 'black',
@@ -135,6 +130,10 @@ export class HighlighterViewer extends StatefulEpubViewer {
         'font-size': `${value}px !important`,
       },
     });
-    localStorage.setItem('font-size', value);
+    localStorage.setItem(FONT_SIZE_KEY, value);
+  }
+
+  public get fontSize() {
+    return localStorage.getItem(FONT_SIZE_KEY) || '24';
   }
 }

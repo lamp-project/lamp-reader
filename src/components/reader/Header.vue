@@ -10,12 +10,18 @@
         </ion-title>
       </template>
       <template #end>
-        <ion-button>
+        <ion-button
+          @click="
+            // @ts-ignore
+            $refs.settings.open()
+          "
+        >
           <ion-icon slot="icon-only" :icon="settingsOutline"></ion-icon>
         </ion-button>
       </template>
     </Toolbar>
   </ion-header>
+  <Settings ref="settings" :viewer="viewer" />
 </template>
 
 <script lang="ts">
@@ -29,6 +35,8 @@ import {
 } from '@ionic/vue';
 import { settingsOutline } from 'ionicons/icons';
 import Toolbar from '@/components/utils/Toolbar.vue';
+import Settings from './Settings.vue';
+import { HighlighterViewer } from '@/utils/HighlighterViewer';
 
 export default defineComponent({
   setup() {
@@ -40,6 +48,7 @@ export default defineComponent({
   props: {
     chapter: String,
     showControlls: Boolean,
+    viewer: HighlighterViewer,
   },
   components: {
     Toolbar,
@@ -48,10 +57,11 @@ export default defineComponent({
     IonButton,
     IonBackButton,
     IonIcon,
+    Settings,
   },
   computed: {
     controlsOpacity() {
-      return this.showControlls ?  0.66 : 0;
+      return this.showControlls ? 0.66 : 0;
     },
   },
 });
