@@ -10,7 +10,7 @@
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "generate:backend-types": "graphql-codegen",
-    "generate:assets": "vue-asset-generate -a public/img/bulb.png -o public/icon"
+    "generate:assets": "vue-asset-generate -a public/img/bulb.png -o public/img/icons"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
