@@ -1,0 +1,11 @@
+@import url('./fonts.css');
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+ion-toolbar {
+  font-family: 'Merriweather', serif;
+}

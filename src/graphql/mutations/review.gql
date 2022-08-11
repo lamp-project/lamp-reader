@@ -1,0 +1,6 @@
+mutation review($input: ReviewInput!){
+  review(input: $input) {
+    status
+    wordId
+  }
+}

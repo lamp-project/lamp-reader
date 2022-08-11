@@ -1,9 +1,0 @@
-query MyUserWords {
-  myUserWords {
-    status
-    word {
-      word
-      rank
-    }
-  }
-}

@@ -1,0 +1,6 @@
+query MyUserWords {
+  myUserWords {
+    wordId
+    status
+  }
+}
