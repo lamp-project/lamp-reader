@@ -80,52 +80,18 @@ export class HighlighterViewer extends StatefulEpubViewer {
       };
     });
     // eslint-disable-next-line no-self-assign
-    // this.fontSize = this.fontSize;
+    this.fontSize = this.fontSize;
   }
 
-  protected registerThemes() {
-    this.rendition.themes.register('lamp-reader', {
-      '*': {
-        'font-size': `${this.fontSize}px !important`,
-      },
-      body: {
-        color: 'black',
-        'padding-top': '0 !important',
-        'padding-bottom': '0 !important',
-        '-webkit-touch-callout': 'none',
-        '-webkit-user-select': 'none',
-        '-khtml-user-select': 'none',
-        '-moz-user-select': 'none',
-        '-ms-user-select': 'none',
-        'user-select': 'none',
-      },
-      vocab: {
-        cursor: 'pointer',
-        'border-radius': '5px',
-        // 'background-color': 'lightgrey',
-        // padding: '0px 5px',
-      },
-      'vocab.KNOWN': {
-        'background-color': 'lightgrey',
-      },
-      'vocab.LEARNING': {
-        'background-color': 'orange',
-        // color: 'white',
-      },
-      'vocab.UNKNOWN': {
-        'background-color': 'black',
-        color: 'white',
-      },
-      'a:hover': {
-        color: 'unset',
-      },
-    });
+  protected registerThemes(theme: any = THEME) {
+    this.rendition.themes.register('lamp-reader', theme);
     this.rendition.themes.select('lamp-reader');
   }
 
   // eslint-disable-next-line accessor-pairs
   public set fontSize(value: string) {
-    this.rendition.themes.default({
+    this.registerThemes({
+      ...THEME,
       '*': {
         'font-size': `${value}px !important`,
       },
@@ -137,3 +103,37 @@ export class HighlighterViewer extends StatefulEpubViewer {
     return localStorage.getItem(FONT_SIZE_KEY) || '24';
   }
 }
+
+const THEME = {
+  body: {
+    color: 'black',
+    'padding-top': '0 !important',
+    'padding-bottom': '0 !important',
+    '-webkit-touch-callout': 'none',
+    '-webkit-user-select': 'none',
+    '-khtml-user-select': 'none',
+    '-moz-user-select': 'none',
+    '-ms-user-select': 'none',
+    'user-select': 'none',
+  },
+  vocab: {
+    cursor: 'pointer',
+    'border-radius': '5px',
+    // 'background-color': 'lightgrey',
+    // padding: '0px 5px',
+  },
+  'vocab.KNOWN': {
+    'background-color': 'lightgrey',
+  },
+  'vocab.LEARNING': {
+    'background-color': 'orange',
+    // color: 'white',
+  },
+  'vocab.UNKNOWN': {
+    'background-color': 'black',
+    color: 'white',
+  },
+  'a:hover': {
+    color: 'unset',
+  },
+};
