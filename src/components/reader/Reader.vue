@@ -1,7 +1,11 @@
 <template>
   <LoadingScreen v-if="loading" :value="book" />
   <ion-page v-else>
-    <Header :chapter="currentChapter" :showControlls="showControlls" :viewer="viewer" />
+    <Header
+      :chapter="currentChapter"
+      :showControlls="showControlls"
+      :viewer="viewer"
+    />
     <ion-content :fullscreen="true">
       <div ref="viewerElement" class="epub-viewer"></div>
     </ion-content>
@@ -68,6 +72,7 @@ export default defineComponent({
   },
   data: () => ({
     loading: false,
+    selectedWordElement: undefined as HTMLSpanElement | undefined,
   }),
   async mounted() {
     this.loading = true;
@@ -76,6 +81,7 @@ export default defineComponent({
     await this.$nextTick();
     await this.viewer.display(this.$refs.viewerElement as Element);
     this.viewer.on('word-click', (element: HTMLSpanElement) => {
+      this.selectedWordElement = element;
       // @ts-ignore
       this.$refs.wordModal.open(element.textContent);
     });
@@ -85,8 +91,11 @@ export default defineComponent({
   },
   methods: {
     updateUserWord(userWord: UserWord) {
-      //
-    }
+      HighlighterViewer.updateWordStatus(
+        this.selectedWordElement as HTMLSpanElement,
+        userWord
+      );
+    },
   },
 });
 </script>
