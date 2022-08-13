@@ -5,13 +5,7 @@ import { UserWord, UserWordStatus } from '../../types/backend';
 const FONT_SIZE_KEY = 'font-size';
 
 export class HighlighterViewer extends StatefulEpubViewer {
-  static updateWordStatus(vocab: HTMLElement, userWord: UserWord) {
-    const instances = (vocab.getRootNode() as HTMLBodyElement).querySelectorAll(
-      `vocab[word="${userWord.wordId}"]`
-    );
-    instances.forEach((item) => (item.className = userWord.status));
-  }
-
+  protected body!: HTMLBodyElement;
   private readonly locationsForge = localforage.createInstance({
     name: 'locations',
   });
@@ -72,6 +66,7 @@ export class HighlighterViewer extends StatefulEpubViewer {
   }
 
   protected registerEventListenersOfHighlights({ body }: Document) {
+    this.body = body as HTMLBodyElement;
     // @ts-ignore
     body.querySelectorAll('vocab').forEach((element: HTMLSpanElement) => {
       element.onclick = (event: MouseEvent) => {
@@ -81,6 +76,13 @@ export class HighlighterViewer extends StatefulEpubViewer {
     });
     // eslint-disable-next-line no-self-assign
     this.fontSize = this.fontSize;
+  }
+  public updateWordStatus({ wordId, status }: UserWord) {
+    this.body.querySelectorAll(`vocab[word="${wordId}"]`).forEach((item) => {
+      item.setAttribute('status', status);
+      item.className = status;
+    });
+    this.wordsMap.set(wordId, status);
   }
 
   protected registerThemes(override: any = THEME) {

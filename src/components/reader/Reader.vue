@@ -72,7 +72,6 @@ export default defineComponent({
   },
   data: () => ({
     loading: false,
-    selectedWordElement: undefined as HTMLSpanElement | undefined,
   }),
   async mounted() {
     this.loading = true;
@@ -81,7 +80,6 @@ export default defineComponent({
     await this.$nextTick();
     await this.viewer.display(this.$refs.viewerElement as Element);
     this.viewer.on('word-click', (element: HTMLSpanElement) => {
-      this.selectedWordElement = element;
       // @ts-ignore
       this.$refs.wordModal.open({
         wordId: element.getAttribute('word'),
@@ -94,10 +92,7 @@ export default defineComponent({
   },
   methods: {
     updateUserWord(userWord: UserWord) {
-      HighlighterViewer.updateWordStatus(
-        this.selectedWordElement as HTMLSpanElement,
-        userWord
-      );
+      this.viewer.updateWordStatus(userWord);
     },
   },
 });
