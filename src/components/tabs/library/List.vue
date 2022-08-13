@@ -7,7 +7,7 @@
   <ion-list>
     <ion-list-header>Books</ion-list-header>
     <LibraryItem
-      v-for="(item, index) in items"
+      v-for="(item, index) in books"
       :key="item.id"
       :value="item"
       @remove="removeItem(item, index)"
@@ -59,6 +59,10 @@ export default defineComponent({
         // @ts-ignore
         this.items.filter(({ id }) => id == this.currentReadingId)[0] || ''
       );
+    },
+    books() {
+      // @ts-ignore
+      return this.items.filter((item) => item.id != this.currentReadingId);
     },
   },
   async mounted() {
