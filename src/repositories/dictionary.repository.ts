@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { lookup } from '@derock.ir/dictionary-client';
 import { localDatabase } from '@/utils/LocalDatabase';
@@ -43,7 +42,7 @@ export class DictionaryRepository {
       return entry;
     } else {
       return lookup(word).then(async (res: DictionaryEntry) => {
-        await localDatabase.dictionary.add(res);
+        await localDatabase.dictionary.put(res);
         return res;
       });
     }

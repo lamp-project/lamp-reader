@@ -1,25 +1,40 @@
 import { backend } from '@/utils/Backend';
-import { ReviewInput, UserWord } from 'types/backend';
+import { ReviewInput, UserWord, UserWordStatus } from 'types/backend';
 import { localDatabase } from '@/utils/LocalDatabase';
 import myUserWordsQuery from '@/graphql/queries/my-user-words.gql';
 import reviewMutation from '@/graphql/mutations/review.gql';
 
+function filterUserWordsByStatus(
+  userWords: UserWord[],
+  status?: UserWordStatus
+) {
+  if (status) {
+    return userWords.filter((item) => item.status == status);
+  } else {
+    return userWords;
+  }
+}
+
 export class UserWordRepository {
-  async getMyUserWords() {
+  async getMyUserWords(status?: UserWordStatus) {
     if (await localDatabase.userWords.count()) {
-      return localDatabase.userWords.toArray();
+      return filterUserWordsByStatus(
+        await localDatabase.userWords.toArray(),
+        status
+      );
     } else {
       return backend
         .query<void, { myUserWords: UserWord[] }>(myUserWordsQuery)
         .then((res) => res.myUserWords)
         .then((userWords) =>
           Promise.all(
-            userWords.map(async (item) => {
-              await localDatabase.userWords.add(item);
-              return item;
+            userWords.map(async (userWord) => {
+              await localDatabase.userWords.put(userWord);
+              return userWord;
             })
           )
-        );
+        )
+        .then((userWords) => filterUserWordsByStatus(userWords, status));
     }
   }
   async review(input: ReviewInput) {
@@ -29,7 +44,7 @@ export class UserWordRepository {
       })
       .then((data) => data.review)
       .then(async (userWord) => {
-        await localDatabase.userWords.update(userWord.wordId, userWord)
+        await localDatabase.userWords.update(userWord.wordId, userWord);
         return userWord;
       });
   }

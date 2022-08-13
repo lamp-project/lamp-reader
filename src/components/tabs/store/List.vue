@@ -49,7 +49,6 @@ export default defineComponent({
   },
   computed: {
     isAtTheEnd() {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return this.items.length >= this.totalCount;
     },

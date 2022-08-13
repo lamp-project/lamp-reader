@@ -8,6 +8,7 @@
     <ion-content :fullscreen="true">
       <AsyncChild>
         <UserStatusCard />
+        <LearningWordsCard />
       </AsyncChild>
     </ion-content>
   </ion-page>
@@ -26,6 +27,7 @@ import {
 import { homeOutline } from 'ionicons/icons';
 import AsyncChild from '@/components/utils/AsyncChild.vue';
 import UserStatusCard from '@/components/tabs/home/UserStatusCard.vue';
+import LearningWordsCard from '@/components/tabs/home/LearningWordsCard.vue';
 
 export default defineComponent({
   components: {
@@ -36,7 +38,8 @@ export default defineComponent({
     IonIcon,
     IonContent,
     UserStatusCard,
-    AsyncChild
+    LearningWordsCard,
+    AsyncChild,
   },
   setup() {
     return {

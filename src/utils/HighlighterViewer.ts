@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import localforage from 'localforage';
 import { Epub, StatefulEpubViewer } from '@derock.ir/epubjs-plus';
 import { UserWord, UserWordStatus } from '../../types/backend';

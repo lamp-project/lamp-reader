@@ -56,7 +56,6 @@ export default defineComponent({
   computed: {
     currentReading() {
       return (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.items.filter(({ id }) => id == this.currentReadingId)[0] || ''
       );

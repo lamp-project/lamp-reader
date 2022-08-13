@@ -7,7 +7,7 @@
     </ion-content>
     <Footer :location="location" />
   </ion-page>
-  <WordModal ref="wordModal" />
+  <WordModal ref="wordModal" @review="updateUserWord" />
 </template>
 
 <script lang="ts">
@@ -20,7 +20,8 @@ import { DisplayedLocation } from 'epubjs/types/rendition';
 import { userWordRepository } from '@/repositories/user-word.repository';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
-import WordModal from './WordModal.vue';
+import WordModal from '@/components/review/WordModal.vue';
+import { UserWord } from 'types/backend';
 
 export default defineComponent({
   async setup() {
@@ -75,11 +76,17 @@ export default defineComponent({
     await this.$nextTick();
     await this.viewer.display(this.$refs.viewerElement as Element);
     this.viewer.on('word-click', (element: HTMLSpanElement) => {
-      (this.$refs.wordModal as any).open(element);
+      // @ts-ignore
+      this.$refs.wordModal.open(element.textContent);
     });
   },
   beforeUnmount() {
     this.viewer.destroy();
+  },
+  methods: {
+    updateUserWord(userWord: UserWord) {
+      //
+    }
   },
 });
 </script>

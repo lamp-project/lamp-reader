@@ -60,7 +60,6 @@ import {
 import { defineComponent } from 'vue';
 import DictionaryEntryView from './DictionaryEntry.vue';
 import { UserWordStatus } from '@/../types/backend';
-import { HighlighterViewer } from '@/utils/HighlighterViewer';
 import { userWordRepository } from '@/repositories/user-word.repository';
 
 export default defineComponent({
@@ -70,6 +69,7 @@ export default defineComponent({
       UserWordStatus,
     };
   },
+  emits: ['review'],
   components: {
     IonModal,
     IonProgressBar,
@@ -99,10 +99,9 @@ export default defineComponent({
     },
   },
   methods: {
-    async open(element: HTMLSpanElement) {
+    async open(wordId: string) {
       this.loading = true;
-      this.element = element;
-      this.word = element.textContent?.toLowerCase();
+      this.word = wordId;
       this.entry = undefined;
       await this.$el.present();
       try {
@@ -124,10 +123,7 @@ export default defineComponent({
           status,
           word: this.word as string,
         });
-        HighlighterViewer.updateWordStatus(
-          this.element as HTMLSpanElement,
-          userWord
-        );
+        this.$emit('review', userWord);
         this.$el.dismiss();
       } catch (error) {
         await Toast.show({ message: error as any, color: 'danger' });
@@ -145,7 +141,7 @@ h1 {
 }
 .phonetic {
   color: grey;
-  font-family: monospace;
+  font-family: serif;
   font-weight: 300;
   ion-icon {
     color: black;

@@ -49,6 +49,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/book/:id',
     component: () => import('@/views/Book.vue'),
   },
+  {
+    name: 'review',
+    path: '/review',
+    component: () => import('@/views/Review.vue'),
+  },
 ];
 
 const router = createRouter({

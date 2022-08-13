@@ -56,7 +56,6 @@ import {
   IonInput,
   IonLabel,
 } from '@ionic/vue';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import { Loading } from '@/utils/Loading';

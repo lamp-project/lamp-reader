@@ -56,7 +56,6 @@ export default defineComponent({
   },
   computed: {
     creator() {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const [author] = this.book.persons.filter(
         (person: BookPerson) => person.role == 'AUTHOR'
