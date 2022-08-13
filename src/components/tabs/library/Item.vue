@@ -1,9 +1,11 @@
 <template>
   <Item :to="`/reader/${value.id}`" :cover="cover" :size="size">
-    <template #content>
+    <template #label>
       <h2>{{ value.title }}</h2>
       <h3>{{ value.creator }}</h3>
       <p>{{ value.description }}</p>
+      <hr>
+      <ion-badge color="light">{{ percentage }}% read</ion-badge>
     </template>
     <template #options>
       <ion-item-option color="danger" @click="remove">
@@ -23,7 +25,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { BookInfo } from '@derock.ir/epubjs-plus';
-import { IonItemOption, IonIcon } from '@ionic/vue';
+import { IonItemOption, IonBadge, IonIcon } from '@ionic/vue';
 import { trashOutline, informationOutline } from 'ionicons/icons';
 import Item from '@/components/utils/Item.vue';
 
@@ -40,12 +42,18 @@ export default defineComponent({
   },
   components: {
     IonItemOption,
+    IonBadge,
     IonIcon,
     Item,
   },
   computed: {
     cover() {
       return this.value.cover ? URL.createObjectURL(this.value.cover) : '';
+    },
+    percentage() {
+      return (
+        (this.value.pagination.currentLocation?.end.percentage || 0) * 100
+      ).toFixed();
     },
   },
   methods: {

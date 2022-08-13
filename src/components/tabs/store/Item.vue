@@ -4,7 +4,7 @@
     :cover="value.cover.medium"
     :size="size"
   >
-    <template #content>
+    <template #label>
       <h2>{{ value.title }}</h2>
       <h3>{{ creator }}</h3>
       <p>{{ value.description }}</p>

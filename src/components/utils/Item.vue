@@ -5,8 +5,9 @@
         <img :src="cover" />
       </ion-thumbnail>
       <ion-label>
-        <slot name="content" />
+        <slot name="label" />
       </ion-label>
+      <slot name="content" />
     </ion-item>
     <ion-item-options side="end">
       <slot name="options" />
