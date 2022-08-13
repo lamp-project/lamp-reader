@@ -3,7 +3,7 @@
     <ion-content>
       <section>
         <h1>
-          * {{ word }}
+          * {{ userWord?.wordId }}
           <small v-if="phonetic" class="phonetic">
             {{ phonetic.text }}
             <ion-icon
@@ -13,7 +13,10 @@
             />
           </small>
         </h1>
-        <p class="translation">
+        <p
+          class="translation"
+          :style="{ height: `calc(50vh - ${buttonsSectionHeight}px)` }"
+        >
           <ion-progress-bar
             v-if="loading"
             type="indeterminate"
@@ -21,8 +24,8 @@
           ></ion-progress-bar>
           <DictionaryEntryView :value="entry" />
         </p>
-        <hr />
         <ion-button
+          v-if="showNButton"
           @click="setWordStatus(UserWordStatus.Learning)"
           :disabled="loading"
           color="warning"
@@ -31,6 +34,7 @@
           Needs more review
         </ion-button>
         <ion-button
+          v-if="showPButton"
           @click="setWordStatus(UserWordStatus.Known)"
           :disabled="loading"
           color="dark"
@@ -59,7 +63,7 @@ import {
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import DictionaryEntryView from './DictionaryEntry.vue';
-import { UserWordStatus } from '@/../types/backend';
+import { UserWord, UserWordStatus } from '@/../types/backend';
 import { userWordRepository } from '@/repositories/user-word.repository';
 
 export default defineComponent({
@@ -81,7 +85,7 @@ export default defineComponent({
   data: () => ({
     loading: false,
     element: undefined as HTMLSpanElement | undefined,
-    word: '' as string | undefined,
+    userWord: undefined as UserWord | undefined,
     entry: undefined as DictionaryEntry | undefined,
   }),
   computed: {
@@ -97,15 +101,28 @@ export default defineComponent({
       }
       return undefined;
     },
+    showPButton() {
+      return this.userWord?.status != UserWordStatus.Known;
+    },
+    showNButton() {
+      return this.userWord?.status != UserWordStatus.Learning;
+    },
+    buttonsSectionHeight() {
+      if (this.showNButton && this.showPButton) {
+        return 160;
+      } else {
+        return 120;
+      }
+    },
   },
   methods: {
-    async open(wordId: string) {
+    async open(userWord: UserWord) {
       this.loading = true;
-      this.word = wordId;
+      this.userWord = userWord;
       this.entry = undefined;
       await this.$el.present();
       try {
-        this.entry = await dictionaryRepository.lookup(this.word as string);
+        this.entry = await dictionaryRepository.lookup(userWord.wordId);
       } catch (error) {
         await Toast.show({ message: error as any, color: 'danger' });
       }
@@ -121,7 +138,7 @@ export default defineComponent({
       try {
         const userWord = await userWordRepository.review({
           status,
-          word: this.word as string,
+          word: this.userWord?.wordId as string,
         });
         this.$emit('review', userWord);
         this.$el.dismiss();
@@ -148,7 +165,6 @@ h1 {
   }
 }
 .translation {
-  height: calc(50vh - 170px);
   overflow-y: scroll;
   margin: 0;
 }

@@ -83,7 +83,10 @@ export default defineComponent({
     this.viewer.on('word-click', (element: HTMLSpanElement) => {
       this.selectedWordElement = element;
       // @ts-ignore
-      this.$refs.wordModal.open(element.textContent);
+      this.$refs.wordModal.open({
+        wordId: element.getAttribute('word'),
+        status: element.getAttribute('status'),
+      });
     });
   },
   beforeUnmount() {

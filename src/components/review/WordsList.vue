@@ -38,7 +38,7 @@ export default defineComponent({
     },
     showModal(userWord: UserWord) {
       // @ts-ignore
-      this.$refs.wordModal.open(userWord.wordId);
+      this.$refs.wordModal.open(userWord);
     },
   },
 });

@@ -9,16 +9,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { IonCard, IonItem, IonLabel } from '@ionic/vue';
 import { userWordRepository } from '@/repositories/user-word.repository';
 import { UserWord, UserWordStatus } from '@/../types/backend';
+import { RouteLocationNormalizedLoaded } from 'vue-router';
 
 export default defineComponent({
   async setup() {
-    const userWords = await userWordRepository.getMyUserWords();
+    const userWords = await userWordRepository.getMyUserWords(
+      UserWordStatus.Learning
+    );
     return {
-      userWords,
+      learningWordsCount: ref(userWords.length),
     };
   },
   components: {
@@ -26,12 +29,17 @@ export default defineComponent({
     IonItem,
     IonLabel,
   },
-  computed: {
-    learningWordsCount() {
-      // @ts-ignore
-      return this.userWords.filter(
-        (item: UserWord) => item.status == UserWordStatus.Learning
-      ).length;
+  watch: {
+    $route: {
+      deep: true,
+      async handler(to: RouteLocationNormalizedLoaded) {
+        if (to.path == '/tabs/home') {
+          const userWords = await userWordRepository.getMyUserWords(
+            UserWordStatus.Learning
+          );
+          this.learningWordsCount = userWords.length;
+        }
+      },
     },
   },
 });

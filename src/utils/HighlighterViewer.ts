@@ -57,6 +57,7 @@ export class HighlighterViewer extends StatefulEpubViewer {
       // @ts-ignore
       const word = item.textContent.toLowerCase();
       const status = this.wordsMap.get(word);
+      item.setAttribute('status', status as string);
       switch (status) {
         case UserWordStatus.Known:
         case UserWordStatus.Learning:
