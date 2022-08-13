@@ -12,7 +12,7 @@
 import { defineComponent, ref } from 'vue';
 import { IonCard, IonItem, IonLabel } from '@ionic/vue';
 import { userWordRepository } from '@/repositories/user-word.repository';
-import { UserWord, UserWordStatus } from '@/../types/backend';
+import { UserWordStatus } from '@/../types/backend';
 import { RouteLocationNormalizedLoaded } from 'vue-router';
 
 export default defineComponent({
