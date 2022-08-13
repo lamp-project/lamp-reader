@@ -16,13 +16,16 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { eye } from 'ionicons/icons';
+import { IonList, IonListHeader, IonItem, IonLabel, IonIcon } from '@ionic/vue';
 import { UserWord, UserWordStatus } from '@/../types/backend';
 import { userWordRepository } from '@/repositories/user-word.repository';
 import WordModal from './WordModal.vue';
 
 export default defineComponent({
   async setup() {
-    const userWords = await userWordRepository.getMyUserWords(UserWordStatus.Learning);
+    const userWords = await userWordRepository.getMyUserWords(
+      UserWordStatus.Learning
+    );
     return {
       userWords: ref(userWords),
       // Icons
@@ -30,11 +33,18 @@ export default defineComponent({
     };
   },
   components: {
+    IonList,
+    IonListHeader,
+    IonItem,
+    IonLabel,
+    IonIcon,
     WordModal,
   },
   methods: {
     async reload() {
-      this.userWords = await userWordRepository.getMyUserWords(UserWordStatus.Learning)
+      this.userWords = await userWordRepository.getMyUserWords(
+        UserWordStatus.Learning
+      );
     },
     showModal(userWord: UserWord) {
       // @ts-ignore
