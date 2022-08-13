@@ -4,10 +4,10 @@
       <h2>{{ value.title }}</h2>
       <h3>{{ value.creator }}</h3>
       <p>{{ value.description }}</p>
-      <hr>
+      <hr />
       <ion-badge color="light">{{ percentage }}% read</ion-badge>
     </template>
-    <template #options>
+    <template v-if="size != 'big'" #options>
       <ion-item-option color="danger" @click="remove">
         <ion-icon :icon="trashOutline"></ion-icon>
       </ion-item-option>
@@ -35,7 +35,9 @@ export default defineComponent({
   },
   emits: ['remove'],
   props: {
-    size: String,
+    size: {
+      default: 'small' as 'big' | 'small',
+    },
     value: {
       default: {} as BookInfo,
     },

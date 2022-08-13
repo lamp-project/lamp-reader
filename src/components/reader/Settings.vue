@@ -86,6 +86,7 @@ export default defineComponent({
     fontSize(value: string) {
       // eslint-disable-next-line vue/no-mutating-props
       this.viewer.fontSize = value;
+      this.viewer.reloadLocation();
     },
   },
   methods: {

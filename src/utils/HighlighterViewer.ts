@@ -82,19 +82,19 @@ export class HighlighterViewer extends StatefulEpubViewer {
     this.fontSize = this.fontSize;
   }
 
-  protected registerThemes(override: any = {}) {
-    const currentCFI = this.bookInfo.pagination.currentLocation?.end.cfi;
+  protected registerThemes(override: any = THEME) {
     this.rendition.themes.register('lamp-reader', { ...THEME, ...override });
     this.rendition.themes.select('lamp-reader');
-    this.goTo(currentCFI as string);
+  }
+
+  public reloadLocation() {
+    this.goTo(this.bookInfo.pagination.currentLocation?.end.cfi as string);
   }
 
   // eslint-disable-next-line accessor-pairs
   public set fontSize(value: string) {
     this.registerThemes({
-      '*': {
-        'font-size': `${value}px !important`,
-      },
+      '*': { 'font-size': `${value}px !important` },
     });
     localStorage.setItem(FONT_SIZE_KEY, value);
   }
