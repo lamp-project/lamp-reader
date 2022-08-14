@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-buttons slot="start">
+        <ion-buttons slot="end">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>{{ title }}</ion-title>

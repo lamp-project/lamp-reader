@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import TabPage from '@/components/utils/TabPage.vue';
-import List from '@/components/tabs/store/List.vue';
+import List from '@/components/store/List.vue';
 
 export default defineComponent({
   components: {

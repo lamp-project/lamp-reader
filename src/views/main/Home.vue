@@ -8,8 +8,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import TabPage from '@/components/utils/TabPage.vue';
-import UserStatusCard from '@/components/tabs/home/UserStatusCard.vue';
-import LearningWordsCard from '@/components/tabs/home/LearningWordsCard.vue';
+import UserStatusCard from '@/components/home/UserStatusCard.vue';
+import LearningWordsCard from '@/components/home/LearningWordsCard.vue';
 
 export default defineComponent({
   components: {
