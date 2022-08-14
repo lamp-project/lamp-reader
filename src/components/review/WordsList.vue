@@ -1,8 +1,9 @@
-getLocalUserWords<template>
+getLocalUserWords
+<template>
   <ion-list>
     <ion-list-header>Learning Words</ion-list-header>
     <ion-item
-      v-for="userWord in userWords"
+      v-for="userWord in learningUserWords"
       :key="userWord.wordId"
       button
       @click="showModal(userWord)"
@@ -11,23 +12,21 @@ getLocalUserWords<template>
       <ion-icon slot="end" :icon="eye"></ion-icon>
     </ion-item>
   </ion-list>
-  <WordModal ref="wordModal" @review="reload" />
+  <WordModal ref="wordModal" />
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { eye } from 'ionicons/icons';
 import { IonList, IonListHeader, IonItem, IonLabel, IonIcon } from '@ionic/vue';
 import { UserWord, UserWordStatus } from '@/../types/backend';
-import { userWordRepository } from '@/repositories/user-word.repository';
 import WordModal from './WordModal.vue';
+import { userWordStore } from '@/store/user-word.store';
 
 export default defineComponent({
   async setup() {
-    const userWords = await userWordRepository.getLocalUserWords(
-      UserWordStatus.Learning
-    );
+    await userWordStore.initialise();
     return {
-      userWords: ref(userWords),
+      UserWordStatus,
       // Icons
       eye,
     };
@@ -40,12 +39,18 @@ export default defineComponent({
     IonIcon,
     WordModal,
   },
-  methods: {
-    async reload() {
-      this.userWords = await userWordRepository.getLocalUserWords(
-        UserWordStatus.Learning
+  data: () => ({
+    userWords: userWordStore.userWords,
+  }),
+  computed: {
+    learningUserWords() {
+      // @ts-ignore
+      return this.userWords.filter(
+        ({ status }: UserWord) => status == UserWordStatus.Learning
       );
     },
+  },
+  methods: {
     showModal(userWord: UserWord) {
       // @ts-ignore
       this.$refs.wordModal.open(userWord);

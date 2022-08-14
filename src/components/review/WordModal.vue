@@ -64,7 +64,7 @@ import {
 import { defineComponent } from 'vue';
 import DictionaryEntryView from './DictionaryEntry.vue';
 import { UserWord, UserWordStatus } from '@/../types/backend';
-import { userWordRepository } from '@/repositories/user-word.repository';
+import { userWordStore } from '@/store/user-word.store';
 
 export default defineComponent({
   setup() {
@@ -136,7 +136,7 @@ export default defineComponent({
     async setWordStatus(status: UserWordStatus) {
       this.loading = true;
       try {
-        const userWord = await userWordRepository.review({
+        const userWord = await userWordStore.review({
           status,
           word: this.userWord?.wordId as string,
         });

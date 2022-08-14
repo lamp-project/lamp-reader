@@ -21,11 +21,11 @@ import { useRoute } from 'vue-router';
 import { HighlighterViewer } from '@/utils/HighlighterViewer';
 import LoadingScreen from './LoadingScreen.vue';
 import { DisplayedLocation } from 'epubjs/types/rendition';
-import { userWordRepository } from '@/repositories/user-word.repository';
-import Header from './Header.vue';
-import Footer from './Footer.vue';
 import WordModal from '@/components/review/WordModal.vue';
 import { UserWord } from 'types/backend';
+import { userWordStore } from '@/store/user-word.store';
+import Header from './Header.vue';
+import Footer from './Footer.vue';
 
 export default defineComponent({
   async setup() {
@@ -41,7 +41,7 @@ export default defineComponent({
       throw new Error(`Book [${params.id}] didn't found.`);
     }
     // 3- loading the user-words
-    const userWords = await userWordRepository.getLocalUserWords();
+    const userWords = await userWordStore.initialise();
     // 3- creating the viewer
     const viewer = new HighlighterViewer(book, userWords);
     const showControlls = ref(false);

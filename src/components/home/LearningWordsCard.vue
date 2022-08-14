@@ -10,19 +10,16 @@ getLocalUserWords
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { IonCard, IonItem, IonLabel } from '@ionic/vue';
-import { userWordRepository } from '@/repositories/user-word.repository';
-import { UserWordStatus } from '@/../types/backend';
-import { RouteLocationNormalizedLoaded } from 'vue-router';
+import { UserWord, UserWordStatus } from '@/../types/backend';
+import { userWordStore } from '@/store/user-word.store';
 
 export default defineComponent({
   async setup() {
-    const userWords = await userWordRepository.getLocalUserWords(
-      UserWordStatus.Learning
-    );
+    await userWordStore.initialise();
     return {
-      learningWordsCount: ref(userWords.length),
+      userWords: userWordStore.userWords,
     };
   },
   components: {
@@ -30,25 +27,12 @@ export default defineComponent({
     IonItem,
     IonLabel,
   },
-  watch: {
-    $route: {
-      deep: true,
-      async handler(to: RouteLocationNormalizedLoaded) {
-        if (to.path == '/tabs/home') {
-          await this.fetchData();
-        }
-      },
-    },
-  },
-  created() {
-    userWordRepository.on('updated', this.fetchData.bind(this));
-  },
-  methods: {
-    async fetchData() {
-      const userWords = await userWordRepository.getLocalUserWords(
-        UserWordStatus.Learning
-      );
-      this.learningWordsCount = userWords.length;
+  computed: {
+    learningWordsCount() {
+      // @ts-ignore
+      return this.userWords.filter(
+        ({ status }: UserWord) => status == UserWordStatus.Learning
+      ).length;
     },
   },
 });
