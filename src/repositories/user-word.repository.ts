@@ -16,7 +16,7 @@ function filterUserWordsByStatus(
 }
 
 export class UserWordRepository {
-  async getMyUserWords(status?: UserWordStatus) {
+  async getLocalUserWords(status?: UserWordStatus) {
     if (await localDatabase.userWords.count()) {
       return filterUserWordsByStatus(
         await localDatabase.userWords.toArray(),

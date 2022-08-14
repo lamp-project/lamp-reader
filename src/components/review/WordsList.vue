@@ -1,4 +1,4 @@
-<template>
+getLocalUserWords<template>
   <ion-list>
     <ion-list-header>Learning Words</ion-list-header>
     <ion-item
@@ -23,7 +23,7 @@ import WordModal from './WordModal.vue';
 
 export default defineComponent({
   async setup() {
-    const userWords = await userWordRepository.getMyUserWords(
+    const userWords = await userWordRepository.getLocalUserWords(
       UserWordStatus.Learning
     );
     return {
@@ -42,7 +42,7 @@ export default defineComponent({
   },
   methods: {
     async reload() {
-      this.userWords = await userWordRepository.getMyUserWords(
+      this.userWords = await userWordRepository.getLocalUserWords(
         UserWordStatus.Learning
       );
     },

@@ -1,4 +1,4 @@
-<template>
+getLocalUserWords<template>
   <ion-card color="warning" class="learning-words">
     <ion-item button color="warning" detail :router-link="{ name: 'review' }">
       <ion-label>
@@ -17,7 +17,7 @@ import { RouteLocationNormalizedLoaded } from 'vue-router';
 
 export default defineComponent({
   async setup() {
-    const userWords = await userWordRepository.getMyUserWords(
+    const userWords = await userWordRepository.getLocalUserWords(
       UserWordStatus.Learning
     );
     return {
@@ -34,7 +34,7 @@ export default defineComponent({
       deep: true,
       async handler(to: RouteLocationNormalizedLoaded) {
         if (to.path == '/tabs/home') {
-          const userWords = await userWordRepository.getMyUserWords(
+          const userWords = await userWordRepository.getLocalUserWords(
             UserWordStatus.Learning
           );
           this.learningWordsCount = userWords.length;

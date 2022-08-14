@@ -1,4 +1,4 @@
-<template>
+getLocalUserWords<template>
   <LoadingScreen v-if="loading" :value="book" />
   <ion-page v-else>
     <Header
@@ -41,7 +41,7 @@ export default defineComponent({
       throw new Error(`Book [${params.id}] didn't found.`);
     }
     // 3- loading the user-words
-    const userWords = await userWordRepository.getMyUserWords();
+    const userWords = await userWordRepository.getLocalUserWords();
     // 3- creating the viewer
     const viewer = new HighlighterViewer(book, userWords);
     const showControlls = ref(false);

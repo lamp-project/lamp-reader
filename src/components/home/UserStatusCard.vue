@@ -1,4 +1,4 @@
-<template>
+getLocalUserWords<template>
   <ion-card color="primary" class="user-status">
     <ion-card-header>
       <ion-row>
@@ -38,7 +38,7 @@ import { User } from 'types/backend';
 export default defineComponent({
   async setup() {
     const user = backend.authenticatedUser as User;
-    const userWords = await userWordRepository.getMyUserWords();
+    const userWords = await userWordRepository.getLocalUserWords();
     return {
       user,
       userWords,
