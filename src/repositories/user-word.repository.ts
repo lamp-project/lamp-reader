@@ -16,6 +16,20 @@ function filterUserWordsByStatus(
 }
 
 export class UserWordRepository {
+  async getUserWords() {
+    await localDatabase.userWords.clear();
+    return backend
+      .query<void, { myUserWords: UserWord[] }>(myUserWordsQuery)
+      .then((res) => res.myUserWords)
+      .then((userWords) =>
+        Promise.all(
+          userWords.map(async (userWord) => {
+            await localDatabase.userWords.put(userWord);
+            return userWord;
+          })
+        )
+      );
+  }
   async getLocalUserWords(status?: UserWordStatus) {
     if (await localDatabase.userWords.count()) {
       return filterUserWordsByStatus(
@@ -23,18 +37,9 @@ export class UserWordRepository {
         status
       );
     } else {
-      return backend
-        .query<void, { myUserWords: UserWord[] }>(myUserWordsQuery)
-        .then((res) => res.myUserWords)
-        .then((userWords) =>
-          Promise.all(
-            userWords.map(async (userWord) => {
-              await localDatabase.userWords.put(userWord);
-              return userWord;
-            })
-          )
-        )
-        .then((userWords) => filterUserWordsByStatus(userWords, status));
+      return this.getUserWords().then((userWords) =>
+        filterUserWordsByStatus(userWords, status)
+      );
     }
   }
   async review(input: ReviewInput) {

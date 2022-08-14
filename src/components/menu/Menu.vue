@@ -42,6 +42,8 @@ import {
 } from '@ionic/vue';
 import { closeOutline, syncOutline } from 'ionicons/icons';
 import { Loading } from '@/utils/Loading';
+import { userWordRepository } from '@/repositories/user-word.repository';
+import { Toast } from '@/utils/Toast';
 
 export default defineComponent({
   setup() {
@@ -64,9 +66,13 @@ export default defineComponent({
   methods: {
     async syncWords() {
       await this.$el.close();
-      await Loading.wait('Syncing Words ...', () => {
-        ///
-      });
+      await Loading.wait(
+        'Syncing Words ...',
+        async () => {
+          await userWordRepository.getUserWords();
+        },
+        'UserWords successfully synced.'
+      );
     },
   },
 });
