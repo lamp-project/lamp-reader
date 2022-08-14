@@ -43,7 +43,6 @@ import {
 import { closeOutline, syncOutline } from 'ionicons/icons';
 import { Loading } from '@/utils/Loading';
 import { userWordRepository } from '@/repositories/user-word.repository';
-import { Toast } from '@/utils/Toast';
 
 export default defineComponent({
   setup() {

@@ -1,3 +1,5 @@
+import type { EventEmitter } from '@stencil/core';
+import { Event } from '@stencil/core';
 import { backend } from '@/utils/Backend';
 import { ReviewInput, UserWord, UserWordStatus } from 'types/backend';
 import { localDatabase } from '@/utils/LocalDatabase';
@@ -16,19 +18,21 @@ function filterUserWordsByStatus(
 }
 
 export class UserWordRepository {
+  @Event() updated!: EventEmitter<UserWord[]>;
   async getUserWords() {
     await localDatabase.userWords.clear();
-    return backend
+    const userWords = await backend
       .query<void, { myUserWords: UserWord[] }>(myUserWordsQuery)
-      .then((res) => res.myUserWords)
-      .then((userWords) =>
+      .then(({ myUserWords }) =>
         Promise.all(
-          userWords.map(async (userWord) => {
+          myUserWords.map(async (userWord) => {
             await localDatabase.userWords.put(userWord);
             return userWord;
           })
         )
       );
+    this.updated.emit(userWords);
+    return userWords;
   }
   async getLocalUserWords(status?: UserWordStatus) {
     if (await localDatabase.userWords.count()) {
@@ -43,7 +47,7 @@ export class UserWordRepository {
     }
   }
   async review(input: ReviewInput) {
-    return backend
+    const userWord = await backend
       .mutate<{ input: ReviewInput }, { review: UserWord }>(reviewMutation, {
         input,
       })
@@ -52,6 +56,8 @@ export class UserWordRepository {
         await localDatabase.userWords.update(userWord.wordId, userWord);
         return userWord;
       });
+    this.updated.emit([userWord]);
+    return userWord;
   }
 }
 
