@@ -1,4 +1,5 @@
-getLocalUserWords<template>
+getLocalUserWords
+<template>
   <ion-card color="warning" class="learning-words">
     <ion-item button color="warning" detail :router-link="{ name: 'review' }">
       <ion-label>
@@ -34,12 +35,20 @@ export default defineComponent({
       deep: true,
       async handler(to: RouteLocationNormalizedLoaded) {
         if (to.path == '/tabs/home') {
-          const userWords = await userWordRepository.getLocalUserWords(
-            UserWordStatus.Learning
-          );
-          this.learningWordsCount = userWords.length;
+          await this.fetchData();
         }
       },
+    },
+  },
+  created() {
+    userWordRepository.on('updated', this.fetchData.bind(this));
+  },
+  methods: {
+    async fetchData() {
+      const userWords = await userWordRepository.getLocalUserWords(
+        UserWordStatus.Learning
+      );
+      this.learningWordsCount = userWords.length;
     },
   },
 });

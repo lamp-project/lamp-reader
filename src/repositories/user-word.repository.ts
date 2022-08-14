@@ -1,10 +1,9 @@
-import type { EventEmitter } from '@stencil/core';
-import { Event } from '@stencil/core';
 import { backend } from '@/utils/Backend';
 import { ReviewInput, UserWord, UserWordStatus } from 'types/backend';
 import { localDatabase } from '@/utils/LocalDatabase';
 import myUserWordsQuery from '@/graphql/queries/my-user-words.gql';
 import reviewMutation from '@/graphql/mutations/review.gql';
+import { EventEmitter } from 'eventemitter3';
 
 function filterUserWordsByStatus(
   userWords: UserWord[],
@@ -17,8 +16,7 @@ function filterUserWordsByStatus(
   }
 }
 
-export class UserWordRepository {
-  @Event() updated!: EventEmitter<UserWord[]>;
+export class UserWordRepository extends EventEmitter {
   async getUserWords() {
     await localDatabase.userWords.clear();
     const userWords = await backend
@@ -31,7 +29,7 @@ export class UserWordRepository {
           })
         )
       );
-    this.updated.emit(userWords);
+    this.emit('updated', userWords);
     return userWords;
   }
   async getLocalUserWords(status?: UserWordStatus) {
@@ -46,6 +44,7 @@ export class UserWordRepository {
       );
     }
   }
+
   async review(input: ReviewInput) {
     const userWord = await backend
       .mutate<{ input: ReviewInput }, { review: UserWord }>(reviewMutation, {
@@ -56,7 +55,7 @@ export class UserWordRepository {
         await localDatabase.userWords.update(userWord.wordId, userWord);
         return userWord;
       });
-    this.updated.emit([userWord]);
+    this.emit('updated', [userWord]);
     return userWord;
   }
 }

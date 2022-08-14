@@ -12,7 +12,7 @@ getLocalUserWords<template>
             Hi <span class="user-name">{{user.name}}</span> 👋
           </ion-card-subtitle>
           <h1>{{ level }}</h1>
-          {{ userWords.length }} <small>words</small>
+          {{ userWordsCount }} <small>words</small>
         </ion-col>
       </ion-row>
     </ion-card-header>
@@ -21,7 +21,7 @@ getLocalUserWords<template>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import {
   IonCard,
   IonRow,
@@ -37,11 +37,10 @@ import { User } from 'types/backend';
 
 export default defineComponent({
   async setup() {
-    const user = backend.authenticatedUser as User;
     const userWords = await userWordRepository.getLocalUserWords();
     return {
-      user,
-      userWords,
+      user: backend.authenticatedUser as User,
+      userWordsCount: ref(userWords.length),
     };
   },
   components: {
@@ -58,19 +57,28 @@ export default defineComponent({
   },
   computed: {
     level() {
-      if (this.userWords.length < 500) {
+      if (this.userWordsCount < 500) {
         return 'Biginner';
-      } else if (this.userWords.length < 1000) {
+      } else if (this.userWordsCount < 1000) {
         return 'Elementry';
-      } else if (this.userWords.length < 2000) {
+      } else if (this.userWordsCount < 2000) {
         return 'Lower Intermediate';
-      } else if (this.userWords.length < 4000) {
+      } else if (this.userWordsCount < 4000) {
         return 'Upper Intermediate';
-      } else if (this.userWords.length < 8000) {
+      } else if (this.userWordsCount < 8000) {
         return 'Advanced';
       } else {
         return 'Fluency Level';
       }
+    },
+  },
+  created() {
+    userWordRepository.on('updated', this.fetchData.bind(this));
+  },
+  methods: {
+    async fetchData() {
+      const userWords = await userWordRepository.getLocalUserWords();
+      this.userWordsCount = userWords.length;
     },
   },
 });
