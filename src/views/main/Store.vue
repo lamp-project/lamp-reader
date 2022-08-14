@@ -1,47 +1,18 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title> <ion-icon :icon="storefrontOutline" /> Shop </ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
-      <AsyncChild>
-        <List />
-      </AsyncChild>
-    </ion-content>
-  </ion-page>
+  <TabPage title="Store">
+    <List />
+  </TabPage>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonIcon,
-} from '@ionic/vue';
-import { storefrontOutline } from 'ionicons/icons';
-import AsyncChild from '@/components/utils/AsyncChild.vue';
+import TabPage from '@/components/utils/TabPage.vue';
 import List from '@/components/tabs/store/List.vue';
 
 export default defineComponent({
   components: {
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonPage,
-    IonIcon,
-    AsyncChild,
+    TabPage,
     List,
-  },
-  setup() {
-    return {
-      storefrontOutline,
-    };
   },
 });
 </script>
