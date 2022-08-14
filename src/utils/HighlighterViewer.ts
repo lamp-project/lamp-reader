@@ -126,13 +126,17 @@ const THEME = {
     // padding: '0px 5px',
   },
   'vocab.KNOWN': {
-    'background-color': 'lightgrey',
+    'border-bottom': `1px dashed lightgrey`,
+    'border-radius': '0px',
+    // 'background-color': 'lightgrey',
   },
   'vocab.LEARNING': {
     'background-color': 'orange',
     // color: 'white',
+    // 'border-bottom': `2px solid orange`,
   },
   'vocab.UNKNOWN': {
+    // 'border-bottom': `2px solid red`,
     'background-color': 'black',
     color: 'white',
   },
