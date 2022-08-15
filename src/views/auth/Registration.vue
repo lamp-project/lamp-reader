@@ -2,7 +2,7 @@
   <ion-page>
     <ion-content>
       <form>
-        <img src="/img/bulb.png" width="96" />
+        <img src="@/../public/img/bulb.png" width="96" />
         <br />
         <h2>Registration</h2>
         <ion-item>

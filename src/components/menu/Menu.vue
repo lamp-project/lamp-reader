@@ -15,12 +15,21 @@
     <ion-content>
       <ion-list>
         <ion-item button detail @click="syncWords">
-          <ion-icon :icon="syncOutline"></ion-icon>&nbsp;
+          <ion-icon :icon="cloudDownloadOutline"></ion-icon>&nbsp;
           <ion-label>Sync Words</ion-label>
+        </ion-item>
+        <ion-item button detail @click="showAbout">
+          <ion-icon :icon="informationCircleOutline"></ion-icon>&nbsp;
+          <ion-label>About</ion-label>
+        </ion-item>
+        <ion-item button detail @click="signOut">
+          <ion-icon :icon="walkOutline"></ion-icon>&nbsp;
+          <ion-label>Sign Out</ion-label>
         </ion-item>
       </ion-list>
     </ion-content>
     <ion-badge color="light"> v{{ version }} </ion-badge>
+    <AboutModal ref="aboutModal" />
   </ion-menu>
 </template>
 
@@ -40,13 +49,26 @@ import {
   IonIcon,
   IonLabel,
 } from '@ionic/vue';
-import { closeOutline, syncOutline } from 'ionicons/icons';
+import {
+  closeOutline,
+  cloudDownloadOutline,
+  walkOutline,
+  informationCircleOutline,
+} from 'ionicons/icons';
 import { Loading } from '@/utils/Loading';
 import { userWordRepository } from '@/repositories/user-word.repository';
+import { backend } from '@/utils/Backend';
+import AboutModal from './About.vue';
 
 export default defineComponent({
   setup() {
-    return { closeOutline, syncOutline, version: process.env.VUE_APP_VERSION };
+    return {
+      version: process.env.VUE_APP_VERSION,
+      closeOutline,
+      cloudDownloadOutline,
+      walkOutline,
+      informationCircleOutline,
+    };
   },
   components: {
     IonHeader,
@@ -61,6 +83,7 @@ export default defineComponent({
     IonBadge,
     IonIcon,
     IonLabel,
+    AboutModal,
   },
   methods: {
     async syncWords() {
@@ -72,6 +95,16 @@ export default defineComponent({
         },
         'UserWords successfully synced.'
       );
+    },
+    async showAbout() {
+      this.$el.close();
+      // @ts-ignore
+      await this.$refs.aboutModal.open();
+    },
+    async signOut() {
+      await this.$el.close();
+      backend.signOut();
+      this.$router.push({ name: 'Login' });
     },
   },
 });

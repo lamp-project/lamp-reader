@@ -65,6 +65,10 @@ export class Backend extends GraphqlClient {
         return user;
       });
   }
+
+  async signOut() {
+    this.authToken = null;
+  }
 }
 
 export const backend = new Backend();
