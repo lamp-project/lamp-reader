@@ -9,7 +9,7 @@ getLocalUserWords<template>
     <ion-content :fullscreen="true">
       <div ref="viewerElement" class="epub-viewer"></div>
     </ion-content>
-    <Footer :location="location" />
+    <Footer :location="location" :viewer="viewer"/>
   </ion-page>
   <WordModal ref="wordModal" @review="updateUserWord" />
 </template>

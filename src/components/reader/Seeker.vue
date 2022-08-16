@@ -1,0 +1,96 @@
+<template>
+  <ion-modal :initial-breakpoint="0.5" :breakpoints="[0.25, 0.5, 0.75, 1]">
+    <ion-header>
+      <Toolbar>
+        <template #start>
+          &nbsp;<ion-icon :icon="settingsOutline"></ion-icon>
+        </template>
+        <template #middle>&nbsp;Seek</template>
+        <template #end>
+          <ion-button @click="$el.dismiss()">
+            <ion-icon slot="icon-only" :icon="closeOutline"></ion-icon>
+          </ion-button>
+        </template>
+      </Toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Progress: {{progress}}%</ion-label>
+          <ion-range v-model="progress"></ion-range>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-modal>
+</template>
+
+<script lang="ts">
+import { settingsOutline, closeOutline } from 'ionicons/icons';
+import {
+  IonModal,
+  IonIcon,
+  IonList,
+  IonItem,
+  IonRange,
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonLabel,
+} from '@ionic/vue';
+import { defineComponent } from 'vue';
+import Toolbar from '@/components/utils/Toolbar.vue';
+import { HighlighterViewer } from '@/utils/HighlighterViewer';
+
+export default defineComponent({
+  setup() {
+    return {
+      settingsOutline,
+      closeOutline,
+    };
+  },
+  props: {
+    viewer: {
+      type: HighlighterViewer,
+      required: true,
+    },
+  },
+  components: {
+    IonModal,
+    IonIcon,
+    IonList,
+    IonItem,
+    IonRange,
+    IonButton,
+    IonContent,
+    IonHeader,
+    IonLabel,
+    Toolbar,
+  },
+  data: () => ({
+    progress: 0,
+  }),
+  watch: {
+    fontSize(value: string) {
+      // eslint-disable-next-line vue/no-mutating-props
+      this.viewer.fontSize = value;
+      this.viewer.reloadLocation();
+    },
+  },
+  methods: {
+    async open() {
+      // this.progress = this.viewer.
+      await this.$el.present();
+    },
+  },
+});
+</script>
+<style lang="scss" scoped>
+h1 {
+  font-family: 'Merriweather', serif;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+section {
+  padding: 12px;
+}
+</style>

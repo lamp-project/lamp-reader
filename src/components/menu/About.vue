@@ -48,15 +48,22 @@ import {
   IonButton,
   IonButtons,
   IonBadge,
+  IonIcon,
 } from '@ionic/vue';
-import { logoGithub, logoInstagram, logoTwitter,mailOutline } from 'ionicons/icons';
+import {
+  logoGithub,
+  logoInstagram,
+  logoTwitter,
+  mailOutline,
+} from 'ionicons/icons';
 
 export default defineComponent({
   setup() {
     return {
       logoGithub,
       logoInstagram,
-      logoTwitter,mailOutline,
+      logoTwitter,
+      mailOutline,
       version: process.env.VUE_APP_VERSION,
     };
   },
@@ -69,6 +76,7 @@ export default defineComponent({
     IonButton,
     IonButtons,
     IonBadge,
+    IonIcon,
   },
   methods: {
     async open() {
