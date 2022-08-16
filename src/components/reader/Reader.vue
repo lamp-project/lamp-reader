@@ -18,7 +18,7 @@ LampViewergetLocalUserWords<template>
 import { defineComponent, ref } from 'vue';
 import { IonPage, IonContent } from '@ionic/vue';
 import { useRoute } from 'vue-router';
-import { LampViewer } from '@/utils/LampViewer';
+import { LampViewer } from '@/utils/viewer/LampViewer';
 import LoadingScreen from './LoadingScreen.vue';
 import { DisplayedLocation } from 'epubjs/types/rendition';
 import WordModal from '@/components/review/WordModal.vue';

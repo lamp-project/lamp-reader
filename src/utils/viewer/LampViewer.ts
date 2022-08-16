@@ -1,6 +1,6 @@
 import { Epub, StatefulEpubViewer } from '@derock.ir/epubjs-plus';
 import { localDatabase } from '@/utils/LocalDatabase';
-import { UserWord, UserWordStatus } from '../../types/backend';
+import { UserWord, UserWordStatus } from '../../../types/backend';
 
 const FONT_SIZE_KEY = 'font-size';
 
@@ -16,6 +16,12 @@ export class LampViewer extends StatefulEpubViewer {
 
   public async initialize() {
     await super.initialize();
+    await this.extractLocations();
+    this.on('content', this.onContentLoaded.bind(this));
+    this.book.spine.hooks.content.register(this.hightlight.bind(this));
+  }
+
+  private async extractLocations() {
     const key = this.book.key();
     const locations = await localDatabase.epubLocations.get(key);
     if (locations) {
@@ -37,8 +43,6 @@ export class LampViewer extends StatefulEpubViewer {
         embededLocations ?? (await this.book.locations.generate(150));
       await localDatabase.epubLocations.put(locations, key);
     }
-    this.on('content', this.registerEventListenersOfHighlights.bind(this));
-    this.book.spine.hooks.content.register(this.hightlight.bind(this));
   }
 
   protected hightlight({ body }: Document) {
@@ -62,7 +66,7 @@ export class LampViewer extends StatefulEpubViewer {
     this.emit('processing:end');
   }
 
-  protected registerEventListenersOfHighlights({ body }: Document) {
+  protected onContentLoaded({ body }: Document) {
     this.body = body as HTMLBodyElement;
     // @ts-ignore
     body.querySelectorAll('vocab').forEach((element: HTMLSpanElement) => {

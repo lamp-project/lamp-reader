@@ -39,7 +39,7 @@ import {
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Toolbar from '@/components/utils/Toolbar.vue';
-import { LampViewer } from '@/utils/LampViewer';
+import { LampViewer } from '@/utils/viewer/LampViewer';
 
 export default defineComponent({
   setup() {

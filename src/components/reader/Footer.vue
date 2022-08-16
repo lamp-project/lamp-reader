@@ -23,7 +23,7 @@ import { IonFooter } from '@ionic/vue';
 import Toolbar from '@/components/utils/Toolbar.vue';
 import { DisplayedLocation } from 'epubjs/types/rendition';
 import Seeker from './Seeker.vue';
-import { LampViewer } from '@/utils/LampViewer';
+import { LampViewer } from '@/utils/viewer/LampViewer';
 
 export default defineComponent({
   components: {

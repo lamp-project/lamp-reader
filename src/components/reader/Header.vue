@@ -40,7 +40,7 @@ import {
 import { settingsOutline } from 'ionicons/icons';
 import Toolbar from '@/components/utils/Toolbar.vue';
 import Settings from './Settings.vue';
-import { LampViewer } from '@/utils/LampViewer';
+import { LampViewer } from '@/utils/viewer/LampViewer';
 
 export default defineComponent({
   setup() {
