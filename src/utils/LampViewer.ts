@@ -1,14 +1,11 @@
-import localforage from 'localforage';
 import { Epub, StatefulEpubViewer } from '@derock.ir/epubjs-plus';
+import { localDatabase } from '@/utils/LocalDatabase';
 import { UserWord, UserWordStatus } from '../../types/backend';
 
 const FONT_SIZE_KEY = 'font-size';
 
 export class LampViewer extends StatefulEpubViewer {
   protected body!: HTMLBodyElement;
-  private readonly locationsForge = localforage.createInstance({
-    name: 'locations',
-  });
 
   private wordsMap = new Map<string, UserWordStatus>();
 
@@ -20,11 +17,11 @@ export class LampViewer extends StatefulEpubViewer {
   public async initialize() {
     await super.initialize();
     const key = this.book.key();
-    const locations = await this.locationsForge.getItem<any>(key);
+    const locations = await localDatabase.epubLocations.get(key);
     if (locations) {
+      // @ts-ignore
       this.book.locations.load(locations);
     } else {
-      // eslint-disable-next-line dot-notation
       // @ts-ignore
       const embededLocations = await this.book.archive['zip'].files[
         'locations.json'
@@ -38,7 +35,7 @@ export class LampViewer extends StatefulEpubViewer {
       }
       const locations =
         embededLocations ?? (await this.book.locations.generate(150));
-      await this.locationsForge.setItem(key, locations);
+      await localDatabase.epubLocations.put(locations, key);
     }
     this.on('content', this.registerEventListenersOfHighlights.bind(this));
     this.book.spine.hooks.content.register(this.hightlight.bind(this));
