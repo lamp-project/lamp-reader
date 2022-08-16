@@ -1,4 +1,4 @@
-getLocalUserWords<template>
+LampViewergetLocalUserWords<template>
   <LoadingScreen v-if="loading" :value="book" />
   <ion-page v-else>
     <Header
@@ -18,7 +18,7 @@ getLocalUserWords<template>
 import { defineComponent, ref } from 'vue';
 import { IonPage, IonContent } from '@ionic/vue';
 import { useRoute } from 'vue-router';
-import { HighlighterViewer } from '@/utils/HighlighterViewer';
+import { LampViewer } from '@/utils/LampViewer';
 import LoadingScreen from './LoadingScreen.vue';
 import { DisplayedLocation } from 'epubjs/types/rendition';
 import WordModal from '@/components/review/WordModal.vue';
@@ -43,7 +43,7 @@ export default defineComponent({
     // 3- loading the user-words
     const userWords = await userWordStore.initialise();
     // 3- creating the viewer
-    const viewer = new HighlighterViewer(book, userWords);
+    const viewer = new LampViewer(book, userWords);
     const showControlls = ref(false);
     const currentChapter = ref('');
     const location = ref<DisplayedLocation>();

@@ -1,4 +1,4 @@
-<template>
+LampViewer<template>
   <ion-modal initial-breakpoint="0.25">
     <ion-header>
       <Toolbar>
@@ -49,7 +49,7 @@ import {
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Toolbar from '@/components/utils/Toolbar.vue';
-import { HighlighterViewer } from '@/utils/HighlighterViewer';
+import { LampViewer } from '@/utils/LampViewer';
 
 export default defineComponent({
   setup() {
@@ -60,7 +60,7 @@ export default defineComponent({
   },
   props: {
     viewer: {
-      type: HighlighterViewer,
+      type: LampViewer,
       required: true,
     },
   },

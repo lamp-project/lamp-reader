@@ -4,7 +4,7 @@ import { UserWord, UserWordStatus } from '../../types/backend';
 
 const FONT_SIZE_KEY = 'font-size';
 
-export class HighlighterViewer extends StatefulEpubViewer {
+export class LampViewer extends StatefulEpubViewer {
   protected body!: HTMLBodyElement;
   private readonly locationsForge = localforage.createInstance({
     name: 'locations',

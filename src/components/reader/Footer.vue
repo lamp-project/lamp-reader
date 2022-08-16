@@ -1,4 +1,4 @@
-<template>
+LampViewer<template>
   <ion-footer collapse="fade" @click="openSeeker">
     <Toolbar>
       <template #start>
@@ -23,7 +23,7 @@ import { IonFooter } from '@ionic/vue';
 import Toolbar from '@/components/utils/Toolbar.vue';
 import { DisplayedLocation } from 'epubjs/types/rendition';
 import Seeker from './Seeker.vue';
-import { HighlighterViewer } from '@/utils/HighlighterViewer';
+import { LampViewer } from '@/utils/LampViewer';
 
 export default defineComponent({
   components: {
@@ -35,7 +35,7 @@ export default defineComponent({
     location: {
       default: {} as DisplayedLocation,
     },
-    viewer: HighlighterViewer,
+    viewer: LampViewer,
   },
   computed: {
     leftPagesOfTheChapter() {

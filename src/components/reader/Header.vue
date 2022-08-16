@@ -1,4 +1,4 @@
-<template>
+LampViewer<template>
   <ion-header>
     <Toolbar>
       <template #start>
@@ -40,7 +40,7 @@ import {
 import { settingsOutline } from 'ionicons/icons';
 import Toolbar from '@/components/utils/Toolbar.vue';
 import Settings from './Settings.vue';
-import { HighlighterViewer } from '@/utils/HighlighterViewer';
+import { LampViewer } from '@/utils/LampViewer';
 
 export default defineComponent({
   setup() {
@@ -52,7 +52,7 @@ export default defineComponent({
   props: {
     chapter: String,
     showControlls: Boolean,
-    viewer: HighlighterViewer,
+    viewer: LampViewer,
   },
   components: {
     Toolbar,
