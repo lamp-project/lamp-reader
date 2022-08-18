@@ -24,10 +24,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { BookInfo } from '@derock.ir/epubjs-plus';
 import { IonItemOption, IonBadge, IonIcon } from '@ionic/vue';
 import { trashOutline, informationOutline } from 'ionicons/icons';
 import Item from '@/components/utils/Item.vue';
+import { LibraryItem } from '@/store/library.store';
 
 export default defineComponent({
   setup() {
@@ -39,7 +39,7 @@ export default defineComponent({
       default: 'small' as 'big' | 'small',
     },
     value: {
-      default: {} as BookInfo,
+      default: {} as LibraryItem,
     },
   },
   components: {
@@ -54,7 +54,7 @@ export default defineComponent({
     },
     percentage() {
       return (
-        (this.value.pagination.currentLocation?.end.percentage || 0) * 100
+        (this.value.location?.end.percentage || 0) * 100
       ).toFixed();
     },
   },

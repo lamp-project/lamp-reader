@@ -7,13 +7,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonProgressBar } from '@ionic/vue';
-import { BookInfo } from '@derock.ir/epubjs-plus';
+import { LibraryItem } from '@/store/library.store';
 
 export default defineComponent({
   components: { IonProgressBar },
   props: {
     value: {
-      default: {} as BookInfo,
+      default: {} as LibraryItem,
     },
   },
   computed: {

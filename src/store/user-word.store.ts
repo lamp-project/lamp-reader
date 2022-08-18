@@ -7,7 +7,7 @@ import { localDatabase } from '@/utils/LocalDatabase';
 export class UserWordStore {
   private readonly initialising = new Mutex();
   public readonly userWords = ref<UserWord[]>([]);
-  // @ts-ignore
+
   async initialise(): Promise<UserWord[]> {
     const release = await this.initialising.acquire();
     try {

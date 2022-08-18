@@ -1,11 +1,20 @@
 import EE, { Emitter } from 'event-emitter';
 
 class Base {}
-EE(Base.prototype);
 
 export class EventEmitter implements Emitter {
-  emit = (Base.prototype as Emitter).emit;
-  off = (Base.prototype as Emitter).off;
-  on = (Base.prototype as Emitter).on;
-  once = (Base.prototype as Emitter).once;
+  #emitter = EE(Base.prototype);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  emit(type: string, ...args: any[]): void {
+    return this.#emitter.emit(type, ...args);
+  }
+  off(type: string, listener: EE.EventListener) {
+    return this.#emitter.off(type, listener);
+  }
+  on(type: string, listener: EE.EventListener) {
+    return this.#emitter.on(type, listener);
+  }
+  once(type: string, listener: EE.EventListener) {
+    return this.#emitter.once(type, listener);
+  }
 }

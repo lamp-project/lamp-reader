@@ -3,13 +3,19 @@ import { Rendition } from 'epubjs';
 type Direction = 'rtl' | 'ltr';
 
 export class RenditionNavigator {
-  constructor(private readonly rendition: Rendition, private readonly direction: Direction) {
+  constructor(
+    private readonly rendition: Rendition,
+    private readonly direction: Direction
+  ) {
     rendition.on('swipe:left', this.applyLeftEvent.bind(this));
     rendition.on('swipe:right', this.applyRightEvent.bind(this));
     // keybaord events
     rendition.on('keyup', this.listenKeyUpEvents.bind(this));
-    document.addEventListener('keyup', this.listenKeyUpEvents.bind(this), false);
-
+    document.addEventListener(
+      'keyup',
+      this.listenKeyUpEvents.bind(this),
+      false
+    );
   }
 
   private listenKeyUpEvents({ code }: KeyboardEvent) {

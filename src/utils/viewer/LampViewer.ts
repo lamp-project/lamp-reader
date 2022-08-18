@@ -1,53 +1,40 @@
-import { Epub, StatefulEpubViewer } from '@derock.ir/epubjs-plus';
-import { localDatabase } from '@/utils/LocalDatabase';
+import { Contents } from 'epubjs';
 import { UserWord, UserWordStatus } from '../../../types/backend';
+import { EpubViewer } from './EpubViewer';
 
 const FONT_SIZE_KEY = 'font-size';
 
-export class LampViewer extends StatefulEpubViewer {
+export class LampViewer extends EpubViewer {
   protected body!: HTMLBodyElement;
+  protected wordsMap = new Map<string, UserWordStatus>();
 
-  private wordsMap = new Map<string, UserWordStatus>();
-
-  constructor(book: Epub, userWords: UserWord[]) {
-    super(book);
-    userWords.forEach((item) => this.wordsMap.set(item.wordId, item.status));
+  constructor(file: ArrayBuffer, locations: string[] | undefined) {
+    super(file, locations);
   }
 
-  public async initialize() {
+  public async initialize(userWords: UserWord[]): Promise<void> {
+    userWords?.forEach((item) => this.wordsMap.set(item.wordId, item.status));
     await super.initialize();
-    await this.extractLocations();
-    this.on('content', this.onContentLoaded.bind(this));
-    this.book.spine.hooks.content.register(this.hightlight.bind(this));
   }
 
-  private async extractLocations() {
-    const key = this.book.key();
-    const locations = await localDatabase.epubLocations.get(key);
-    if (locations) {
-      // @ts-ignore
-      this.book.locations.load(locations);
-    } else {
-      // @ts-ignore
-      const embededLocations = await this.book.archive['zip'].files[
-        'locations.json'
-      ]
-        ?.async('string')
-        .then(JSON.parse);
-      if (embededLocations) {
-        console.log(
-          `Embeded locations (${embededLocations.length} records) found!`
-        );
-      }
-      const locations =
-        embededLocations ?? (await this.book.locations.generate(150));
-      await localDatabase.epubLocations.put(locations, key);
-    }
+  protected async onContentHook(contents: Contents): Promise<void> {
+    await super.onContentHook(contents);
+    this.body = contents.document.body as HTMLBodyElement;
+    // @ts-ignore
+    body.querySelectorAll('vocab').forEach((element: HTMLSpanElement) => {
+      element.onclick = (event: MouseEvent) => {
+        this.emit('word-click', element);
+        event.stopPropagation();
+      };
+    });
+    this.hightlight();
+    // eslint-disable-next-line no-self-assign
+    this.fontSize = this.fontSize;
   }
 
-  protected hightlight({ body }: Document) {
+  protected hightlight() {
     this.emit('processing:start');
-    const vocabs = body.querySelectorAll('vocab');
+    const vocabs = this.body.querySelectorAll('vocab');
     vocabs.forEach((item) => {
       // @ts-ignore
       const word = item.textContent.toLowerCase();
@@ -66,18 +53,6 @@ export class LampViewer extends StatefulEpubViewer {
     this.emit('processing:end');
   }
 
-  protected onContentLoaded({ body }: Document) {
-    this.body = body as HTMLBodyElement;
-    // @ts-ignore
-    body.querySelectorAll('vocab').forEach((element: HTMLSpanElement) => {
-      element.onclick = (event: MouseEvent) => {
-        this.emit('word-click', element);
-        event.stopPropagation();
-      };
-    });
-    // eslint-disable-next-line no-self-assign
-    this.fontSize = this.fontSize;
-  }
   public updateWordStatus({ wordId, status }: UserWord) {
     this.body.querySelectorAll(`vocab[word="${wordId}"]`).forEach((item) => {
       item.setAttribute('status', status);
@@ -92,7 +67,7 @@ export class LampViewer extends StatefulEpubViewer {
   }
 
   public reloadLocation() {
-    this.goTo(this.bookInfo.pagination.currentLocation?.end.cfi as string);
+    this.goTo(this.location.end.cfi);
   }
 
   // eslint-disable-next-line accessor-pairs

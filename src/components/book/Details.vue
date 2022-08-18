@@ -52,6 +52,7 @@ import { BookPerson } from 'types/backend';
 import ReadMore from '@/components/utils/ReadMore.vue';
 import DownloadButton from './DownloadButton.vue';
 import { userWordStore } from '@/store/user-word.store';
+import { libraryStore } from '@/store/library.store';
 
 export default defineComponent({
   async setup() {
@@ -69,12 +70,10 @@ export default defineComponent({
     ).then((res) => res.json());
     console.log(bookReport);
     // 4- loading library
-    const { library } = await import('@derock.ir/epubjs-plus');
-    const bookEntryInLibrary = await library.getInfo(id.toString());
-    const exists = ref(!!bookEntryInLibrary);
+    const exists = ref(!!await libraryStore.get(id.toString()));
     // 5- load userWords
     await userWordStore.initialise();
-    return { book, library, exists, bookReport };
+    return { book, exists, bookReport };
   },
   components: {
     IonCard,
@@ -108,7 +107,7 @@ export default defineComponent({
   },
   methods: {
     async onFileDownloaded(file: ArrayBuffer) {
-      await this.library.addFromArrayBuffer(file, this.book.id);
+      await libraryStore.add(file, this.book.id);
       this.exists = true;
     },
   },

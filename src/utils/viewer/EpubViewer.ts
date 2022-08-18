@@ -1,23 +1,20 @@
-import Epub, { Contents, Rendition } from 'epubjs';
+import { Contents, Rendition } from 'epubjs';
 import { RenditionOptions, Location } from 'epubjs/types/rendition';
-import { EventEmitter } from './utils/EventEmitter';
+import { EPub } from './utils/EPub';
 import { RenditionGesturesEmitter } from './utils/RenditionGesturesEmitter';
 import { RenditionNavigator } from './utils/RenditionNavigator';
 
-export class EpubViewer extends EventEmitter {
-  #navigator!: RenditionNavigator;
-  protected readonly book = Epub();
+export interface PageChangedEventPlayload {
+  location: Location;
+  chapter?: string;
+}
+
+export class EpubViewer extends EPub {
   protected element!: Element;
   protected rendition!: Rendition;
-  protected currentLocation!: string;
-  protected currentChapter?: string;
-  constructor(protected input: ArrayBuffer) {
-    super();
-  }
-
-  destroy() {
-    this.book.destroy();
-  }
+  protected location!: Location;
+  protected chapter?: string;
+  protected navigator!: RenditionNavigator;
 
   public get size() {
     return {
@@ -26,15 +23,7 @@ export class EpubViewer extends EventEmitter {
     };
   }
 
-  public async initialize() {
-    await this.book.open(this.input, 'binary');
-    // @ts-ignore
-    delete this.input;
-    await this.book.ready;
-    await this.book.loaded.navigation;
-  }
-
-  public display(
+  public async display(
     element: Element,
     options?: RenditionOptions,
     target?: string
@@ -47,7 +36,12 @@ export class EpubViewer extends EventEmitter {
       allowScriptedContent: true,
     });
     this.onWillDisplay();
-    return this.rendition.display(target);
+    await this.rendition.display(target);
+    const currentLocation: Location = this.rendition.currentLocation() as any;
+    if (target && currentLocation.end.cfi !== target) {
+      console.warn(`Last location didn't load normal: ${target}`);
+      return this.goTo(target);
+    }
   }
 
   protected onWillDisplay() {
@@ -59,15 +53,21 @@ export class EpubViewer extends EventEmitter {
     this.rendition.hooks.render.register(this.onRenderHook.bind(this));
     // gestures events
     RenditionGesturesEmitter.listen(this.rendition);
-    this.#navigator = new RenditionNavigator(
+    this.navigator = new RenditionNavigator(
       this.rendition,
       (this.book.packaging?.metadata as any)?.direction
     );
+    // mouse events
+    this.rendition.on('click', () => this.emit('click-tap'));
   }
 
   protected onRelocated(location: Location) {
-    this.currentLocation = location.end.cfi;
-    this.currentChapter = this.getChapter(location.start.href);
+    this.location = location;
+    this.chapter = this.getChapter(location.start.href);
+    this.emit('page-changed', {
+      location,
+      chapter: this.chapter,
+    } as PageChangedEventPlayload);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -82,24 +82,6 @@ export class EpubViewer extends EventEmitter {
 
   protected onRregisterThemesHook() {
     //
-  }
-
-  protected getChapter(
-    href: string,
-    toc = this.book.navigation.toc
-  ): string | undefined {
-    for (const item of toc) {
-      const chapter = item?.label.trim();
-      if (item.href.includes(href)) {
-        return chapter;
-      } else if (item.subitems?.length) {
-        const subChapter = this.getChapter(href, item.subitems);
-        if (subChapter) {
-          return `${chapter} - ${subChapter}`;
-        }
-      }
-    }
-    return undefined;
   }
 
   public goTo(target: string) {

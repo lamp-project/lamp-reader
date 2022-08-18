@@ -1,15 +1,15 @@
-LampViewergetLocalUserWords<template>
+<template>
   <LoadingScreen v-if="loading" :value="book" />
   <ion-page v-else>
     <Header
-      :chapter="currentChapter"
+      :chapter="book?.chapter"
       :showControlls="showControlls"
       :viewer="viewer"
     />
     <ion-content :fullscreen="true">
       <div ref="viewerElement" class="epub-viewer"></div>
     </ion-content>
-    <Footer :location="location" :viewer="viewer"/>
+    <Footer :location="book?.location" :viewer="viewer"/>
   </ion-page>
   <WordModal ref="wordModal" @review="updateUserWord" />
 </template>
@@ -18,14 +18,13 @@ LampViewergetLocalUserWords<template>
 import { defineComponent, ref } from 'vue';
 import { IonPage, IonContent } from '@ionic/vue';
 import { useRoute } from 'vue-router';
-import { LampViewer } from '@/utils/viewer/LampViewer';
 import LoadingScreen from './LoadingScreen.vue';
-import { DisplayedLocation } from 'epubjs/types/rendition';
 import WordModal from '@/components/review/WordModal.vue';
 import { UserWord } from 'types/backend';
 import { userWordStore } from '@/store/user-word.store';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
+import { libraryStore } from '@/store/library.store';
 
 export default defineComponent({
   async setup() {
@@ -34,31 +33,18 @@ export default defineComponent({
     if (!params.id) {
       throw new Error(`ID param didn't provide.`);
     }
-    // 2- loading book
-    const { library } = await import('@derock.ir/epubjs-plus');
-    const book = await library.get(params.id as string);
-    if (!book) {
-      throw new Error(`Book [${params.id}] didn't found.`);
-    }
-    // 3- loading the user-words
+    // 2- loading the user-words
     const userWords = await userWordStore.initialise();
     // 3- creating the viewer
-    const viewer = new LampViewer(book, userWords);
+    const viewer = await libraryStore.read(params.id as string);
     const showControlls = ref(false);
-    const currentChapter = ref('');
-    const location = ref<DisplayedLocation>();
-    viewer.on('page-changed', () => {
-      currentChapter.value = book.info.pagination.currentChapter ?? '';
-      location.value = book.info.pagination.currentLocation?.end;
-    });
     viewer.on('click-tap', () => {
       showControlls.value = !showControlls.value;
     });
     return {
-      book: book.info,
+      book: libraryStore.activeItem,
+      userWords,
       viewer,
-      currentChapter,
-      location,
       showControlls,
     };
   },
@@ -75,7 +61,7 @@ export default defineComponent({
   }),
   async mounted() {
     this.loading = true;
-    await this.viewer.initialize();
+    await this.viewer.initialize(this.userWords);
     this.loading = false;
     await this.$nextTick();
     await this.viewer.display(this.$refs.viewerElement as Element);
