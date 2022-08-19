@@ -6,7 +6,6 @@
           <b> {{ percentage }} </b>%
         </small>
       </template>
-      {{location?.displayed?.total}}
       <template #end v-if="location?.displayed?.total > 1">
         <small v-if="leftPagesOfTheChapter > 0">
           {{ leftPagesOfTheChapter }} pages left in this chapter
@@ -40,7 +39,6 @@ export default defineComponent({
   },
   computed: {
     leftPagesOfTheChapter() {
-      debugger;
       const displayed = this.location.displayed;
       return displayed ? displayed.total - displayed.page : -1;
     },

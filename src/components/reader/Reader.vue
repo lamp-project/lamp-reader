@@ -9,7 +9,7 @@
     <ion-content :fullscreen="true">
       <div ref="viewerElement" class="epub-viewer"></div>
     </ion-content>
-    <Footer :location="book?.location" :viewer="viewer" />
+    <Footer :location="book?.location?.end" />
   </ion-page>
   <WordModal ref="wordModal" @review="updateUserWord" />
 </template>

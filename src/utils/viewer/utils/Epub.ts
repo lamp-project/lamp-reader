@@ -50,7 +50,7 @@ export class EPub<E> extends EventEmitter<E> {
     await this.book.loaded.navigation;
     if (this.#locations) {
       // @ts-ignore
-      this.book.locations.load(this.locations);
+      this.book.locations.load(this.#locations);
     } else {
       this.#locations = await this.book.locations.generate(150);
     }

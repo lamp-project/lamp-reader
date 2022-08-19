@@ -7,7 +7,7 @@
       <hr />
       <ion-badge color="light">{{ percentage }}% read</ion-badge>
     </template>
-    <template v-if="size != 'big'" #options>
+    <template #options>
       <ion-item-option color="danger" @click="remove">
         <ion-icon :icon="trashOutline"></ion-icon>
       </ion-item-option>

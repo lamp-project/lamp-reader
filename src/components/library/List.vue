@@ -1,7 +1,14 @@
 <template>
   <ion-list v-if="activeItem">
     <ion-list-header>Current Reading</ion-list-header>
-    <LibraryItem size="big" :value="activeItem" />
+    <LibraryItem
+      size="big"
+      :value="activeItem"
+      @remove="
+      // @ts-ignore
+      removeItem(activeItem.id, activeItem.title);
+      "
+    />
   </ion-list>
   <!-- OTHER bOOks-->
   <ion-list>

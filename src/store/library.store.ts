@@ -85,6 +85,9 @@ export class LibraryStore {
     await localDatabase.libraryItems.delete(id);
     await localDatabase.epubLocations.delete(id);
     this.items.value = await localDatabase.libraryItems.toArray();
+    if (this.activeItem.value?.id == id) {
+      this.activeItem.value = undefined;
+    }
   }
 
   public async get(id: string) {
