@@ -7,7 +7,7 @@ export interface EpubMeta extends PackagingMetadataObject {
 }
 
 //@ts-ignore
-export class EPub extends EventEmitter {
+export class EPub<E> extends EventEmitter<E> {
   protected readonly book!: Book;
   #locations?: string[];
 

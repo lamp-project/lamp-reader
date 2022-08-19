@@ -4,7 +4,9 @@ import { EpubViewer } from './EpubViewer';
 
 const FONT_SIZE_KEY = 'font-size';
 
-export class LampViewer extends EpubViewer {
+export class LampViewer extends EpubViewer<
+  'word-click' | 'processing:start' | 'processing:end'
+> {
   protected body!: HTMLBodyElement;
   protected wordsMap = new Map<string, UserWordStatus>();
 
@@ -21,7 +23,7 @@ export class LampViewer extends EpubViewer {
     await super.onContentHook(contents);
     this.body = contents.document.body as HTMLBodyElement;
     // @ts-ignore
-    body.querySelectorAll('vocab').forEach((element: HTMLSpanElement) => {
+    this.body.querySelectorAll('vocab').forEach((element: HTMLSpanElement) => {
       element.onclick = (event: MouseEvent) => {
         this.emit('word-click', element);
         event.stopPropagation();

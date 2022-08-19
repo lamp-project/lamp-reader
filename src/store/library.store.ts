@@ -4,11 +4,11 @@ import { Location } from 'epubjs';
 import { ref } from 'vue';
 import fileDialog from 'file-dialog';
 import { v4 as uuid } from 'uuid';
-import { EPub, EpubMeta } from '@/utils/viewer/utils/EPub';
 import { PageChangedEventPlayload } from '@/utils/viewer/EpubViewer';
 import { LampViewer } from '@/utils/viewer/LampViewer';
 import { LEPub } from '@/utils/LEPub';
 import { Loading } from '@/utils/Loading';
+import { EPub, EpubMeta } from '@/utils/viewer/utils/Epub';
 
 export interface LibraryItem extends EpubMeta {
   id: string;
@@ -65,7 +65,7 @@ export class LibraryStore {
     let locations = await LEPub.getLocations(file);
     const epub = new EPub(file, locations);
     const item: LibraryItem = {
-      ... await epub.getMeta(),
+      ...(await epub.getMeta()),
       id,
     };
     if (!locations) {
@@ -95,18 +95,24 @@ export class LibraryStore {
     // 1- initializing the viewer
     const locations = await localDatabase.epubLocations.get(id);
     const file = await localDatabase.epubFiles.get(id);
-    if (!file) throw new Error(`Book [${id}] didn't found.`);
+    const item = await localDatabase.libraryItems.get(id);
+    if (!file || !item || !locations) {
+      throw new Error(`Book [${id}] didn't found.`);
+    }
     const viewer = new LampViewer(file, locations);
     // 2- setting active item and applying changes
     await localDatabase.settings.put(ACTIVE_ITEM_SETTINGS_SLUG, id);
-    this.activeItem.value = await localDatabase.libraryItems.get(id);
-    viewer.on(
-      'page-change',
-      async ({ location, chapter }: PageChangedEventPlayload) => {
+    this.activeItem.value = item;
+    viewer.on<PageChangedEventPlayload>(
+      'page-changed',
+      async ({ detail: { location, chapter } }) => {
         if (this.activeItem.value) {
-          this.activeItem.value.location = location;
-          this.activeItem.value.chapter = chapter;
-          await localDatabase.libraryItems.put(this.activeItem.value);
+          this.activeItem.value = {
+            ...this.activeItem.value,
+            location,
+            chapter,
+          };
+          await localDatabase.libraryItems.put({ ...item, location, chapter });
         }
       }
     );

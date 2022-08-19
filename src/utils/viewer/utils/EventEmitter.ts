@@ -1,20 +1,19 @@
-import EE, { Emitter } from 'event-emitter';
-
-class Base {}
-
-export class EventEmitter implements Emitter {
-  #emitter = EE(Base.prototype);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  emit(type: string, ...args: any[]): void {
-    return this.#emitter.emit(type, ...args);
+export class EventEmitter<E> {
+  readonly #event = new EventTarget();
+  on<PT = any>(eventName: E, listener: (event: CustomEvent<PT>) => void) {
+    return this.#event.addEventListener(eventName as any, listener as any);
   }
-  off(type: string, listener: EE.EventListener) {
-    return this.#emitter.off(type, listener);
+  once<PT = any>(eventName: E, listener: (event: CustomEvent<PT>) => void) {
+    return this.#event.addEventListener(eventName as any, listener as any, {
+      once: true,
+    });
   }
-  on(type: string, listener: EE.EventListener) {
-    return this.#emitter.on(type, listener);
+  off<PT = any>(eventName: E, listener: (event: CustomEvent<PT>) => void) {
+    return this.#event.removeEventListener(eventName as any, listener as any);
   }
-  once(type: string, listener: EE.EventListener) {
-    return this.#emitter.once(type, listener);
+  emit<T = any>(eventName: E, detail?: T) {
+    return this.#event.dispatchEvent(
+      new CustomEvent(eventName as any, { detail, cancelable: true })
+    );
   }
 }

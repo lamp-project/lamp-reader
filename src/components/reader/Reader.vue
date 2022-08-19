@@ -9,7 +9,7 @@
     <ion-content :fullscreen="true">
       <div ref="viewerElement" class="epub-viewer"></div>
     </ion-content>
-    <Footer :location="book?.location" :viewer="viewer"/>
+    <Footer :location="book?.location" :viewer="viewer" />
   </ion-page>
   <WordModal ref="wordModal" @review="updateUserWord" />
 </template>
@@ -36,13 +36,13 @@ export default defineComponent({
     // 2- loading the user-words
     const userWords = await userWordStore.initialise();
     // 3- creating the viewer
+    await libraryStore.initialise();
     const viewer = await libraryStore.read(params.id as string);
     const showControlls = ref(false);
     viewer.on('click-tap', () => {
       showControlls.value = !showControlls.value;
     });
     return {
-      book: libraryStore.activeItem,
       userWords,
       viewer,
       showControlls,
@@ -58,6 +58,7 @@ export default defineComponent({
   },
   data: () => ({
     loading: false,
+    book: libraryStore.activeItem,
   }),
   async mounted() {
     this.loading = true;
@@ -65,7 +66,7 @@ export default defineComponent({
     this.loading = false;
     await this.$nextTick();
     await this.viewer.display(this.$refs.viewerElement as Element);
-    this.viewer.on('word-click', (element: HTMLSpanElement) => {
+    this.viewer.on<HTMLSpanElement>('word-click', ({ detail: element }) => {
       // @ts-ignore
       this.$refs.wordModal.open({
         wordId: element.getAttribute('word'),

@@ -1,6 +1,6 @@
 import { Contents, Rendition } from 'epubjs';
 import { RenditionOptions, Location } from 'epubjs/types/rendition';
-import { EPub } from './utils/EPub';
+import { EPub } from './utils/Epub';
 import { RenditionGesturesEmitter } from './utils/RenditionGesturesEmitter';
 import { RenditionNavigator } from './utils/RenditionNavigator';
 
@@ -9,7 +9,7 @@ export interface PageChangedEventPlayload {
   chapter?: string;
 }
 
-export class EpubViewer extends EPub {
+export class EpubViewer<E> extends EPub<E | 'page-changed' | 'click-tap'> {
   protected element!: Element;
   protected rendition!: Rendition;
   protected location!: Location;
@@ -58,16 +58,16 @@ export class EpubViewer extends EPub {
       (this.book.packaging?.metadata as any)?.direction
     );
     // mouse events
-    this.rendition.on('click', () => this.emit('click-tap'));
+    this.rendition.on('click', () => this.emit<void>('click-tap'));
   }
 
   protected onRelocated(location: Location) {
     this.location = location;
     this.chapter = this.getChapter(location.start.href);
-    this.emit('page-changed', {
+    this.emit<PageChangedEventPlayload>('page-changed', {
       location,
       chapter: this.chapter,
-    } as PageChangedEventPlayload);
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
