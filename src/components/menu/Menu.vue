@@ -64,6 +64,7 @@ export default defineComponent({
   setup() {
     return {
       version: process.env.VUE_APP_VERSION,
+      // ICONS
       closeOutline,
       cloudDownloadOutline,
       walkOutline,
@@ -103,7 +104,9 @@ export default defineComponent({
     },
     async signOut() {
       await this.$el.close();
-      backend.signOut();
+      await Loading.wait('Signing Out ...', async () => {
+        await backend.signOut();
+      });
       this.$router.push({ name: 'Login' });
     },
   },

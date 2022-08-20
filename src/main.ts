@@ -24,11 +24,14 @@ import '@ionic/vue/css/display.css';
 import './theme/variables.css';
 /* Theme base */
 import './theme/base.css';
+import { initSentry } from './sentry';
 
 // Added by the CLI
 import('./registerServiceWorker' /* webpackChunkName:"registerServiceWorker" */);
 
 const app = createApp(App).use(IonicVue).use(router);
+
+initSentry(app, router);
 
 router.isReady().then(() => {
   app.mount('#app');
