@@ -104,10 +104,10 @@ export default defineComponent({
     },
     async signOut() {
       await this.$el.close();
+      await this.$router.push({ name: 'Login' });
       await Loading.wait('Signing Out ...', async () => {
         await backend.signOut();
       });
-      this.$router.push({ name: 'Login' });
     },
   },
 });
