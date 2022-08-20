@@ -8,6 +8,7 @@ export function initSentry(app: Vue, router: Router) {
   Sentry.init({
     app,
     dsn: 'https://fd24a9f80243482b87e15668e7fff865@o291924.ingest.sentry.io/6671916',
+    release: process.env.VUE_APP_VERSION,
     integrations: [
       new BrowserTracing({
         routingInstrumentation: Sentry.vueRouterInstrumentation(router),
