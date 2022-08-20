@@ -9,6 +9,7 @@ import {
 } from 'types/backend';
 import loginMutation from '@/graphql/mutations/login.gql';
 import signupMutation from '@/graphql/mutations/signup.gql';
+import { localDatabase } from './LocalDatabase';
 
 const AUTH_TOKEN_STORAGE_KEY = 'token';
 const AUTHENTICATED_USER_STORAGE_KEY = 'user';
@@ -68,6 +69,8 @@ export class Backend extends GraphqlClient {
 
   async signOut() {
     this.authToken = null;
+    localStorage.clear();
+    await localDatabase.delete();
   }
 }
 
