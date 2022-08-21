@@ -1,7 +1,7 @@
 <template>
   <ion-list>
     <ion-list-header>
-      <b>{{ $route.query.status }}</b>
+      <b>{{ statusFilter }}</b>
       &nbsp; Words
     </ion-list-header>
     <ion-item

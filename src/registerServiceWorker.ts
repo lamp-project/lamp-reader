@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker';
+import { Toast } from './utils/Toast';
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.VUE_APP_BASE_URL}/service-worker.js`, {
     ready() {
@@ -16,10 +17,12 @@ if (process.env.NODE_ENV === 'production') {
       console.log('Content has been cached for offline use.');
     },
     updatefound() {
-      console.log('New content is downloading.');
+      Toast.show({ message: 'New vesrion is downloading.' });
     },
     updated() {
-      console.log('New content is available; please refresh.');
+      if (confirm('New vesrion is downloaded. Do you want to refresh?')) {
+        window.location.reload();
+      }
     },
     offline() {
       console.log(
@@ -31,3 +34,4 @@ if (process.env.NODE_ENV === 'production') {
     },
   });
 }
+
