@@ -5,10 +5,10 @@
       &nbsp; Words
     </ion-list-header>
     <ion-item
-      v-for="userWord in paginatedList"
+      v-for="(userWord, index) in paginatedList"
       :key="userWord.wordId"
       button
-      @click="showModal(userWord)"
+      @click="showModal(userWord, index)"
     >
       <ion-label>
         <h3>{{ userWord.wordId }}</h3>
@@ -27,7 +27,7 @@
   >
     <ion-infinite-scroll-content loading-spinner="crescent" />
   </ion-infinite-scroll>
-  <WordModal ref="wordModal" />
+  <WordModal ref="wordModal" @review="onReview" />
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
@@ -74,12 +74,14 @@ export default defineComponent({
     userWords: userWordStore.userWords,
     paginatedList: [] as UserWord[],
     page: 0,
+    selectedIndex: -1,
+    statusFilter: UserWordStatus.Learning,
   }),
   computed: {
     filteredList() {
       // @ts-ignore
       return this.userWords.filter(
-        ({ status }: UserWord) => status == this.$route.query.status
+        ({ status }: UserWord) => status == this.statusFilter
       );
     },
     orderedList() {
@@ -87,10 +89,12 @@ export default defineComponent({
     },
   },
   created() {
+    this.statusFilter = this.$route.query.status as UserWordStatus;
     this.pushPageItems();
   },
   methods: {
-    showModal(userWord: UserWord) {
+    showModal(userWord: UserWord, index: number) {
+      this.selectedIndex = index;
       // @ts-ignore
       this.$refs.wordModal.open(userWord);
     },
@@ -104,6 +108,13 @@ export default defineComponent({
     loadData({ target }: InfiniteScrollCustomEvent) {
       this.pushPageItems();
       target.complete();
+    },
+    onReview(userWord: UserWord) {
+      if (userWord.status != this.statusFilter) {
+        this.paginatedList.splice(this.selectedIndex, 1);
+      }
+      // this.userWords = userWordStore.userWords.value;
+      console.log(this.orderedList);
     },
   },
 });
