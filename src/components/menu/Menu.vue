@@ -56,9 +56,9 @@ import {
   informationCircleOutline,
 } from 'ionicons/icons';
 import { Loading } from '@/utils/Loading';
-import { userWordRepository } from '@/repositories/user-word.repository';
 import { backend } from '@/utils/Backend';
 import AboutModal from './About.vue';
+import { userWordStore } from '@/store/user-word.store';
 
 export default defineComponent({
   setup() {
@@ -92,7 +92,7 @@ export default defineComponent({
       await Loading.wait(
         'Syncing Words ...',
         async () => {
-          await userWordRepository.getUserWords();
+          await userWordStore.syncUserWords();
         },
         'UserWords successfully synced.'
       );
