@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker';
-register(`${process.env.VUE_APP_BASE_URL}/js/registerServiceWorker.js`, {
+register(`${process.env.VUE_APP_BASE_URL}/service-worker.js`, {
   ready() {
     console.log(
       'App is being served from cache by a service worker.\n' +

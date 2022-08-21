@@ -68,7 +68,6 @@ export default defineComponent({
     const bookReport = await fetch(
       book.file.replace('book.lepub', 'report.json')
     ).then((res) => res.json());
-    console.log(bookReport);
     // 4- loading library
     const exists = ref(!!await libraryStore.get(id.toString()));
     // 5- load userWords

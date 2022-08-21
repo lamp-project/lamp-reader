@@ -26,8 +26,9 @@ import './theme/variables.css';
 import './theme/base.css';
 import { initSentry } from './sentry';
 
-// Added by the CLI
-import('./registerServiceWorker' /* webpackChunkName:"registerServiceWorker" */);
+// // Added by the CLI
+// import('./registerServiceWorker' /* webpackChunkName:"registerServiceWorker" */);
+import './registerServiceWorker';
 
 const app = createApp(App).use(IonicVue).use(router);
 
