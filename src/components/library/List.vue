@@ -11,8 +11,8 @@
     />
   </ion-list>
   <!-- OTHER bOOks-->
-  <ion-list v-if="books.length">
-    <ion-list-header>Books</ion-list-header>
+  <ion-list v-if="items.length">
+    <ion-list-header v-if="books.length">Books</ion-list-header>
     <LibraryItem
       v-for="item in books"
       :key="item.id"
