@@ -1,13 +1,23 @@
 <template>
   <ion-list>
-    <ion-list-header>{{ $route.query.status }} Words</ion-list-header>
+    <ion-list-header>
+      <b>{{ $route.query.status }}</b>
+      &nbsp; Words
+    </ion-list-header>
     <ion-item
-      v-for="userWord in filteredList"
+      v-for="userWord in orderedList"
       :key="userWord.wordId"
       button
       @click="showModal(userWord)"
     >
-      <ion-label>{{ userWord.wordId }}</ion-label>
+      <ion-label>
+        <h3>{{ userWord.wordId }}</h3>
+        <small>
+          Status changed at
+          {{ formatDistanceToNowStrict(userWord.updatedAt) }}
+          ago.
+        </small>
+      </ion-label>
       <ion-icon slot="end" :icon="eye"></ion-icon>
     </ion-item>
   </ion-list>
@@ -17,6 +27,8 @@
 import { defineComponent } from 'vue';
 import { eye } from 'ionicons/icons';
 import { IonList, IonListHeader, IonItem, IonLabel, IonIcon } from '@ionic/vue';
+import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
+import { orderBy } from 'lodash';
 import { UserWord, UserWordStatus } from '@/../types/backend';
 import WordModal from './WordModal.vue';
 import { userWordStore } from '@/store/user-word.store';
@@ -25,6 +37,7 @@ export default defineComponent({
   async setup() {
     await userWordStore.initialise();
     return {
+      formatDistanceToNowStrict,
       UserWordStatus,
       // Icons
       eye,
@@ -48,6 +61,9 @@ export default defineComponent({
         ({ status }: UserWord) => status == this.$route.query.status
       );
     },
+    orderedList() {
+      return orderBy(this.filteredList, ['updatedAt'], ['desc'])
+    }
   },
   methods: {
     showModal(userWord: UserWord) {
@@ -59,8 +75,13 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 ion-label {
-  text-transform: capitalize;
-  font-family: 'Merriweather', serif !important;
-  font-size: 1.2em !important;
+  h3 {
+    text-transform: capitalize;
+    font-family: 'Merriweather', serif !important;
+    font-size: 1.5em !important;
+  }
+  small {
+    color: grey;
+  }
 }
 </style>
