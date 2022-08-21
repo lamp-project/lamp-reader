@@ -5,7 +5,7 @@
       &nbsp; Words
     </ion-list-header>
     <ion-item
-      v-for="userWord in orderedList"
+      v-for="userWord in paginatedList"
       :key="userWord.wordId"
       button
       @click="showModal(userWord)"
@@ -21,17 +21,34 @@
       <ion-icon slot="end" :icon="eye"></ion-icon>
     </ion-item>
   </ion-list>
+  <ion-infinite-scroll
+    @ionInfinite="loadData"
+    :disabled="paginatedList.length == userWords.length"
+  >
+    <ion-infinite-scroll-content loading-spinner="crescent" />
+  </ion-infinite-scroll>
   <WordModal ref="wordModal" />
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { eye } from 'ionicons/icons';
-import { IonList, IonListHeader, IonItem, IonLabel, IonIcon } from '@ionic/vue';
+import {
+  IonList,
+  IonListHeader,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  InfiniteScrollCustomEvent,
+  IonItem,
+  IonLabel,
+  IonIcon,
+} from '@ionic/vue';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 import { orderBy } from 'lodash';
 import { UserWord, UserWordStatus } from '@/../types/backend';
 import WordModal from './WordModal.vue';
 import { userWordStore } from '@/store/user-word.store';
+
+const ITEMS_PER_PAGE = 20;
 
 export default defineComponent({
   async setup() {
@@ -46,6 +63,8 @@ export default defineComponent({
   components: {
     IonList,
     IonListHeader,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
     IonItem,
     IonLabel,
     IonIcon,
@@ -53,6 +72,8 @@ export default defineComponent({
   },
   data: () => ({
     userWords: userWordStore.userWords,
+    paginatedList: [] as UserWord[],
+    page: 0,
   }),
   computed: {
     filteredList() {
@@ -62,13 +83,27 @@ export default defineComponent({
       );
     },
     orderedList() {
-      return orderBy(this.filteredList, ['updatedAt'], ['desc'])
-    }
+      return orderBy(this.filteredList, ['updatedAt'], ['desc']);
+    },
+  },
+  created() {
+    this.pushPageItems();
   },
   methods: {
     showModal(userWord: UserWord) {
       // @ts-ignore
       this.$refs.wordModal.open(userWord);
+    },
+    pushPageItems() {
+      const start = this.page * ITEMS_PER_PAGE;
+      this.paginatedList.push(
+        ...this.orderedList.slice(start, start + ITEMS_PER_PAGE)
+      );
+      this.page++;
+    },
+    loadData({ target }: InfiniteScrollCustomEvent) {
+      this.pushPageItems();
+      target.complete();
     },
   },
 });
