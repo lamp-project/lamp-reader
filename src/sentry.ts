@@ -15,6 +15,7 @@ export function initSentry(app: Vue, router: Router) {
         tracingOrigins: ['localhost', 'lamp-reader.com', /^\//],
       }),
     ],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     beforeSend(event, hint) {
       const user = backend.authenticatedUser;
       if (user) {

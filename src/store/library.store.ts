@@ -34,9 +34,7 @@ export class LibraryStore {
         this.items.value = await localDatabase.libraryItems.toArray();
       }
       // 2- initialising active item
-      const activeItemId = await localDatabase.settings.get(
-        ACTIVE_ITEM_SETTINGS_SLUG
-      );
+      const activeItemId = localStorage.getItem(ACTIVE_ITEM_SETTINGS_SLUG);
       if (activeItemId) {
         this.activeItem.value = await localDatabase.libraryItems.get(
           activeItemId
@@ -104,7 +102,7 @@ export class LibraryStore {
     }
     const viewer = new LampViewer(file, locations);
     // 2- setting active item and applying changes
-    await localDatabase.settings.put(ACTIVE_ITEM_SETTINGS_SLUG, id);
+    localStorage.setItem(ACTIVE_ITEM_SETTINGS_SLUG, id);
     this.activeItem.value = item;
     viewer.on<PageChangedEventPlayload>(
       'page-changed',

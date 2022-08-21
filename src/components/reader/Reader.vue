@@ -9,7 +9,7 @@
     <ion-content :fullscreen="true">
       <div ref="viewerElement" class="epub-viewer"></div>
     </ion-content>
-    <Footer :location="book?.location?.end" />
+    <Footer :location="book?.location?.end" :viewer="viewer" />
   </ion-page>
   <WordModal ref="wordModal" @review="updateUserWord" />
 </template>
@@ -65,7 +65,11 @@ export default defineComponent({
     await this.viewer.initialize(this.userWords);
     this.loading = false;
     await this.$nextTick();
-    await this.viewer.display(this.$refs.viewerElement as Element);
+    await this.viewer.display(
+      this.$refs.viewerElement as Element,
+      {},
+      this.book?.location?.end.cfi
+    );
     this.viewer.on<HTMLSpanElement>('word-click', ({ detail: element }) => {
       // @ts-ignore
       this.$refs.wordModal.open({

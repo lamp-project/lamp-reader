@@ -10,7 +10,6 @@ export class LocalDatabase extends Dexie {
   epubLocations!: Table<string[]>;
   epubFiles!: Table<ArrayBuffer>;
   libraryItems!: Table<LibraryItem>;
-  settings!: Table<any>;
 
   constructor() {
     super('lamp-database');
@@ -20,7 +19,6 @@ export class LocalDatabase extends Dexie {
       epubLocations: '',
       epubFiles: '',
       libraryItems: 'id',
-      settings: '',
     });
   }
 }

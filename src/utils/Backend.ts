@@ -69,6 +69,7 @@ export class Backend extends GraphqlClient {
 
   async signOut() {
     this.authToken = null;
+    await localDatabase.close();
     await localDatabase.delete();
     await indexedDB.databases().then((databases) => {
       databases.forEach((db) => {

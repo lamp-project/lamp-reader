@@ -61,6 +61,7 @@ import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import { Loading } from '@/utils/Loading';
 import { backend } from '@/utils/Backend';
 import { Toast } from '@/utils/Toast';
+import { localDatabase } from '@/utils/LocalDatabase';
 
 export default defineComponent({
   setup() {
@@ -99,6 +100,7 @@ export default defineComponent({
           color: 'success',
           duration: 1000,
         });
+        await localDatabase.open();
         this.$router.push('/tabs/home');
       }
     },
