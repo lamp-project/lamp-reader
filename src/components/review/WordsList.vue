@@ -1,9 +1,8 @@
-getLocalUserWords
 <template>
   <ion-list>
-    <ion-list-header>Learning Words</ion-list-header>
+    <ion-list-header>{{ $route.query.status }} Words</ion-list-header>
     <ion-item
-      v-for="userWord in learningUserWords"
+      v-for="userWord in filteredList"
       :key="userWord.wordId"
       button
       @click="showModal(userWord)"
@@ -43,10 +42,10 @@ export default defineComponent({
     userWords: userWordStore.userWords,
   }),
   computed: {
-    learningUserWords() {
+    filteredList() {
       // @ts-ignore
       return this.userWords.filter(
-        ({ status }: UserWord) => status == UserWordStatus.Learning
+        ({ status }: UserWord) => status == this.$route.query.status
       );
     },
   },

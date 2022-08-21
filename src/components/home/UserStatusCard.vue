@@ -1,22 +1,29 @@
 <template>
   <ion-card color="primary" class="user-status">
     <ion-card-header>
-      <ion-row>
-        <ion-col>
-          <ion-avatar>
-            <img src="@/../public/img/gamer.png" />
-          </ion-avatar>
-        </ion-col>
-        <ion-col size-xs="8" size-sm="9" size-md="10" size-lg="10" size-xl="11">
-          <ion-card-subtitle>
-            Hi <span class="user-name">{{ user.name }}</span> 👋
-          </ion-card-subtitle>
-          <h1>{{ level }}</h1>
-          {{ userWords.length }} <small>words</small>
-        </ion-col>
-      </ion-row>
+      <router-link :to="{ name: 'review', query: { status: 'KNOWN' } }">
+        <ion-row>
+          <ion-col>
+            <ion-avatar>
+              <img src="@/../public/img/gamer.png" />
+            </ion-avatar>
+          </ion-col>
+          <ion-col
+            size-xs="8"
+            size-sm="9"
+            size-md="10"
+            size-lg="10"
+            size-xl="11"
+          >
+            <ion-card-subtitle>
+              Hi <span class="user-name">{{ user.name }}</span> 👋
+            </ion-card-subtitle>
+            <h1>{{ level }}</h1>
+            {{ userWords.length }} <small>words</small>
+          </ion-col>
+        </ion-row>
+      </router-link>
     </ion-card-header>
-    <ion-card-content> </ion-card-content>
   </ion-card>
 </template>
 
@@ -27,7 +34,6 @@ import {
   IonRow,
   IonCol,
   IonCardHeader,
-  IonCardContent,
   IonCardSubtitle,
   IonAvatar,
 } from '@ionic/vue';
@@ -48,7 +54,6 @@ export default defineComponent({
     IonRow,
     IonCol,
     IonCardHeader,
-    IonCardContent,
     IonCardSubtitle,
     IonAvatar,
   },
@@ -86,8 +91,6 @@ ion-thumbnail {
     border-radius: 6px;
   }
 }
-</style>
-<style scoped>
 .user-status h1 {
   font-family: 'Merriweather', serif;
 }
@@ -97,5 +100,9 @@ ion-avatar {
 }
 .user-name {
   text-transform: capitalize;
+}
+a {
+  color: white;
+  text-decoration: none;
 }
 </style>

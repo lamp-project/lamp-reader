@@ -1,7 +1,12 @@
 getLocalUserWords
 <template>
   <ion-card color="warning" class="learning-words">
-    <ion-item button color="warning" detail :router-link="{ name: 'review' }">
+    <ion-item
+      button
+      color="warning"
+      detail
+      :router-link="{ name: 'review', query: { status: 'LEARNING' } }"
+    >
       <ion-label>
         <h1>{{ learningWordsCount }} <small>Learning words</small></h1>
       </ion-label>

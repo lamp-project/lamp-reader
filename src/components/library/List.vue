@@ -45,6 +45,7 @@ import {
   IonList,
   IonFab,
   IonFabButton,
+  IonButton,
   IonIcon,
 } from '@ionic/vue';
 import { add, storefrontOutline } from 'ionicons/icons';
@@ -66,6 +67,7 @@ export default defineComponent({
     LibraryItem,
     IonFab,
     IonFabButton,
+    IonButton,
     IonIcon,
   },
   data: () => ({
