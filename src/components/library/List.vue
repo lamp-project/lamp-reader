@@ -5,13 +5,13 @@
       size="big"
       :value="activeItem"
       @remove="
-      // @ts-ignore
-      removeItem(activeItem.id, activeItem.title);
+        // @ts-ignore
+        removeItem(activeItem.id, activeItem.title)
       "
     />
   </ion-list>
   <!-- OTHER bOOks-->
-  <ion-list>
+  <ion-list v-if="books.length">
     <ion-list-header>Books</ion-list-header>
     <LibraryItem
       v-for="item in books"
@@ -20,6 +20,17 @@
       @remove="removeItem(item.id, item.title)"
     />
   </ion-list>
+  <div v-else class="no-item">
+    <div class="ion-text-center">
+      <h3>No book in your library!</h3>
+      <router-link to="/tabs/store">
+        <ion-button color="dark">
+          <ion-icon :icon="storefrontOutline"></ion-icon>
+          &nbsp;Store
+        </ion-button>
+      </router-link>
+    </div>
+  </div>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="dark" @click="addFromFileDialog">
       <ion-icon :icon="add"></ion-icon>
@@ -36,7 +47,7 @@ import {
   IonFabButton,
   IonIcon,
 } from '@ionic/vue';
-import { add } from 'ionicons/icons';
+import { add, storefrontOutline } from 'ionicons/icons';
 import LibraryItem from './Item.vue';
 import { libraryStore } from '@/store/library.store';
 
@@ -46,6 +57,7 @@ export default defineComponent({
     return {
       // icons
       add,
+      storefrontOutline,
     };
   },
   components: {
@@ -78,3 +90,12 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="scss" scoped>
+.no-item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: lightgrey;
+}
+</style>
