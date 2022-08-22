@@ -9,22 +9,27 @@
     <ion-content :fullscreen="true">
       <div ref="viewerElement" class="epub-viewer"></div>
     </ion-content>
-    <Footer :location="book?.location?.end" :viewer="viewer" />
+    <Footer
+      :location="book?.location?.end"
+      @click="openSeeker"
+    />
   </ion-page>
   <WordModal ref="wordModal" @review="updateUserWord" />
+  <Seeker ref="seeker" :viewer="viewer" />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { IonPage, IonContent } from '@ionic/vue';
 import { useRoute } from 'vue-router';
-import LoadingScreen from './LoadingScreen.vue';
 import WordModal from '@/components/review/WordModal.vue';
 import { UserWord } from 'types/backend';
 import { userWordStore } from '@/store/user-word.store';
+import LoadingScreen from './LoadingScreen.vue';
+import { libraryStore } from '@/store/library.store';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
-import { libraryStore } from '@/store/library.store';
+import Seeker from './Seeker.vue';
 
 export default defineComponent({
   async setup() {
@@ -55,6 +60,7 @@ export default defineComponent({
     IonContent,
     Footer,
     WordModal,
+    Seeker,
   },
   data: () => ({
     loading: false,
@@ -84,6 +90,10 @@ export default defineComponent({
   methods: {
     updateUserWord(userWord: UserWord) {
       this.viewer.updateWordStatus(userWord);
+    },
+    async openSeeker() {
+      // @ts-ignore
+      await this.$refs.seeker.open();
     },
   },
 });

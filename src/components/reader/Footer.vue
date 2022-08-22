@@ -1,5 +1,5 @@
 <template>
-  <ion-footer collapse="fade" @click="openSeeker">
+  <ion-footer collapse="fade">
     <Toolbar>
       <template #start>
         <small>
@@ -14,7 +14,6 @@
       </template>
     </Toolbar>
   </ion-footer>
-  <Seeker ref="seeker" :viewer="viewer" />
 </template>
 
 <script lang="ts">
@@ -22,20 +21,16 @@ import { defineComponent } from 'vue';
 import { IonFooter } from '@ionic/vue';
 import Toolbar from '@/components/utils/Toolbar.vue';
 import { DisplayedLocation } from 'epubjs/types/rendition';
-import Seeker from './Seeker.vue';
-import { LampViewer } from '@/utils/viewer/LampViewer';
 
 export default defineComponent({
   components: {
     IonFooter,
     Toolbar,
-    Seeker,
   },
   props: {
     location: {
       default: {} as DisplayedLocation,
     },
-    viewer: LampViewer,
   },
   computed: {
     leftPagesOfTheChapter() {
@@ -44,12 +39,6 @@ export default defineComponent({
     },
     percentage() {
       return ((this.location.percentage || 0) * 100).toFixed();
-    },
-  },
-  methods: {
-    async openSeeker() {
-      // @ts-ignore
-      await this.$refs.seeker.open();
     },
   },
 });
@@ -61,6 +50,7 @@ export default defineComponent({
   }
 }
 ion-toolbar {
+  cursor: pointer;
   font-family: unset;
   small {
     font-size: 12px;

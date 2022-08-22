@@ -1,4 +1,5 @@
-LampViewer<template>
+LampViewer
+<template>
   <ion-modal :initial-breakpoint="0.5" :breakpoints="[0.25, 0.5, 0.75, 1]">
     <ion-header>
       <Toolbar>
@@ -16,8 +17,14 @@ LampViewer<template>
     <ion-content>
       <ion-list>
         <ion-item>
-          <ion-label position="stacked">Progress: {{progress}}%</ion-label>
-          <ion-range v-model="progress"></ion-range>
+          <ion-label position="stacked">
+            Progress: {{ progress.toFixed() }}%
+          </ion-label>
+          <ion-range
+            color="dark"
+            v-model="progress"
+            @ionKnobMoveEnd="onProgressChanged"
+          ></ion-range>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -69,17 +76,13 @@ export default defineComponent({
   data: () => ({
     progress: 0,
   }),
-  watch: {
-    fontSize(value: string) {
-      // eslint-disable-next-line vue/no-mutating-props
-      this.viewer.fontSize = value;
-      this.viewer.reloadLocation();
-    },
-  },
   methods: {
     async open() {
-      // this.progress = this.viewer.
+      this.progress = this.viewer.percentage;
       await this.$el.present();
+    },
+    async onProgressChanged({ detail: { value } }: CustomEvent) {
+      await this.viewer.goTo((value - 0.000000000001) / 100);
     },
   },
 });

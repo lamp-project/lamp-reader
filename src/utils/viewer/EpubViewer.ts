@@ -12,9 +12,26 @@ export interface PageChangedEventPlayload {
 export class EpubViewer<E> extends EPub<E | 'page-changed' | 'click-tap'> {
   protected element!: Element;
   protected rendition!: Rendition;
-  protected location!: Location;
-  protected chapter?: string;
+  #location!: Location;
+  #chapter?: string;
   protected navigator!: RenditionNavigator;
+
+  public get location() {
+    return this.#location;
+  }
+
+  public get chapter() {
+    return this.#chapter;
+  }
+
+  public get percentage() {
+    return (this.location?.end.percentage || 0) * 100;
+  }
+
+  public get leftPagesOfTheChapter() {
+    const displayed = this.location.end.displayed;
+    return displayed ? displayed.total - displayed.page : -1;
+  }
 
   public get size() {
     return {
@@ -37,6 +54,7 @@ export class EpubViewer<E> extends EPub<E | 'page-changed' | 'click-tap'> {
     });
     this.onWillDisplay();
     await this.rendition.display(target);
+    console.log(target);
     const currentLocation: Location = this.rendition.currentLocation() as any;
     if (target && currentLocation.end.cfi !== target) {
       console.warn(`Last location didn't load normal: ${target}`);
@@ -62,11 +80,11 @@ export class EpubViewer<E> extends EPub<E | 'page-changed' | 'click-tap'> {
   }
 
   protected onRelocated(location: Location) {
-    this.location = location;
-    this.chapter = this.getChapter(location.start.href);
+    this.#location = location;
+    this.#chapter = this.getChapter(location.start.href);
     this.emit<PageChangedEventPlayload>('page-changed', {
       location,
-      chapter: this.chapter,
+      chapter: this.#chapter,
     });
   }
 
@@ -84,9 +102,9 @@ export class EpubViewer<E> extends EPub<E | 'page-changed' | 'click-tap'> {
     //
   }
 
-  public goTo(target: string) {
-    console.log(target);
-    this.rendition.display(target);
+  public goTo(target: string | number) {
+    // @ts-ignore
+    return this.rendition.display(target);
   }
 }
 
