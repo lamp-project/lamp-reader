@@ -21,6 +21,10 @@ export class EPub<E> extends EventEmitter<E> {
     return this.#locations;
   }
 
+  public get toc() {
+    return this.book.navigation.toc;
+  }
+
   public async getMeta(): Promise<EpubMeta> {
     await this.book.loaded.metadata;
     const cover = await this.getCover();
