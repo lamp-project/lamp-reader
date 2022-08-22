@@ -19,7 +19,7 @@
               Hi <span class="user-name">{{ user.name }}</span> 👋
             </ion-card-subtitle>
             <h1>{{ level }}</h1>
-            {{ userWords.length }} <small>words</small>
+            {{ filteredList.length }} <small>words</small>
           </ion-col>
         </ion-row>
       </router-link>
@@ -39,7 +39,7 @@ import {
 } from '@ionic/vue';
 import { userWordStore } from '@/store/user-word.store';
 import { backend } from '@/utils/Backend';
-import { User } from 'types/backend';
+import { User, UserWordStatus } from '@/../types/backend';
 
 export default defineComponent({
   async setup() {
@@ -61,16 +61,21 @@ export default defineComponent({
     size: { type: String },
   },
   computed: {
+    filteredList() {
+      return this.userWords.filter(
+        (item) => item.status == UserWordStatus.Known
+      );
+    },
     level() {
-      if (this.userWords.length < 500) {
+      if (this.filteredList.length < 500) {
         return 'Biginner';
-      } else if (this.userWords.length < 1000) {
+      } else if (this.filteredList.length < 1000) {
         return 'Elementry';
-      } else if (this.userWords.length < 2000) {
+      } else if (this.filteredList.length < 2000) {
         return 'Lower Intermediate';
-      } else if (this.userWords.length < 4000) {
+      } else if (this.filteredList.length < 4000) {
         return 'Upper Intermediate';
-      } else if (this.userWords.length < 8000) {
+      } else if (this.filteredList.length < 8000) {
         return 'Advanced';
       } else {
         return 'Fluency Level';
