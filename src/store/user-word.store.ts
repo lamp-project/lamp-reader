@@ -41,7 +41,7 @@ export class UserWordStore {
 
   async review(input: ReviewInput) {
     const userWord = await userWordRepository.review(input);
-    await localDatabase.userWords.update(userWord.wordId, userWord);
+    await localDatabase.userWords.put(userWord);
     this.userWords.value = await localDatabase.userWords.toArray();
     return userWord;
   }

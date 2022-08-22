@@ -125,6 +125,7 @@ export default defineComponent({
         this.entry = await dictionaryRepository.lookup(userWord.wordId);
       } catch (error) {
         await Toast.show({ message: error as any, color: 'danger' });
+        throw error;
       }
       this.loading = false;
     },
@@ -144,6 +145,7 @@ export default defineComponent({
         this.$el.dismiss();
       } catch (error) {
         await Toast.show({ message: error as any, color: 'danger' });
+        throw error;
       }
       this.loading = false;
     },

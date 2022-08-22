@@ -23,6 +23,7 @@ export class Loading {
         color: 'danger',
         duration: 1000,
       });
+      throw error;
     } finally {
       await loading.dismiss();
     }
