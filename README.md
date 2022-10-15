@@ -1,44 +1,13 @@
-# English-reader
+# Lamp Reader
 
-## Road map
+Lamp reader is an epub ebook reader equipped for vocabulary skills construction.
 
-### Phase 1: Epub reader
+## Philosophy
 
-Using the app you can open an Epub file form file system and view the content.
+> ✊ Read books in their original language.
 
-#### Cahllenges:
+## Installation
 
-* Boot stratping the project
-* Styling the content
-* Handling images
-* Pagination
-* Saving the last state of reading & considering that in the next open
+Lamp reader is a Progressive web app (PWA). so you just need to open the url and install using your browser. for more detailed information, you can read this article:
 
-### Phase 2: Epub Library
-
-Using the app you can open view teh books in the library & download items.
-
-#### Cahllenges:
-
-* Boot straping backend
-* Data entry (finding free ebpub ebooks)
-* Saving ebooks on client side
-* Autehntication
-* Persisting user assets
-
-### Phase 3: Epub Words Frequency Analyser
-
-In this phase we should be able to help user to have vocablulary assitant utilities.
-
-#### Cahllenges:
-
-* Analyzing Epub ebooks for words frequency
-* Collecting known words of users
-* Showing readablity percentage of ebooks in the library
-* Sorting ebooks from simple to hard
-
-
-### Phase 4: Businness plan
-
-Finding a way to earn from the app.
-
+[How to install a PWA to your device?](https://medium.com/progressivewebapps/how-to-install-a-pwa-to-your-device-68a8d37fadc1)

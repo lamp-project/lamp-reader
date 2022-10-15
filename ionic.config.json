@@ -1,0 +1,7 @@
+{
+  "name": "lamp-reader",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}

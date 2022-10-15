@@ -1,0 +1,17 @@
+@import url('./fonts.css');
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.text-center {
+  text-align: center;
+}
+
+ion-badge {
+  font-size: small;
+  font-family: monospace;
+  font-weight: 100;
+}

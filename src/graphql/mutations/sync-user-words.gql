@@ -1,0 +1,8 @@
+mutation syncUserWords($input: SyncUserWordsInput!) {
+  syncUserWords(input: $input) {
+    createdAt
+    updatedAt
+    word
+    status
+  }
+}
