@@ -4,7 +4,7 @@
       <section>
         <h1>
           * {{ mainWord }}
-          <small class="phonetic">
+          <small v-if="canProunouce" class="phonetic">
             <ion-icon :icon="volumeMediumOutline" @click="pronounce" />
           </small>
         </h1>
@@ -52,14 +52,26 @@ import {
   IonContent,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
+import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import DictionaryEntryView from './DictionaryEntry.vue';
 import { UserWordStatus } from '@/../types/backend';
 import { userWordStore } from '@/store/user-word.store';
 import { DictionaryEntry, UserWord } from '@/utils/LocalDatabase';
+import { Capacitor } from '@capacitor/core';
 
 export default defineComponent({
-  setup() {
+  async setup() {
+    let canProunouce = !!window.SpeechSynthesisUtterance;
+    if (Capacitor.getPlatform() != 'web') {
+      try {
+        await TextToSpeech.openInstall();
+        canProunouce = !!(await TextToSpeech.getSupportedVoices());
+      } catch (error) {
+        console.error(error);
+      }
+    }
     return {
+      canProunouce,
       volumeMediumOutline,
       UserWordStatus,
     };
@@ -106,7 +118,7 @@ export default defineComponent({
       this.loading = true;
       this.userWord = userWord;
       this.entry = undefined;
-      this.mainWord = mainWord;
+      this.mainWord = userWord.word;
       await this.$el.present();
       try {
         this.entry = await dictionaryRepository.lookup(userWord.word);
@@ -116,10 +128,15 @@ export default defineComponent({
       }
       this.loading = false;
     },
-    pronounce() {
-      const msg = new SpeechSynthesisUtterance();
-      msg.text = this.mainWord as string;
-      window.speechSynthesis.speak(msg);
+    async pronounce() {
+      if (window.SpeechSynthesisUtterance) {
+        const msg = new SpeechSynthesisUtterance();
+        msg.text = this.mainWord as string;
+        window.speechSynthesis.speak(msg);
+      } else {
+        await TextToSpeech.openInstall();
+        await TextToSpeech.speak({ text: this.mainWord as string });
+      }
     },
     async setWordStatus(status: UserWordStatus) {
       this.loading = true;

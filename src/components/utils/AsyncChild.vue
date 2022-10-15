@@ -29,6 +29,7 @@ export default defineComponent({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onErrorCaptured((error) => {
       errorMessage.value = 'Something went wrong!';
+      console.log(error);
       throw error;
     });
     return {
