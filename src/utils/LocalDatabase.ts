@@ -45,3 +45,6 @@ export class LocalDatabase extends Dexie {
 }
 
 export const localDatabase = new LocalDatabase();
+
+// @ts-ignore
+window.localDatabase = localDatabase;

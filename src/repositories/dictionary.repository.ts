@@ -43,3 +43,6 @@ export class DictionaryRepository {
 }
 
 export const dictionaryRepository = new DictionaryRepository();
+
+// @ts-ignore
+window.dictionaryRepository = dictionaryRepository;

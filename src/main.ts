@@ -35,3 +35,6 @@ initSentry(app, router);
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+// @ts-ignore
+window.app = app;

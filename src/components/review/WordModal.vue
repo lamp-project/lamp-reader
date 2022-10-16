@@ -61,6 +61,7 @@ import { Capacitor } from '@capacitor/core';
 
 export default defineComponent({
   async setup() {
+    await dictionaryRepository.initialise();
     let canProunouce = !!window.SpeechSynthesisUtterance;
     if (Capacitor.getPlatform() != 'web') {
       try {
@@ -118,7 +119,7 @@ export default defineComponent({
       this.loading = true;
       this.userWord = userWord;
       this.entry = undefined;
-      this.mainWord = userWord.word;
+      this.mainWord = mainWord;
       await this.$el.present();
       try {
         this.entry = await dictionaryRepository.lookup(userWord.word);
@@ -134,8 +135,9 @@ export default defineComponent({
         msg.text = this.mainWord as string;
         window.speechSynthesis.speak(msg);
       } else {
-        await TextToSpeech.openInstall();
+        this.loading = true;
         await TextToSpeech.speak({ text: this.mainWord as string });
+        this.loading = false;
       }
     },
     async setWordStatus(status: UserWordStatus) {
@@ -174,6 +176,7 @@ h1 {
   overflow-y: scroll;
   margin: 0;
 }
+
 section {
   padding: 6px;
   height: 50vh;
