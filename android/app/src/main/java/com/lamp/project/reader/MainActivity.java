@@ -1,4 +1,4 @@
-package com.lamp.project.reader;
+package com.zaban.asly.reader;
 
 import com.getcapacitor.BridgeActivity;
 
