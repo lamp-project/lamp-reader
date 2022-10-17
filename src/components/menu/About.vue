@@ -11,9 +11,9 @@
     <ion-content class="ion-text-center">
       <div>
         <div class="container">
-          <img src="@/../public/img/bulb.png" width="96" />
+          <img src="@/../public/img/logo.png" width="96" />
           <h1>
-            <b>Lamp<span>Reader</span></b>
+            <b>Zaban<span>Asly</span></b>
           </h1>
           <b>Author:</b> Sajjad Shirazy
           <hr />

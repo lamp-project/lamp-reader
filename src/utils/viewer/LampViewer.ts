@@ -65,8 +65,8 @@ export class LampViewer extends EpubViewer<
   }
 
   protected registerThemes(override: any = THEME) {
-    this.rendition.themes.register('lamp-reader', { ...THEME, ...override });
-    this.rendition.themes.select('lamp-reader');
+    this.rendition.themes.register('zaban-asly', { ...THEME, ...override });
+    this.rendition.themes.select('zaban-asly');
   }
 
   public reloadLocation() {

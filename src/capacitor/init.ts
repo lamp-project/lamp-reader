@@ -5,9 +5,6 @@ import { AndroidFullScreen } from '@awesome-cordova-plugins/android-full-screen'
 
 async function init() {
   if (Capacitor.getPlatform() != 'web') {
-    if (await AndroidFullScreen.isImmersiveModeSupported()) {
-      await AndroidFullScreen.immersiveMode();
-    }
     router.afterEach(onReady);
   }
 }
@@ -15,7 +12,10 @@ async function init() {
 let onReadyFired = false;
 async function onReady() {
   if (!onReadyFired) {
-    await SplashScreen.hide();
+    SplashScreen.hide();
+    if (await AndroidFullScreen.isImmersiveModeSupported()) {
+      await AndroidFullScreen.immersiveMode();
+    }
     onReadyFired = true;
   }
 }

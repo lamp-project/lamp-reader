@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar translucent>
         <ion-title>
-          <b>Lamp<span>Reader</span></b>
+          <b>Zaban<span>Asly</span></b>
         </ion-title>
         <ion-buttons slot="end">
           <ion-button @click="$el.close()">
