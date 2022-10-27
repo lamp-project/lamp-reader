@@ -1,6 +1,6 @@
 {
-  "name": "lamp-reader",
-  "version": "3.2.0",
+  "name": "zaban-asly-reader",
+  "version": "3.2.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

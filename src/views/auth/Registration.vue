@@ -18,13 +18,22 @@
           <ion-input v-model="password" name="password" type="password" :minlength="9" :required="true" clear-input>
           </ion-input>
         </ion-item>
-        <hr />
-        <ion-button type="submit" expand="block" color="dark">
+        <ion-item>
+          <ion-checkbox slot="start" :checked="confirmed" @ion-change="confirmed = !confirmed" color="dark">
+          </ion-checkbox>
+          <ion-label>I agree to the privacy policy.</ion-label>
+        </ion-item>
+        <ion-button type="submit" expand="block" color="dark" :disabled="!confirmed">
           Signup
         </ion-button>
         <hr />
         <router-link to="/login">Or login if you have an account</router-link>
       </form>
+      <div class="bottom-centered">
+        <!-- <ion-button fill="clear">Terms Of Service</ion-button>
+        | -->
+        <ion-button fill="clear" @click="showPrivacyPolicy">Privacy Policy</ion-button>
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -37,12 +46,13 @@ import {
   IonButton,
   IonItem,
   IonInput,
-  IonLabel,
+  IonLabel, IonCheckbox,
 } from '@ionic/vue';
 import { Loading } from '@/utils/Loading';
 import { userStore } from '@/store/user.store';
 import { Toast } from '@/utils/Toast';
 import { localDatabase } from '@/utils/LocalDatabase';
+import { app } from '@/main';
 
 export default defineComponent({
   components: {
@@ -51,14 +61,18 @@ export default defineComponent({
     IonButton,
     IonItem,
     IonInput,
-    IonLabel,
+    IonLabel, IonCheckbox,
   },
   data: () => ({
+    confirmed: true,
     name: '',
     email: '',
     password: '',
   }),
   methods: {
+    async showPrivacyPolicy() {
+      await app.config.globalProperties.privacyPolicyModal.open();
+    },
     async signup(event: Event) {
       event.stopPropagation();
       event.preventDefault();
@@ -103,5 +117,16 @@ form {
     text-decoration: none;
     color: black;
   }
+}
+
+.bottom-centered {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  font-family: "Merriweather", serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

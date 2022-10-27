@@ -15,7 +15,7 @@
     <ion-content>
       <ion-list>
         <ion-item v-if="!user" button detail @click="createAnAccount">
-          <ion-icon :icon="logInOutline"></ion-icon>&nbsp;
+          <ion-icon :icon="handLeftOutline"></ion-icon>&nbsp;
           <ion-label>Create Account</ion-label>
         </ion-item>
         <ion-item v-if="!user" button detail @click="signIn">
@@ -30,6 +30,10 @@
           <ion-icon :icon="informationCircleOutline"></ion-icon>&nbsp;
           <ion-label>About</ion-label>
         </ion-item>
+        <ion-item button detail @click="showPrivacyPolicy">
+          <ion-icon :icon="shieldHalfOutline"></ion-icon>&nbsp;
+          <ion-label>Privacy Policy</ion-label>
+        </ion-item>
         <ion-item v-if="user" button detail @click="signOut">
           <ion-icon :icon="walkOutline"></ion-icon>&nbsp;
           <ion-label>Sign Out</ion-label>
@@ -37,7 +41,6 @@
       </ion-list>
     </ion-content>
     <ion-badge color="light"> v{{ version }} </ion-badge>
-    <AboutModal ref="aboutModal" />
   </ion-menu>
 </template>
 
@@ -61,14 +64,15 @@ import {
   closeOutline,
   cloudDownloadOutline,
   walkOutline,
-  informationCircleOutline,
-  logInOutline,
+  shieldHalfOutline,
+  handLeftOutline,
   fingerPrintOutline,
+  informationCircleOutline,
 } from 'ionicons/icons';
 import { Loading } from '@/utils/Loading';
 import { userStore } from '@/store/user.store';
-import AboutModal from './About.vue';
 import { userWordStore } from '@/store/user-word.store';
+import { app } from '@/main';
 
 export default defineComponent({
   setup() {
@@ -80,8 +84,9 @@ export default defineComponent({
       closeOutline,
       cloudDownloadOutline,
       walkOutline,
+      shieldHalfOutline,
+      handLeftOutline,
       informationCircleOutline,
-      logInOutline,
       fingerPrintOutline,
     };
   },
@@ -98,7 +103,6 @@ export default defineComponent({
     IonBadge,
     IonIcon,
     IonLabel,
-    AboutModal,
   },
   methods: {
     async syncUserWords() {
@@ -107,8 +111,11 @@ export default defineComponent({
     },
     async showAbout() {
       this.$el.close();
-      // @ts-ignore
-      await this.$refs.aboutModal.open();
+      await app.config.globalProperties.aboutModal.open();
+    },
+    async showPrivacyPolicy() {
+      this.$el.close();
+      await app.config.globalProperties.privacyPolicyModal.open();
     },
     async createAnAccount() {
       await this.$el.close();
