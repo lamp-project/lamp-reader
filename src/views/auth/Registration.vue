@@ -1,42 +1,25 @@
 <template>
   <ion-page>
     <ion-content>
-      <form>
+      <form @submit="signup($event)">
         <img src="@/../public/img/logo.png" width="96" />
         <br />
         <h2>Registration</h2>
         <ion-item>
           <ion-label position="floating">Name</ion-label>
-          <ion-input
-            v-model="name"
-            name="name"
-            type="text"
-            clear-input
-          ></ion-input>
+          <ion-input v-model="name" name="name" type="text" :minlength="3" :required="true" clear-input></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Email</ion-label>
-          <ion-input
-            v-model="email"
-            name="email"
-            type="email"
-            :required="true"
-            clear-input
-          ></ion-input>
+          <ion-input v-model="email" name="email" type="email" :required="true" clear-input></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Password</ion-label>
-          <ion-input
-            v-model="password"
-            name="password"
-            type="password"
-            :required="true"
-            clear-input
-          ></ion-input>
+          <ion-input v-model="password" name="password" type="password" :minlength="9" :required="true" clear-input>
+          </ion-input>
         </ion-item>
         <hr />
-        <vue-hcaptcha :sitekey="hCaptchaSiteKey" @verify="token = $event" />
-        <ion-button @click="signup" expand="block" color="dark">
+        <ion-button type="submit" expand="block" color="dark">
           Signup
         </ion-button>
         <hr />
@@ -56,19 +39,12 @@ import {
   IonInput,
   IonLabel,
 } from '@ionic/vue';
-// @ts-ignore
-import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import { Loading } from '@/utils/Loading';
 import { userStore } from '@/store/user.store';
 import { Toast } from '@/utils/Toast';
 import { localDatabase } from '@/utils/LocalDatabase';
 
 export default defineComponent({
-  setup() {
-    return {
-      hCaptchaSiteKey: process.env.VUE_APP_HCAPTCHA_SITEKEY,
-    };
-  },
   components: {
     IonPage,
     IonContent,
@@ -76,22 +52,21 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
-    VueHcaptcha,
   },
   data: () => ({
     name: '',
     email: '',
     password: '',
-    token: '',
   }),
   methods: {
-    async signup() {
+    async signup(event: Event) {
+      event.stopPropagation();
+      event.preventDefault();
       const user = await Loading.wait('Signing up ...', async () => {
         return userStore.signup({
           name: this.name,
           email: this.email,
           password: this.password,
-          token: this.token,
         });
       });
       if (user) {
@@ -117,11 +92,13 @@ form {
   top: 50%;
   transform: translateY(-50%);
   padding: 6px;
+
   h2,
   ion-button,
   a {
     font-family: 'Merriweather', serif;
   }
+
   a {
     text-decoration: none;
     color: black;

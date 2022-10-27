@@ -1,6 +1,6 @@
 # codegen.yaml
 schema: 
-  - http://localhost:3000/graphql
+  - http://localhost:3010/graphql
 generates:
   ./types/backend.ts:
     plugins:

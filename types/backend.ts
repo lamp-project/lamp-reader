@@ -59,6 +59,7 @@ export type Query = {
 
 export type ReviewInput = {
   status: UserWordStatus;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
   word: Scalars['String'];
 };
 
@@ -69,9 +70,8 @@ export enum Role {
 
 export type SignupInput = {
   email: Scalars['String'];
-  name?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   password: Scalars['String'];
-  token: Scalars['String'];
 };
 
 export type SyncUserWordsInput = {

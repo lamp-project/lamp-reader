@@ -1,30 +1,20 @@
 <template>
   <ion-page>
     <ion-content>
-      <form>
+      <form @submit="login($event)">
         <img src="@/../public/img/logo.png" width="96" />
         <br />
         <h2>Login</h2>
         <ion-item>
           <ion-label position="floating">Email</ion-label>
-          <ion-input
-            v-model="email"
-            name="email"
-            type="email"
-            clear-input
-          ></ion-input>
+          <ion-input v-model="email" name="email" type="email" :required="true" clear-input></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Password</ion-label>
-          <ion-input
-            v-model="password"
-            name="password"
-            type="password"
-            clear-input
-          ></ion-input>
+          <ion-input v-model="password" name="password" type="password" :required="true" clear-input></ion-input>
         </ion-item>
         <hr />
-        <ion-button @click="login" expand="block" color="dark">
+        <ion-button type="submit" expand="block" color="dark">
           Login
         </ion-button>
         <hr />
@@ -56,7 +46,9 @@ export default defineComponent({
     password: '',
   }),
   methods: {
-    async login() {
+    async login(event: Event) {
+      event.stopPropagation();
+      event.preventDefault();
       const user = await Loading.wait('Logging in ...', async () => {
         const user = await userStore.login({
           email: this.email,
@@ -86,11 +78,13 @@ form {
   top: 50%;
   transform: translateY(-50%);
   padding: 6px;
+
   h2,
   ion-button,
   a {
     font-family: 'Merriweather', serif;
   }
+
   a {
     text-decoration: none;
     color: black;
