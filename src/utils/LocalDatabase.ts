@@ -15,6 +15,7 @@ export interface DictionaryEntry {
   rank: number;
   ratio: number;
   definitions: { [POS: string]: string[] };
+  persianDefinition?: string;
 }
 
 export class LocalDatabase extends Dexie {

@@ -17,6 +17,9 @@
             type="indeterminate"
             color="dark"
           ></ion-progress-bar>
+          <span v-if="persianDictionary" class="persian-definition">
+            {{ persianDictionary }}
+          </span>
           <DictionaryEntryView :value="entry" />
         </p>
         <ion-button
@@ -92,6 +95,7 @@ export default defineComponent({
     userWord: undefined as UserWord | undefined,
     entry: undefined as DictionaryEntry | undefined,
     mainWord: undefined as string | undefined,
+    persianDictionary: undefined as string | undefined,
   }),
   computed: {
     translations() {
@@ -120,14 +124,18 @@ export default defineComponent({
       this.userWord = userWord;
       this.entry = undefined;
       this.mainWord = mainWord;
+      this.persianDictionary = '';
       await this.$el.present();
       try {
         this.entry = await dictionaryRepository.lookup(userWord.word);
+        this.persianDictionary =
+          await dictionaryRepository.lookupPersianDefintion(userWord.word);
       } catch (error) {
         await Toast.show({ message: error as any, color: 'danger' });
         throw error;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
     },
     async pronounce() {
       if (window.SpeechSynthesisUtterance) {
@@ -180,5 +188,11 @@ h1 {
 section {
   padding: 6px;
   height: 50vh;
+}
+
+.persian-definition {
+  direction: rtl;
+  display: block;
+  margin-right: 12px;
 }
 </style>

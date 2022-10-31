@@ -2,6 +2,7 @@ import { app } from '@/main';
 import { DictionaryEntry, localDatabase } from '@/utils/LocalDatabase';
 import { Mutex } from 'async-mutex';
 import { groupBy } from 'lodash';
+import * as YAML from 'yaml';
 export class DictionaryRepository {
   private readonly initialising = new Mutex();
 
@@ -38,6 +39,29 @@ export class DictionaryRepository {
       return entry;
     } else {
       return { word, rank: -1, ratio: 0, definitions: {} };
+    }
+  }
+
+  async lookupPersianDefintion(word: string): Promise<string> {
+    const entry = await localDatabase.dictionary.get(word);
+    if (entry?.persianDefinition) {
+      return entry.persianDefinition;
+    } else {
+      try {
+        const path = word.split('').splice(0, 2).join('/');
+        const persianDefinition = await fetch(
+          `https://raw.githubusercontent.com/open-dictionary/english-dictionary/master/${path}/${word}/definitions.fa.yaml`
+        )
+          .then((res) => res.text())
+          .then(YAML.parse)
+          .then((definitions) =>
+            definitions.map(({ definition }: any) => definition).join(', ')
+          );
+        await localDatabase.dictionary.update(word, { persianDefinition });
+        return persianDefinition;
+      } catch (error) {
+        return '';
+      }
     }
   }
 }

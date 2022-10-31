@@ -26,4 +26,9 @@ export default defineComponent({
 ul {
   padding-left: 24px;
 }
+
+ol {
+  padding-top: 6px !important;
+  padding-left: 12px !important;
+}
 </style>
