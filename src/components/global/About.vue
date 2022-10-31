@@ -18,7 +18,7 @@
           <b>Author:</b> Sajjad Shirazy
           <hr />
           <div class="socials">
-            <a target="_blank" href="https://github.com/lamp-project">
+            <a target="_blank" href="https://github.com/sajjad-shirazy">
               <ion-icon :icon="logoGithub"></ion-icon>
             </a>
             <a href="mailto:shirazy.sajjad@gmail.com">

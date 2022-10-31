@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Lamp Reader</string>
-    <string name="title_activity_main">Lamp Reader</string>
+    <string name="app_name">ZabanAsly Reader</string>
+    <string name="title_activity_main">ZabanAsly Reader</string>
     <string name="package_name">com.zaban.asly.reader</string>
     <string name="custom_url_scheme">com.zaban.asly.reader</string>
 </resources>
