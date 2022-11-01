@@ -84,7 +84,6 @@ export default defineComponent({
   }),
   computed: {
     filteredList() {
-      // @ts-ignore
       return this.userWords.filter(
         ({ status }: UserWord) => status == this.statusFilter
       );
@@ -94,7 +93,8 @@ export default defineComponent({
     },
   },
   async created() {
-    this.statusFilter = this.$route.query.status as UserWordStatus;
+    this.statusFilter = this.$router.currentRoute.value.query
+      .status as UserWordStatus;
     await this.pushPageItems();
   },
   methods: {
