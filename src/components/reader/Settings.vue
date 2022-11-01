@@ -18,9 +18,9 @@ LampViewer<template>
         <ion-item>
           <ion-label>Font Size</ion-label>
           <ion-select :value="fontSize" v-model="fontSize">
-            <ion-select-option value="18">Small</ion-select-option>
-            <ion-select-option value="24">Medium</ion-select-option>
-            <ion-select-option value="32">Large</ion-select-option>
+            <ion-select-option value="16">Small</ion-select-option>
+            <ion-select-option value="18">Medium</ion-select-option>
+            <ion-select-option value="24">Large</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item>

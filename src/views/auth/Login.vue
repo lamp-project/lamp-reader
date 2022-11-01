@@ -38,6 +38,7 @@ import { Loading } from '@/utils/Loading';
 import { userStore } from '@/store/user.store';
 import { Toast } from '@/utils/Toast';
 import { localDatabase } from '@/utils/LocalDatabase';
+import { userWordStore } from '@/store/user-word.store';
 
 export default defineComponent({
   components: { IonPage, IonContent, IonButton, IonItem, IonInput, IonLabel },
@@ -63,7 +64,8 @@ export default defineComponent({
         duration: 1000,
       });
       await localDatabase.open();
-      this.$router.push('/tabs/home');
+      await this.$router.push('/tabs/home');
+      await userWordStore.syncUserWords();
     },
   },
 });

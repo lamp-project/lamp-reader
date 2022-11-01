@@ -82,7 +82,7 @@ export class LampViewer extends EpubViewer<
   }
 
   public get fontSize() {
-    return localStorage.getItem(FONT_SIZE_KEY) || '24';
+    return localStorage.getItem(FONT_SIZE_KEY) || '18';
   }
 }
 
