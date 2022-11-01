@@ -29,6 +29,7 @@ export class UserStore {
   }
 
   async signOut() {
+    await userWordStore.syncUserWords();
     await backend.signOut();
     this.user.value = undefined;
     userWordStore.userWords.value = [];
