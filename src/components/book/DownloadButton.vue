@@ -1,7 +1,7 @@
 <template>
-  <ion-button expand="block" color="success" :disabled="downloading">
+  <ion-button expand="block" color="success" :disabled="downloading" @click="download">
     <span v-if="downloading">{{ progress }}%</span>
-    <span v-else @click="download">Downalod</span>
+    <span v-else>Downalod</span>
   </ion-button>
 </template>
 <script lang="ts">
