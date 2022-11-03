@@ -95,6 +95,8 @@ export default defineComponent({
   async created() {
     this.statusFilter = this.$router.currentRoute.value.query
       .status as UserWordStatus;
+  },
+  async mounted() {
     await this.pushPageItems();
   },
   methods: {
