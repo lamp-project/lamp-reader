@@ -101,7 +101,7 @@ export default defineComponent({
       target.complete();
     },
     scrollTop() {
-      document.querySelector('ion-content')?.scrollToTop();
+      (this.$refs.list as any).$el.parentElement.scrollToTop(1000);
     },
   },
 });
