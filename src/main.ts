@@ -26,11 +26,11 @@ import './theme/variables.css';
 import './theme/base.css';
 import './capacitor/init';
 
-import { initSentry } from './sentry';
+// import { initSentry } from './sentry';
 
 export const app = createApp(App).use(IonicVue).use(router);
 
-initSentry(app, router);
+// initSentry(app, router);
 
 router.isReady().then(() => {
   app.mount('#app');
