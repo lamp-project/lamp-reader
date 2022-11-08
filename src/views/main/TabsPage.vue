@@ -3,14 +3,14 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="home" href="/tabs/home">
-          <ion-icon :icon="homeOutline" />
-          <ion-label>Home</ion-label>
-        </ion-tab-button>
-
         <ion-tab-button tab="library" href="/tabs/library">
           <ion-icon :icon="libraryOutline" />
           <ion-label>Library</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="home" href="/tabs/home">
+          <ion-icon :icon="homeOutline" />
+          <ion-label>Home</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="store" href="/tabs/store">
@@ -54,4 +54,3 @@ export default defineComponent({
   },
 });
 </script>
-

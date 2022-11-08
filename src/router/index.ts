@@ -5,7 +5,7 @@ import TabsPage from '@/views/main/TabsPage.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/home',
+    redirect: '/tabs/library',
   },
   {
     name: 'Login',
